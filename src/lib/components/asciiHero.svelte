@@ -238,7 +238,7 @@
 		overflow: hidden;
 		background: transparent;
 		pointer-events: none;
-		z-index: 30;
+		z-index: 50;
 	}
 
 	.sticky-header-backdrop {

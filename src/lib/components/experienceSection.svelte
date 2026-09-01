@@ -1,4 +1,6 @@
 <script lang="ts">
+	import { onMount } from 'svelte';
+
 	interface Project {
 		title: string;
 		description: string;
@@ -70,9 +72,42 @@
 		{ name: 'PHP / PocketMine', category: 'Backend & Plugins' },
 		{ name: 'Raspberry Pi / Embedded', category: 'Hardware' }
 	];
+
+	let sectionElement = $state<HTMLElement | null>(null);
+
+	onMount(() => {
+		const updateCardFades = () => {
+			if (!sectionElement) return;
+			const cards = sectionElement.querySelectorAll<HTMLElement>('.project-card, .skill-card');
+			const fadeTopThreshold = 220; // Start dissolving when approaching top header area
+			const fadeOutLimit = 65; // Fully dissolved before touching EXP letters
+
+			for (let i = 0; i < cards.length; i++) {
+				const card = cards[i];
+				const rect = card.getBoundingClientRect();
+
+				if (rect.top < fadeTopThreshold) {
+					const progress = (rect.top - fadeOutLimit) / (fadeTopThreshold - fadeOutLimit);
+					const opacity = Math.max(0, Math.min(1, progress));
+					card.style.opacity = `${opacity}`;
+					card.style.transform = `scale(${0.96 + 0.04 * opacity})`;
+				} else {
+					card.style.opacity = '1';
+					card.style.transform = 'none';
+				}
+			}
+		};
+
+		window.addEventListener('scroll', updateCardFades, { passive: true });
+		updateCardFades();
+
+		return () => {
+			window.removeEventListener('scroll', updateCardFades);
+		};
+	});
 </script>
 
-<section class="experience-section" id="experience">
+<section bind:this={sectionElement} class="experience-section" id="experience">
 	<div class="content-container">
 		<!-- Projects Grid -->
 		<div class="projects-grid">
@@ -144,7 +179,7 @@
 		background: #000000;
 		color: #ededed;
 		padding: 2.5rem 1.5rem 6rem;
-		z-index: 20;
+		z-index: 10;
 	}
 
 	.content-container {
@@ -185,16 +220,15 @@
 		border-radius: 8px;
 		padding: 1.75rem;
 		text-decoration: none;
+		will-change: opacity, transform;
 		transition:
 			border-color 0.2s ease,
-			transform 0.2s ease,
 			background-color 0.2s ease;
 	}
 
 	.project-card:hover {
 		border-color: #475569;
 		background: #10141e;
-		transform: translateY(-2px);
 	}
 
 	.card-header {
@@ -299,6 +333,7 @@
 		display: flex;
 		flex-direction: column;
 		gap: 0.35rem;
+		will-change: opacity, transform;
 	}
 
 	.skill-name {
