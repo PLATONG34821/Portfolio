@@ -149,9 +149,9 @@
 		background: linear-gradient(
 			to bottom,
 			rgba(0, 0, 0, 1) 0%,
-			rgba(0, 0, 0, 1) 140px,
-			rgba(0, 0, 0, 0.85) 170px,
-			rgba(0, 0, 0, 0.35) 195px,
+			rgba(0, 0, 0, 1) 180px,
+			rgba(0, 0, 0, 0.85) 200px,
+			rgba(0, 0, 0, 0.35) 220px,
 			transparent 220px
 		);
 		pointer-events: none;
