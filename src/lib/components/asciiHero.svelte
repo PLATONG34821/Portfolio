@@ -140,9 +140,9 @@
 			// Calculate exact top row offset of the ASCII letters inside the grid
 			const artTopRow = (currentRows - maxArtHeight) >> 1;
 
-			// Center Y transitioning smoothly to sticky top position (sitting right near top edge: 10px)
+			// Center Y transitioning smoothly to sticky top position (adjusted to 60px from top)
 			const centerY = (height - gridPixelHeight) / 2;
-			const targetLetterTop = 10;
+			const targetLetterTop = 60;
 			const stickyOriginY = targetLetterTop - artTopRow * cellHeight;
 			const originY = centerY + (stickyOriginY - centerY) * slideT;
 
