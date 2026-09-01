@@ -1,6 +1,4 @@
 <script lang="ts">
-	import { onMount } from 'svelte';
-
 	interface Project {
 		title: string;
 		description: string;
@@ -72,29 +70,12 @@
 		{ name: 'PHP / PocketMine', category: 'Backend & Plugins' },
 		{ name: 'Raspberry Pi / Embedded', category: 'Hardware' }
 	];
-
-	let isVisible = $state(false);
-
-	onMount(() => {
-		const handleScroll = () => {
-			const scrollY = window.scrollY || window.pageYOffset;
-			// Reveal cards only once user starts scrolling and EXP begins its upward slide
-			isVisible = scrollY > window.innerHeight * 0.08;
-		};
-
-		window.addEventListener('scroll', handleScroll, { passive: true });
-		handleScroll();
-
-		return () => {
-			window.removeEventListener('scroll', handleScroll);
-		};
-	});
 </script>
 
 <!-- Fixed top gradient curtain that progressively masks cards top-first as they scroll up under EXP -->
 <div class="top-fade-curtain" aria-hidden="true"></div>
 
-<section class="experience-section" class:is-visible={isVisible} id="experience">
+<section class="experience-section" id="experience">
 	<div class="content-container">
 		<!-- Projects Grid -->
 		<div class="projects-grid">
@@ -183,20 +164,8 @@
 		min-height: 100vh;
 		background: #000000;
 		color: #ededed;
-		padding: 2rem 1.5rem 6rem;
+		padding: 2.5rem 1.5rem 6rem;
 		z-index: 10;
-		opacity: 0;
-		transform: translateY(28px);
-		transition:
-			opacity 0.45s cubic-bezier(0.16, 1, 0.3, 1),
-			transform 0.45s cubic-bezier(0.16, 1, 0.3, 1);
-		pointer-events: none;
-	}
-
-	.experience-section.is-visible {
-		opacity: 1;
-		transform: translateY(0);
-		pointer-events: auto;
 	}
 
 	.content-container {
