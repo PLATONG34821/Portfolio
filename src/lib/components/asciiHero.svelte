@@ -1,80 +1,59 @@
 <script lang="ts">
 	import { onMount } from 'svelte';
 	import {
-		buildPalette,
-		sampleTextAnchors,
-		createParticles,
-		createFieldStamp,
-		defaultConfig,
-		type AsciiConfig,
-		type LookupEntry,
-		type Particle
+		generateFigletArt,
+		extractFigletPoints,
+		createFigletParticles,
+		type FigletParticle
 	} from '$lib/ascii/variableAscii';
 
 	interface Props {
 		startText?: string;
 		endText?: string;
-		config?: Partial<AsciiConfig>;
 	}
 
-	let {
-		startText = 'THANAPHUM',
-		endText = 'EXPERIENCE',
-		config: userConfig = {}
-	}: Props = $props();
+	let { startText = 'THANAPHUM', endText = 'EXPERIENCE' }: Props = $props();
 
 	let containerElement = $state<HTMLElement | null>(null);
-	let propBoxElement = $state<HTMLElement | null>(null);
+	let canvasElement = $state<HTMLCanvasElement | null>(null);
 	let scrollProgress = $state(0);
 
-	let config: AsciiConfig = $derived({ ...defaultConfig, ...userConfig });
-
 	onMount(() => {
-		if (!propBoxElement || !containerElement) return;
+		if (!canvasElement) return;
 
-		const lookup = buildPalette(config);
-		if (lookup.length === 0) return;
+		let animationFrameId: number;
+		let particles: FigletParticle[] = [];
+		let currentCols = 120;
+		let currentRows = 38;
 
-		// Calculate canvas metrics & field resolution
-		const fieldOversample = 2;
-		const fieldCols = config.cols * fieldOversample;
-		const fieldRows = config.rows * fieldOversample;
-		const fieldScaleX = fieldCols / config.canvasWidth;
-		const fieldScaleY = fieldRows / config.canvasHeight;
+		const initSimulation = () => {
+			if (!canvasElement) return;
 
-		const startAnchors = sampleTextAnchors(
-			startText,
-			config.particleCount,
-			config.canvasWidth,
-			config.canvasHeight,
-			62,
-			config.fontFamily
-		);
+			const dpr = window.devicePixelRatio || 1;
+			const width = window.innerWidth;
+			const height = window.innerHeight;
 
-		const endAnchors = sampleTextAnchors(
-			endText,
-			config.particleCount,
-			config.canvasWidth,
-			config.canvasHeight,
-			56,
-			config.fontFamily
-		);
+			canvasElement.width = width * dpr;
+			canvasElement.height = height * dpr;
+			canvasElement.style.width = `${width}px`;
+			canvasElement.style.height = `${height}px`;
 
-		const particles = createParticles(startAnchors, endAnchors, config.particleCount);
-		const particleStamp = createFieldStamp(10, fieldScaleX, fieldScaleY);
-		const brightnessField = new Float32Array(fieldCols * fieldRows);
+			const linesA = generateFigletArt(startText);
+			const linesB = generateFigletArt(endText);
 
-		// Build row DOM elements once
-		propBoxElement.innerHTML = '';
-		const rowElements: HTMLDivElement[] = [];
-		for (let row = 0; row < config.rows; row++) {
-			const rowDiv = document.createElement('div');
-			rowDiv.className = 'ascii-row';
-			rowDiv.style.height = `${config.lineHeight}px`;
-			rowDiv.style.lineHeight = `${config.lineHeight}px`;
-			propBoxElement.appendChild(rowDiv);
-			rowElements.push(rowDiv);
-		}
+			const maxArtWidth = Math.max(...linesA.map((l) => l.length), ...linesB.map((l) => l.length));
+			const maxArtHeight = Math.max(linesA.length, linesB.length);
+
+			currentCols = Math.max(maxArtWidth + 14, 120);
+			currentRows = Math.max(maxArtHeight + 16, 36);
+
+			const pointsA = extractFigletPoints(linesA, currentCols, currentRows);
+			const pointsB = extractFigletPoints(linesB, currentCols, currentRows);
+
+			particles = createFigletParticles(pointsA, pointsB);
+		};
+
+		initSimulation();
 
 		let currentProgress = 0;
 		let targetProgress = 0;
@@ -89,34 +68,14 @@
 			scrollProgress = targetProgress;
 		};
 
-		window.addEventListener('scroll', handleScroll, { passive: true });
-		handleScroll();
-
-		let animationFrameId: number;
-
-		const splatStamp = (centerX: number, centerY: number) => {
-			const gridCenterX = Math.round(centerX * fieldScaleX);
-			const gridCenterY = Math.round(centerY * fieldScaleY);
-
-			for (let y = -particleStamp.radiusY; y <= particleStamp.radiusY; y++) {
-				const gridY = gridCenterY + y;
-				if (gridY < 0 || gridY >= fieldRows) continue;
-
-				const fieldRowOffset = gridY * fieldCols;
-				const stampRowOffset = (y + particleStamp.radiusY) * particleStamp.sizeX;
-
-				for (let x = -particleStamp.radiusX; x <= particleStamp.radiusX; x++) {
-					const gridX = gridCenterX + x;
-					if (gridX < 0 || gridX >= fieldCols) continue;
-
-					const stampVal = particleStamp.values[stampRowOffset + x + particleStamp.radiusX];
-					if (stampVal === 0) continue;
-
-					const fieldIndex = fieldRowOffset + gridX;
-					brightnessField[fieldIndex] = Math.min(1, brightnessField[fieldIndex] + stampVal);
-				}
-			}
+		const handleResize = () => {
+			initSimulation();
+			handleScroll();
 		};
+
+		window.addEventListener('scroll', handleScroll, { passive: true });
+		window.addEventListener('resize', handleResize, { passive: true });
+		handleScroll();
 
 		const easeInOutCubic = (t: number): number => {
 			return t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2;
@@ -128,68 +87,105 @@
 			const delta = Math.min(32, now - lastTime);
 			lastTime = now;
 
+			if (!canvasElement || !particles.length) {
+				animationFrameId = requestAnimationFrame(render);
+				return;
+			}
+
+			const context = canvasElement.getContext('2d');
+			if (!context) {
+				animationFrameId = requestAnimationFrame(render);
+				return;
+			}
+
+			const dpr = window.devicePixelRatio || 1;
+			const width = window.innerWidth;
+			const height = window.innerHeight;
+
 			// Smooth scroll interpolation
-			currentProgress += (targetProgress - currentProgress) * 0.12;
-			const t = easeInOutCubic(currentProgress);
+			currentProgress += (targetProgress - currentProgress) * 0.14;
+
+			// Phase 1: 0.0 -> 0.7 (Morph THANAPHUM -> EXPERIENCE)
+			// Phase 2: 0.7 -> 1.0 (Slide EXPERIENCE up to Sticky Header)
+			const morphPhase = Math.min(1, currentProgress / 0.7);
+			const slidePhase = Math.max(0, (currentProgress - 0.7) / 0.3);
+
+			const t = easeInOutCubic(morphPhase);
+			const slideT = easeInOutCubic(slidePhase);
+
 			const midDispersal = Math.sin(t * Math.PI);
+			const dispersionFactor = Math.pow(midDispersal, 1.8);
 
-			// Field decay
-			for (let index = 0; index < brightnessField.length; index++) {
-				brightnessField[index] *= 0.85;
-			}
+			// Clear canvas transparently so content underneath flows through
+			context.save();
+			context.scale(dpr, dpr);
+			context.clearRect(0, 0, width, height);
 
-			// Update particles & splat
-			for (let index = 0; index < particles.length; index++) {
-				const p = particles[index];
+			// Calculate font sizing and grid cell spacing
+			const baseFontSize = Math.min(
+				Math.floor((width * 0.94) / (currentCols * 0.6)),
+				Math.floor((height * 0.8) / (currentRows * 1.15))
+			);
+			// Scale down slightly when sliding to sticky header
+			const scaleModifier = 1 - slideT * 0.32;
+			const fontSize = Math.max(5.5, Math.min(14, baseFontSize * scaleModifier));
+			const cellWidth = fontSize * 0.6;
+			const cellHeight = fontSize * 1.15;
 
-				// Mid-flight turbulence
-				p.noiseAngle += p.noiseSpeed * delta;
-				const noiseOffsetX = Math.cos(p.noiseAngle + index) * p.noiseRadius * midDispersal * 4.5;
-				const noiseOffsetY =
-					Math.sin(p.noiseAngle * 1.3 + index) * p.noiseRadius * midDispersal * 3.5;
+			const gridPixelWidth = currentCols * cellWidth;
+			const gridPixelHeight = currentRows * cellHeight;
+			const originX = (width - gridPixelWidth) / 2;
 
-				const targetX = p.startX + (p.endX - p.startX) * t + noiseOffsetX;
-				const targetY = p.startY + (p.endY - p.startY) * t + noiseOffsetY;
+			// Center Y transitioning smoothly to top sticky position
+			const centerY = (height - gridPixelHeight) / 2;
+			const stickyTopY = 20;
+			const originY = centerY + (stickyTopY - centerY) * slideT;
 
-				const dx = targetX - p.x;
-				const dy = targetY - p.y;
+			context.font = `600 ${fontSize}px ui-monospace, "SF Mono", Menlo, Monaco, Consolas, monospace`;
+			context.textAlign = 'center';
+			context.textBaseline = 'middle';
 
-				p.vx += dx * 0.08;
-				p.vy += dy * 0.08;
-				p.vx *= 0.78;
-				p.vy *= 0.78;
+			// Render all particles with subpixel precision
+			for (let i = 0; i < particles.length; i++) {
+				const p = particles[i];
 
-				p.x += p.vx;
-				p.y += p.vy;
+				p.angle += p.speed * delta;
+				const noiseX = Math.cos(p.angle + i * 0.4) * p.radiusX * dispersionFactor * 0.7;
+				const noiseY = Math.sin(p.angle * 1.2 + i * 0.4) * p.radiusY * dispersionFactor * 0.45;
 
-				splatStamp(p.x, p.y);
-			}
+				const targetGridX = p.startX + (p.endX - p.startX) * t + noiseX;
+				const targetGridY = p.startY + (p.endY - p.startY) * t + noiseY;
 
-			// Sample field to ASCII rows
-			for (let row = 0; row < config.rows; row++) {
-				let rowHtml = '';
-				const fieldRowStart = row * fieldOversample * fieldCols;
+				p.x = targetGridX;
+				p.y = targetGridY;
 
-				for (let col = 0; col < config.cols; col++) {
-					const fieldColStart = col * fieldOversample;
-					let brightnessSum = 0;
+				const pixelX = originX + p.x * cellWidth + cellWidth / 2;
+				const pixelY = originY + p.y * cellHeight + cellHeight / 2;
 
-					for (let sy = 0; sy < fieldOversample; sy++) {
-						const sampleRowOffset = fieldRowStart + sy * fieldCols + fieldColStart;
-						for (let sx = 0; sx < fieldOversample; sx++) {
-							brightnessSum += brightnessField[sampleRowOffset + sx];
-						}
-					}
+				const char = t < 0.5 ? p.startChar : p.endChar;
+				const type = t < 0.5 ? p.startType : p.endType;
 
-					const brightnessNormalized = brightnessSum / (fieldOversample * fieldOversample);
-					const brightnessByte = Math.min(255, (brightnessNormalized * 255) | 0);
-					const entry = lookup[brightnessByte];
-					rowHtml += entry.propHtml;
+				// Swapped color mapping:
+				// - Body fill ($) in crisp pure white
+				// - Outlines/edges in sleek slate gray
+				if (type === 'shadow') {
+					context.fillStyle = '#ffffff';
+					context.shadowColor = 'rgba(255, 255, 255, 0.6)';
+					context.shadowBlur = 6;
+				} else if (type === 'outline') {
+					context.fillStyle = '#393939ff';
+					context.shadowColor = 'rgba(100, 116, 139, 0.4)';
+					context.shadowBlur = 4;
+				} else {
+					context.fillStyle = '#64748b';
+					context.shadowColor = 'transparent';
+					context.shadowBlur = 0;
 				}
 
-				rowElements[row].innerHTML = rowHtml;
+				context.fillText(char, pixelX, pixelY);
 			}
 
+			context.restore();
 			animationFrameId = requestAnimationFrame(render);
 		};
 
@@ -198,30 +194,26 @@
 		return () => {
 			cancelAnimationFrame(animationFrameId);
 			window.removeEventListener('scroll', handleScroll);
+			window.removeEventListener('resize', handleResize);
 		};
 	});
 </script>
 
 <div bind:this={containerElement} class="ascii-scroll-container">
-	<div class="ascii-sticky-viewport">
-		<div class="ascii-wrapper">
-			<div class="ascii-header-tag">
-				<span class="indicator-dot"></span>
-				<span class="indicator-text">
-					{scrollProgress < 0.35
-						? 'Variable Typographic ASCII — THANAPHUM'
-						: scrollProgress < 0.75
-							? 'Morphing in progress...'
-							: 'Variable Typographic ASCII — EXPERIENCE'}
-				</span>
-			</div>
+	<!-- Fixed fullscreen canvas locked in viewport -->
+	<div class="ascii-fixed-viewport">
+		<!-- Subtle backdrop gradient when in sticky state -->
+		<div
+			class="sticky-header-backdrop"
+			style="opacity: {Math.max(0, (scrollProgress - 0.75) / 0.25)};"
+		></div>
 
-			<div class="ascii-art-box" bind:this={propBoxElement}></div>
+		<canvas bind:this={canvasElement} class="ascii-canvas"></canvas>
 
-			<div class="ascii-footer-hint" style="opacity: {Math.max(0, 1 - scrollProgress * 2.5)};">
-				<span class="scroll-arrow">↓</span>
-				<span class="scroll-text">Scroll to morph</span>
-			</div>
+		<!-- Floating scroll hint -->
+		<div class="ascii-footer-hint" style="opacity: {Math.max(0, 1 - scrollProgress * 2.5)};">
+			<span class="scroll-arrow">↓</span>
+			<span class="scroll-text">Scroll down</span>
 		</div>
 	</div>
 </div>
@@ -230,130 +222,61 @@
 	.ascii-scroll-container {
 		position: relative;
 		width: 100%;
-		height: 260vh;
+		height: 200vh;
 		background: #000000;
 	}
 
-	.ascii-sticky-viewport {
-		position: sticky;
+	.ascii-fixed-viewport {
+		position: fixed;
 		top: 0;
-		width: 100%;
+		left: 0;
+		width: 100vw;
 		height: 100vh;
 		display: flex;
 		align-items: center;
 		justify-content: center;
 		overflow: hidden;
-		background: #000000;
+		background: transparent;
+		pointer-events: none;
+		z-index: 30;
 	}
 
-	.ascii-wrapper {
-		display: flex;
-		flex-direction: column;
-		align-items: center;
-		gap: 1.25rem;
-		max-width: 95vw;
-	}
-
-	.ascii-header-tag {
-		display: flex;
-		align-items: center;
-		gap: 0.5rem;
-		padding: 0.35rem 0.85rem;
-		border-radius: 9999px;
-		background: rgba(255, 255, 255, 0.04);
-		border: 1px solid rgba(255, 255, 255, 0.08);
-		font-size: 0.75rem;
-		letter-spacing: 0.08em;
-		text-transform: uppercase;
-		color: rgba(255, 255, 255, 0.6);
-		font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
-	}
-
-	.indicator-dot {
-		width: 6px;
-		height: 6px;
-		border-radius: 50%;
-		background: #22c55e;
-		box-shadow: 0 0 8px #22c55e;
-	}
-
-	.ascii-art-box {
+	.sticky-header-backdrop {
+		position: absolute;
+		top: 0;
+		left: 0;
 		width: 100%;
-		max-width: 640px;
-		background: radial-gradient(circle at center, rgba(20, 20, 25, 0.7) 0%, rgba(0, 0, 0, 0.95) 100%);
-		border: 1px solid rgba(255, 255, 255, 0.08);
-		border-radius: 12px;
-		padding: 1.5rem 1rem;
-		box-shadow:
-			0 20px 40px -15px rgba(0, 0, 0, 0.9),
-			inset 0 0 40px rgba(0, 0, 0, 0.8);
-		overflow: hidden;
+		height: 95px;
+		background: linear-gradient(to bottom, rgba(0, 0, 0, 0.95) 70%, transparent 100%);
+		backdrop-filter: blur(8px);
+		-webkit-backdrop-filter: blur(8px);
+		pointer-events: none;
+		transition: opacity 0.2s ease;
+	}
+
+	.ascii-canvas {
+		display: block;
+		width: 100vw;
+		height: 100vh;
+		background: transparent;
 		user-select: none;
 	}
 
-	:global(.ascii-row) {
-		display: block;
-		width: fit-content;
-		margin-inline: auto;
-		white-space: pre;
-		font-family: Georgia, Palatino, 'Times New Roman', serif;
-		font-size: 14px;
-		letter-spacing: -0.01em;
-	}
-
-	:global(.w3) {
-		font-weight: 300;
-	}
-	:global(.w5) {
-		font-weight: 500;
-	}
-	:global(.w8) {
-		font-weight: 800;
-	}
-	:global(.it) {
-		font-style: italic;
-	}
-
-	:global(.a1) {
-		color: rgba(230, 220, 200, 0.12);
-	}
-	:global(.a2) {
-		color: rgba(230, 220, 200, 0.22);
-	}
-	:global(.a3) {
-		color: rgba(230, 220, 200, 0.32);
-	}
-	:global(.a4) {
-		color: rgba(230, 220, 200, 0.44);
-	}
-	:global(.a5) {
-		color: rgba(235, 225, 205, 0.56);
-	}
-	:global(.a6) {
-		color: rgba(240, 230, 210, 0.68);
-	}
-	:global(.a7) {
-		color: rgba(245, 235, 215, 0.8);
-	}
-	:global(.a8) {
-		color: rgba(250, 240, 220, 0.9);
-	}
-	:global(.a9) {
-		color: rgba(255, 248, 230, 0.96);
-	}
-	:global(.a10) {
-		color: #ffffff;
-		text-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
-	}
-
 	.ascii-footer-hint {
+		position: absolute;
+		bottom: 2.5rem;
+		left: 50%;
+		transform: translateX(-50%);
+		z-index: 20;
 		display: flex;
 		flex-direction: column;
 		align-items: center;
 		gap: 0.25rem;
-		color: rgba(255, 255, 255, 0.4);
+		color: rgba(255, 255, 255, 0.45);
 		font-size: 0.8rem;
+		font-family: ui-monospace, monospace;
 		transition: opacity 0.2s ease-out;
+		pointer-events: none;
 	}
 
 	.scroll-arrow {
