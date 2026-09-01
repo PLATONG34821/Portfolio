@@ -5,10 +5,7 @@
 
 <svelte:head>
 	<title>Thanaphum — Portfolio</title>
-	<meta
-		name="description"
-		content="Portfolio of Thanaphum — Developer & Open Source Creator"
-	/>
+	<meta name="description" content="Portfolio of Thanaphum — Developer & Open Source Creator" />
 </svelte:head>
 
 <main class="page-container">

@@ -7,3 +7,8 @@ bun.lockb
 
 # Miscellaneous
 /static/
+.gemini/
+.github/
+project.inlang/
+AGENTS.md
+GEMINI.md
