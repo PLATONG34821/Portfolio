@@ -60,11 +60,9 @@
 		let targetProgress = 0;
 
 		const handleScroll = () => {
-			if (!containerElement) return;
-			const rect = containerElement.getBoundingClientRect();
-			const totalScroll = rect.height - window.innerHeight;
-			if (totalScroll <= 0) return;
-			const rawProgress = -rect.top / totalScroll;
+			const scrollY = window.scrollY || window.pageYOffset;
+			const scrollTrack = window.innerHeight * 0.65;
+			const rawProgress = scrollY / scrollTrack;
 			targetProgress = Math.max(0, Math.min(1, rawProgress));
 			scrollProgress = targetProgress;
 		};
@@ -104,12 +102,11 @@
 			const height = window.innerHeight;
 
 			// Smooth scroll interpolation
-			currentProgress += (targetProgress - currentProgress) * 0.14;
+			currentProgress += (targetProgress - currentProgress) * 0.16;
 
-			// Phase 1: 0.0 -> 0.6 (Morph THANAPHUM -> EXPERIENCE)
-			// Phase 2: 0.15 -> 0.9 (Slide EXP up concurrently with cards rising)
-			const morphPhase = Math.min(1, currentProgress / 0.6);
-			const slidePhase = Math.max(0, Math.min(1, (currentProgress - 0.15) / 0.75));
+			// Morph and slide concurrently throughout the 65vh track
+			const morphPhase = Math.min(1, currentProgress / 0.7);
+			const slidePhase = currentProgress;
 
 			const t = easeInOutCubic(morphPhase);
 			const slideT = easeInOutCubic(slidePhase);
@@ -221,7 +218,7 @@
 	.ascii-scroll-container {
 		position: relative;
 		width: 100%;
-		height: 120vh;
+		height: 65vh;
 		background: #000000;
 	}
 
