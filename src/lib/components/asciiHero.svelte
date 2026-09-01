@@ -207,12 +207,6 @@
 <div bind:this={containerElement} class="ascii-scroll-container">
 	<!-- Fixed fullscreen canvas locked in viewport -->
 	<div class="ascii-fixed-viewport">
-		<!-- Top fade backdrop for sticky EXP header -->
-		<div
-			class="sticky-header-backdrop"
-			style="opacity: {Math.max(0, (scrollProgress - 0.7) / 0.3)};"
-		></div>
-
 		<canvas bind:this={canvasElement} class="ascii-canvas"></canvas>
 
 		<!-- Floating scroll hint -->
@@ -244,25 +238,6 @@
 		background: transparent;
 		pointer-events: none;
 		z-index: 50;
-	}
-
-	.sticky-header-backdrop {
-		position: absolute;
-		top: 0;
-		left: 0;
-		width: 100%;
-		height: 110px;
-		background: linear-gradient(
-			to bottom,
-			rgba(0, 0, 0, 1) 0%,
-			rgba(0, 0, 0, 0.96) 55%,
-			rgba(0, 0, 0, 0.7) 80%,
-			transparent 100%
-		);
-		backdrop-filter: blur(6px);
-		-webkit-backdrop-filter: blur(6px);
-		pointer-events: none;
-		transition: opacity 0.2s ease;
 	}
 
 	.ascii-canvas {
