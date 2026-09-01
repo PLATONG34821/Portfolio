@@ -164,7 +164,7 @@
 		min-height: 100vh;
 		background: #000000;
 		color: #ededed;
-		padding: 3rem 1.5rem 6rem;
+		padding: 2rem 1.5rem 6rem;
 		z-index: 10;
 	}
 

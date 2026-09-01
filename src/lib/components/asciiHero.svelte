@@ -106,10 +106,10 @@
 			// Smooth scroll interpolation
 			currentProgress += (targetProgress - currentProgress) * 0.14;
 
-			// Phase 1: 0.0 -> 0.7 (Morph THANAPHUM -> EXPERIENCE)
-			// Phase 2: 0.7 -> 1.0 (Slide EXPERIENCE up to Sticky Header)
-			const morphPhase = Math.min(1, currentProgress / 0.7);
-			const slidePhase = Math.max(0, (currentProgress - 0.7) / 0.3);
+			// Phase 1: 0.0 -> 0.6 (Morph THANAPHUM -> EXPERIENCE)
+			// Phase 2: 0.15 -> 0.9 (Slide EXP up concurrently with cards rising)
+			const morphPhase = Math.min(1, currentProgress / 0.6);
+			const slidePhase = Math.max(0, Math.min(1, (currentProgress - 0.15) / 0.75));
 
 			const t = easeInOutCubic(morphPhase);
 			const slideT = easeInOutCubic(slidePhase);
@@ -210,7 +210,7 @@
 		<canvas bind:this={canvasElement} class="ascii-canvas"></canvas>
 
 		<!-- Floating scroll hint -->
-		<div class="ascii-footer-hint" style="opacity: {Math.max(0, 1 - scrollProgress * 2.5)};">
+		<div class="ascii-footer-hint" style="opacity: {Math.max(0, 1 - scrollProgress * 3)};">
 			<span class="scroll-arrow">↓</span>
 			<span class="scroll-text">Scroll down</span>
 		</div>
@@ -221,7 +221,7 @@
 	.ascii-scroll-container {
 		position: relative;
 		width: 100%;
-		height: 200vh;
+		height: 120vh;
 		background: #000000;
 	}
 
