@@ -1,6 +1,4 @@
 <script lang="ts">
-	import { onMount } from 'svelte';
-
 	interface Project {
 		title: string;
 		description: string;
@@ -72,42 +70,12 @@
 		{ name: 'PHP / PocketMine', category: 'Backend & Plugins' },
 		{ name: 'Raspberry Pi / Embedded', category: 'Hardware' }
 	];
-
-	let sectionElement = $state<HTMLElement | null>(null);
-
-	onMount(() => {
-		const updateCardFades = () => {
-			if (!sectionElement) return;
-			const cards = sectionElement.querySelectorAll<HTMLElement>('.project-card, .skill-card');
-			const fadeTopThreshold = 240; // Start dissolving as card approaches EXP
-			const fadeOutLimit = 145; // Fully dissolved before touching EXP bottom edge
-
-			for (let i = 0; i < cards.length; i++) {
-				const card = cards[i];
-				const rect = card.getBoundingClientRect();
-
-				if (rect.top < fadeTopThreshold) {
-					const progress = (rect.top - fadeOutLimit) / (fadeTopThreshold - fadeOutLimit);
-					const opacity = Math.max(0, Math.min(1, progress));
-					card.style.opacity = `${opacity}`;
-					card.style.transform = `scale(${0.96 + 0.04 * opacity})`;
-				} else {
-					card.style.opacity = '1';
-					card.style.transform = 'none';
-				}
-			}
-		};
-
-		window.addEventListener('scroll', updateCardFades, { passive: true });
-		updateCardFades();
-
-		return () => {
-			window.removeEventListener('scroll', updateCardFades);
-		};
-	});
 </script>
 
-<section bind:this={sectionElement} class="experience-section" id="experience">
+<!-- Fixed top gradient curtain that progressively masks cards top-first as they scroll up under EXP -->
+<div class="top-fade-curtain" aria-hidden="true"></div>
+
+<section class="experience-section" id="experience">
 	<div class="content-container">
 		<!-- Projects Grid -->
 		<div class="projects-grid">
@@ -172,13 +140,31 @@
 </section>
 
 <style>
+	.top-fade-curtain {
+		position: fixed;
+		top: 0;
+		left: 0;
+		width: 100vw;
+		height: 220px;
+		background: linear-gradient(
+			to bottom,
+			rgba(0, 0, 0, 1) 0%,
+			rgba(0, 0, 0, 1) 140px,
+			rgba(0, 0, 0, 0.85) 170px,
+			rgba(0, 0, 0, 0.35) 195px,
+			transparent 220px
+		);
+		pointer-events: none;
+		z-index: 40;
+	}
+
 	.experience-section {
 		position: relative;
 		width: 100%;
 		min-height: 100vh;
 		background: #000000;
 		color: #ededed;
-		padding: 2.5rem 1.5rem 6rem;
+		padding: 3rem 1.5rem 6rem;
 		z-index: 10;
 	}
 
@@ -220,15 +206,16 @@
 		border-radius: 8px;
 		padding: 1.75rem;
 		text-decoration: none;
-		will-change: opacity, transform;
 		transition:
 			border-color 0.2s ease,
+			transform 0.2s ease,
 			background-color 0.2s ease;
 	}
 
 	.project-card:hover {
 		border-color: #475569;
 		background: #10141e;
+		transform: translateY(-2px);
 	}
 
 	.card-header {
@@ -333,7 +320,6 @@
 		display: flex;
 		flex-direction: column;
 		gap: 0.35rem;
-		will-change: opacity, transform;
 	}
 
 	.skill-name {
