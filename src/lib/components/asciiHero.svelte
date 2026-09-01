@@ -25,6 +25,7 @@
 		let particles: FigletParticle[] = [];
 		let currentCols = 120;
 		let currentRows = 38;
+		let maxArtHeight = 10;
 
 		const initSimulation = () => {
 			if (!canvasElement) return;
@@ -42,7 +43,7 @@
 			const linesB = generateFigletArt(endText);
 
 			const maxArtWidth = Math.max(...linesA.map((l) => l.length), ...linesB.map((l) => l.length));
-			const maxArtHeight = Math.max(linesA.length, linesB.length);
+			maxArtHeight = Math.max(linesA.length, linesB.length);
 
 			currentCols = Math.max(maxArtWidth + 14, 120);
 			currentRows = Math.max(maxArtHeight + 16, 36);
@@ -127,7 +128,7 @@
 				Math.floor((height * 0.8) / (currentRows * 1.15))
 			);
 			// Scale down slightly when sliding to sticky header
-			const scaleModifier = 1 - slideT * 0.32;
+			const scaleModifier = 1 - slideT * 0.28;
 			const fontSize = Math.max(5.5, Math.min(14, baseFontSize * scaleModifier));
 			const cellWidth = fontSize * 0.6;
 			const cellHeight = fontSize * 1.15;
@@ -136,10 +137,14 @@
 			const gridPixelHeight = currentRows * cellHeight;
 			const originX = (width - gridPixelWidth) / 2;
 
-			// Center Y transitioning smoothly to top sticky position (moved higher up)
+			// Calculate exact top row offset of the ASCII letters inside the grid
+			const artTopRow = (currentRows - maxArtHeight) >> 1;
+
+			// Center Y transitioning smoothly to sticky top position (sitting right near top edge: 10px)
 			const centerY = (height - gridPixelHeight) / 2;
-			const stickyTopY = 6;
-			const originY = centerY + (stickyTopY - centerY) * slideT;
+			const targetLetterTop = 10;
+			const stickyOriginY = targetLetterTop - artTopRow * cellHeight;
+			const originY = centerY + (stickyOriginY - centerY) * slideT;
 
 			context.font = `600 ${fontSize}px ui-monospace, "SF Mono", Menlo, Monaco, Consolas, monospace`;
 			context.textAlign = 'center';

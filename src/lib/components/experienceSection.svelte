@@ -79,8 +79,8 @@
 		const updateCardFades = () => {
 			if (!sectionElement) return;
 			const cards = sectionElement.querySelectorAll<HTMLElement>('.project-card, .skill-card');
-			const fadeTopThreshold = 220; // Start dissolving when approaching top header area
-			const fadeOutLimit = 65; // Fully dissolved before touching EXP letters
+			const fadeTopThreshold = 180; // Start dissolving as card enters top zone
+			const fadeOutLimit = 85; // Fully dissolved before reaching top EXP text
 
 			for (let i = 0; i < cards.length; i++) {
 				const card = cards[i];
