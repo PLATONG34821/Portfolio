@@ -136,9 +136,9 @@
 			const gridPixelHeight = currentRows * cellHeight;
 			const originX = (width - gridPixelWidth) / 2;
 
-			// Center Y transitioning smoothly to top sticky position
+			// Center Y transitioning smoothly to top sticky position (moved higher up)
 			const centerY = (height - gridPixelHeight) / 2;
-			const stickyTopY = 20;
+			const stickyTopY = 6;
 			const originY = centerY + (stickyTopY - centerY) * slideT;
 
 			context.font = `600 ${fontSize}px ui-monospace, "SF Mono", Menlo, Monaco, Consolas, monospace`;
@@ -202,10 +202,10 @@
 <div bind:this={containerElement} class="ascii-scroll-container">
 	<!-- Fixed fullscreen canvas locked in viewport -->
 	<div class="ascii-fixed-viewport">
-		<!-- Subtle backdrop gradient when in sticky state -->
+		<!-- Top fade backdrop for sticky EXP header -->
 		<div
 			class="sticky-header-backdrop"
-			style="opacity: {Math.max(0, (scrollProgress - 0.75) / 0.25)};"
+			style="opacity: {Math.max(0, (scrollProgress - 0.7) / 0.3)};"
 		></div>
 
 		<canvas bind:this={canvasElement} class="ascii-canvas"></canvas>
@@ -246,10 +246,16 @@
 		top: 0;
 		left: 0;
 		width: 100%;
-		height: 95px;
-		background: linear-gradient(to bottom, rgba(0, 0, 0, 0.95) 70%, transparent 100%);
-		backdrop-filter: blur(8px);
-		-webkit-backdrop-filter: blur(8px);
+		height: 110px;
+		background: linear-gradient(
+			to bottom,
+			rgba(0, 0, 0, 1) 0%,
+			rgba(0, 0, 0, 0.96) 55%,
+			rgba(0, 0, 0, 0.7) 80%,
+			transparent 100%
+		);
+		backdrop-filter: blur(6px);
+		-webkit-backdrop-filter: blur(6px);
 		pointer-events: none;
 		transition: opacity 0.2s ease;
 	}

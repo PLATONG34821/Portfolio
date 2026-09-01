@@ -74,21 +74,6 @@
 
 <section class="experience-section" id="experience">
 	<div class="content-container">
-		<!-- Section Header -->
-		<div class="section-intro">
-			<span class="section-label">01 // REPOSITORIES & WORKS</span>
-			<h2 class="section-title">Selected Projects</h2>
-			<p class="section-desc">
-				A curated overview of open-source repositories, developer tooling, and computer vision
-				experiments from GitHub (<a
-					href="https://github.com/PLATONG98"
-					target="_blank"
-					rel="noreferrer"
-					class="github-link">@PLATONG98</a
-				>).
-			</p>
-		</div>
-
 		<!-- Projects Grid -->
 		<div class="projects-grid">
 			{#each projects as project (project.title)}
@@ -158,7 +143,7 @@
 		min-height: 100vh;
 		background: #000000;
 		color: #ededed;
-		padding: 4rem 1.5rem 6rem;
+		padding: 2.5rem 1.5rem 6rem;
 		z-index: 20;
 	}
 
@@ -168,12 +153,6 @@
 		display: flex;
 		flex-direction: column;
 		gap: 5rem;
-	}
-
-	.section-intro {
-		display: flex;
-		flex-direction: column;
-		gap: 0.75rem;
 	}
 
 	.section-label {
@@ -189,19 +168,6 @@
 		font-weight: 700;
 		letter-spacing: -0.02em;
 		color: #ffffff;
-	}
-
-	.section-desc {
-		font-size: 1.05rem;
-		line-height: 1.6;
-		color: #94a3b8;
-		max-width: 650px;
-	}
-
-	.github-link {
-		color: #ffffff;
-		text-decoration: underline;
-		text-underline-offset: 3px;
 	}
 
 	.projects-grid {
