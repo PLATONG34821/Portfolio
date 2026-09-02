@@ -1,6 +1,7 @@
 <script lang="ts">
 	import AsciiHero from '$lib/components/asciiHero.svelte';
 	import ExperienceSection from '$lib/components/experienceSection.svelte';
+	import SkillsSection from '$lib/components/skillsSection.svelte';
 
 	let scrollProgress = $state(0);
 </script>
@@ -13,6 +14,7 @@
 <main class="page-container">
 	<AsciiHero bind:scrollProgress startText="THANAPHUM\nPORTFOLIO" endText="EXPERIENCE" />
 	<ExperienceSection {scrollProgress} />
+	<SkillsSection {scrollProgress} />
 </main>
 
 <style>

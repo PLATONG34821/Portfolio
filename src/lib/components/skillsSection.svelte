@@ -1,0 +1,151 @@
+<script lang="ts">
+	import TuiBox, { type BoxStyleType } from './tuiBox.svelte';
+	import { capabilityCategories } from '$lib/data/experienceData';
+
+	interface Props {
+		scrollProgress?: number;
+		boxStyle?: BoxStyleType;
+		titleColor?: string;
+		borderColor?: string;
+		cornerColor?: string;
+		bgColor?: string;
+	}
+
+	let {
+		scrollProgress = 0,
+		boxStyle = 'classic',
+		titleColor = 'cyan',
+		borderColor = '#1e293b',
+		cornerColor = '#334155',
+		bgColor = 'transparent'
+	}: Props = $props();
+
+	// In-place fade-in matching experience section (scrollProgress >= 0.6)
+	let isRevealed = $derived(scrollProgress >= 0.6);
+</script>
+
+<section class="skills-section" class:is-revealed={isRevealed} id="skills">
+	<div class="content-container">
+		<div class="section-block">
+			<div class="tui-grid-3col">
+				{#each capabilityCategories as category (category.id)}
+					<TuiBox
+						title={category.title}
+						{boxStyle}
+						{titleColor}
+						{borderColor}
+						{cornerColor}
+						{bgColor}
+						class="cap-box"
+						bodyClass="cap-body"
+					>
+						{#each category.items as item (item.skill)}
+							<div class="tui-item">
+								<div class="tui-item-line1">
+									<span class="tui-title-static" class:highlighted={item.isHighlighted}>
+										{item.skill}
+										{#if item.isHighlighted}
+											<span class="check-mark">✓</span>
+										{/if}
+									</span>
+								</div>
+								<div class="tui-item-line2">
+									<span class="tui-desc">{item.focus}</span>
+								</div>
+							</div>
+						{/each}
+					</TuiBox>
+				{/each}
+			</div>
+		</div>
+	</div>
+</section>
+
+<style>
+	.skills-section {
+		position: relative;
+		width: 100%;
+		background: #000000;
+		color: #e5e7eb;
+		padding: 0 1.5rem 12rem;
+		z-index: 10;
+		opacity: 0;
+		pointer-events: none;
+		transition: opacity 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+		font-family:
+			ui-monospace, 'SF Mono', 'Cascadia Code', 'Fira Code', Menlo, Monaco, Consolas, monospace;
+	}
+
+	.skills-section.is-revealed {
+		opacity: 1;
+		pointer-events: auto;
+	}
+
+	.content-container {
+		max-width: 1160px;
+		margin: 0 auto;
+		display: flex;
+		flex-direction: column;
+		gap: 2rem;
+	}
+
+	.section-block {
+		display: flex;
+		flex-direction: column;
+		gap: 2rem;
+	}
+
+	.tui-grid-3col {
+		display: grid;
+		grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+		gap: 1.5rem;
+		align-items: start;
+	}
+
+	:global(.cap-body) {
+		gap: 0.85rem;
+	}
+
+	.tui-item {
+		display: flex;
+		flex-direction: column;
+		gap: 0.15rem;
+	}
+
+	.tui-item-line1 {
+		display: flex;
+		align-items: baseline;
+		gap: 0.45rem;
+		line-height: 1.4;
+	}
+
+	.tui-item-line2 {
+		display: flex;
+		align-items: baseline;
+		flex-wrap: wrap;
+		gap: 0.45rem;
+		font-size: 0.78rem;
+		line-height: 1.4;
+		color: #6b7280;
+	}
+
+	.tui-title-static {
+		color: #e5e7eb;
+		font-size: 0.88rem;
+		font-weight: 500;
+	}
+
+	.tui-title-static.highlighted {
+		color: #fdba74;
+	}
+
+	.check-mark {
+		color: #f97316;
+		margin-left: 0.35rem;
+		font-weight: 700;
+	}
+
+	.tui-desc {
+		color: #6b7280;
+	}
+</style>
