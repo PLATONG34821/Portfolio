@@ -3,6 +3,8 @@
 		label: string;
 		url: string;
 		iconClass?: string;
+		isCertModal?: boolean;
+		certImage?: string;
 	}
 
 	interface ProjectMetric {
@@ -22,7 +24,26 @@
 		status: 'PROD' | 'FEAT' | 'RESEARCH' | 'OSS';
 		tags: string[];
 		githubUrl: string;
+		certImage?: string;
 		links?: ProjectLink[];
+	}
+
+	interface Award {
+		id: string;
+		title: string;
+		subtitle: string;
+		badge: string;
+		badgeColor: 'gold' | 'silver' | 'blue' | 'emerald';
+		year: string;
+		pixelIcon: string;
+		certImage?: string;
+	}
+
+	interface Certification {
+		name: string;
+		issuer: string;
+		code: string;
+		pixelIcon: string;
 	}
 
 	interface Props {
@@ -30,6 +51,17 @@
 	}
 
 	let { scrollProgress = 0 }: Props = $props();
+
+	// Modal State for viewing high-res certificates and exhibition photos
+	let activeCertModal: { title: string; image: string } | null = $state(null);
+
+	function openCert(title: string, image: string) {
+		activeCertModal = { title, image };
+	}
+
+	function closeCert() {
+		activeCertModal = null;
+	}
 
 	// Pure in-place fade in once EXP finishes assembling (scrollProgress >= 0.6)
 	let isRevealed = $derived(scrollProgress >= 0.6);
@@ -104,12 +136,12 @@
 		{
 			id: '02',
 			title: 'TJ-SIF 2022 Innovation',
-			pixelIcon: 'pixelart-icons-font-file-text',
+			pixelIcon: 'pixelart-icons-font-trophy',
 			category: 'RESEARCH // INTL_FAIR',
 			year: '2022',
 			status: 'RESEARCH',
 			summary:
-				'Selected student research & embedded ICT hardware exhibition presented at Thailand-Japan Student ICT Fair.',
+				'Selected student research & embedded "IV Stand" smart infusion hardware presented in English at Thailand-Japan Student ICT Fair.',
 			metrics: [
 				{
 					label: 'FORUM',
@@ -124,17 +156,82 @@
 				}
 			],
 			tags: ['Embedded Systems', 'IoT Hardware', 'Research Paper', 'Sensors'],
-			githubUrl: 'https://online.anyflip.com/zpkny/qiwq/mobile/index.html#p=125',
+			githubUrl: '/certs/tjsif_cert.jpg',
+			certImage: '/certs/tjsif_cert.jpg',
 			links: [
 				{
-					label: 'Report (Page 125)',
+					label: 'View Certificate',
+					url: '/certs/tjsif_cert.jpg',
+					iconClass: 'pixelart-icons-font-file-text',
+					isCertModal: true,
+					certImage: '/certs/tjsif_cert.jpg'
+				},
+				{
+					label: 'Stage Award',
+					url: '/certs/tjsif_stage.png',
+					iconClass: 'pixelart-icons-font-trophy',
+					isCertModal: true,
+					certImage: '/certs/tjsif_stage.png'
+				},
+				{
+					label: 'Live Booth',
+					url: '/certs/tjsif_booth.jpg',
+					iconClass: 'pixelart-icons-font-image',
+					isCertModal: true,
+					certImage: '/certs/tjsif_booth.jpg'
+				},
+				{
+					label: 'Report (p.125)',
 					url: 'https://online.anyflip.com/zpkny/qiwq/mobile/index.html#page=137',
-					iconClass: 'pixelart-icons-font-file-text'
+					iconClass: 'pixelart-icons-font-external-link'
 				}
 			]
 		},
 		{
 			id: '03',
+			title: 'NSC 25 — Auto-Silkworm Reeling Frame',
+			pixelIcon: 'pixelart-icons-font-trophy',
+			category: 'NATIONAL_CONTEST // GRANT_WINNER',
+			year: '2023',
+			status: 'RESEARCH',
+			summary:
+				'Automated uniform silk reeling & spinning system utilizing biological gravitropism response. Selected finalist & funded grantee in the 25th National Software Contest.',
+			metrics: [
+				{
+					label: 'CONTEST',
+					value:
+						'<span class="val-flex"><i class="pixelart-icons-font-trophy val-icon"></i> NSC 25 Grantee</span>',
+					pixelIcon: 'pixelart-icons-font-zap'
+				},
+				{
+					label: 'TECH',
+					value:
+						'<span class="val-flex"><i class="pixelart-icons-font-cpu val-icon"></i> Gravitropism Control</span>',
+					pixelIcon: 'pixelart-icons-font-cpu'
+				}
+			],
+			tags: ['Embedded Automation', 'Biological Control', 'NSC 25', 'Hardware IoT'],
+			githubUrl: '/certs/nsc25_cert.jpg',
+			certImage: '/certs/nsc25_cert.jpg',
+			links: [
+				{
+					label: 'View NSC 25 Certificate',
+					url: '/certs/nsc25_cert.jpg',
+					iconClass: 'pixelart-icons-font-file-text',
+					isCertModal: true,
+					certImage: '/certs/nsc25_cert.jpg'
+				},
+				{
+					label: 'Live Exhibition',
+					url: '/certs/nsc25_booth.png',
+					iconClass: 'pixelart-icons-font-image',
+					isCertModal: true,
+					certImage: '/certs/nsc25_booth.png'
+				}
+			]
+		},
+		{
+			id: '04',
 			title: 'polyTone',
 			pixelIcon: 'pixelart-icons-font-music',
 			category: 'AUDIO // PRESET_PLATFORM',
@@ -162,38 +259,6 @@
 					label: 'Live App',
 					url: 'https://polytone.pages.dev/',
 					iconClass: 'pixelart-icons-font-external-link'
-				}
-			]
-		},
-		{
-			id: '04',
-			title: 'Portable Hybrid Swarm Cluster',
-			pixelIcon: 'pixelart-icons-font-server',
-			category: 'DEVOPS // CLUSTER',
-			year: '2024',
-			status: 'FEAT',
-			summary:
-				'Resilient multi-node hybrid x86/ARM Docker Swarm edge cluster with automated failover & proxy routing.',
-			metrics: [
-				{
-					label: 'NODES',
-					value: `<span class="val-flex logo-group"><span class="logo-item flex-label" title="Docker Swarm">${brandLogos.docker} <span>x86_64</span></span><span class="val-dot">+</span><span class="logo-item flex-label" title="ARM64"><i class="pixelart-icons-font-cpu val-icon"></i> <span>ARM64</span></span></span>`,
-					pixelIcon: 'pixelart-icons-font-cloud'
-				},
-				{
-					label: 'TARGET',
-					value:
-						'<span class="val-flex"><i class="pixelart-icons-font-shield val-icon"></i> Edge Homelab</span>',
-					pixelIcon: 'pixelart-icons-font-server'
-				}
-			],
-			tags: ['Docker Swarm', 'Homelab', 'Reverse Proxy', 'Linux'],
-			githubUrl: 'https://github.com/PLATONG34821/Portable-Hybrid-Arch-Docker-Swarm-Cluster',
-			links: [
-				{
-					label: 'GitHub Repo',
-					url: 'https://github.com/PLATONG34821/Portable-Hybrid-Arch-Docker-Swarm-Cluster',
-					iconClass: 'pixelart-icons-font-github'
 				}
 			]
 		},
@@ -236,32 +301,32 @@
 		},
 		{
 			id: '06',
-			title: 'GroupPlan',
-			pixelIcon: 'pixelart-icons-font-users',
-			category: 'COLLABORATION // WEB',
+			title: 'Portable Hybrid Swarm Cluster',
+			pixelIcon: 'pixelart-icons-font-server',
+			category: 'DEVOPS // CLUSTER',
 			year: '2024',
-			status: 'OSS',
+			status: 'FEAT',
 			summary:
-				'Modern team schedule coordination and collaborative group planning web application built with Svelte.',
+				'Resilient multi-node hybrid x86/ARM Docker Swarm edge cluster with automated failover & proxy routing.',
 			metrics: [
 				{
-					label: 'TYPE',
-					value:
-						'<span class="val-flex"><i class="pixelart-icons-font-users val-icon"></i> Team Planner</span>',
-					pixelIcon: 'pixelart-icons-font-users'
+					label: 'NODES',
+					value: `<span class="val-flex logo-group"><span class="logo-item flex-label" title="Docker Swarm">${brandLogos.docker} <span>x86_64</span></span><span class="val-dot">+</span><span class="logo-item flex-label" title="ARM64"><i class="pixelart-icons-font-cpu val-icon"></i> <span>ARM64</span></span></span>`,
+					pixelIcon: 'pixelart-icons-font-cloud'
 				},
 				{
-					label: 'FRAMEWORK',
-					value: `<span class="val-flex logo-group"><span class="logo-item flex-label" title="Svelte 5">${brandLogos.svelte} <span>Svelte 5</span></span></span>`,
-					pixelIcon: 'pixelart-icons-font-code'
+					label: 'TARGET',
+					value:
+						'<span class="val-flex"><i class="pixelart-icons-font-shield val-icon"></i> Edge Homelab</span>',
+					pixelIcon: 'pixelart-icons-font-server'
 				}
 			],
-			tags: ['Svelte', 'TypeScript', 'State Management', 'Team Tooling'],
-			githubUrl: 'https://github.com/PLATONG34821/GroupPlan',
+			tags: ['Docker Swarm', 'Homelab', 'Reverse Proxy', 'Linux'],
+			githubUrl: 'https://github.com/PLATONG34821/Portable-Hybrid-Arch-Docker-Swarm-Cluster',
 			links: [
 				{
 					label: 'GitHub Repo',
-					url: 'https://github.com/PLATONG34821/GroupPlan',
+					url: 'https://github.com/PLATONG34821/Portable-Hybrid-Arch-Docker-Swarm-Cluster',
 					iconClass: 'pixelart-icons-font-github'
 				}
 			]
@@ -303,6 +368,149 @@
 					iconClass: 'pixelart-icons-font-github'
 				}
 			]
+		},
+		{
+			id: '08',
+			title: 'GroupPlan',
+			pixelIcon: 'pixelart-icons-font-users',
+			category: 'COLLABORATION // WEB',
+			year: '2024',
+			status: 'OSS',
+			summary:
+				'Modern team schedule coordination and collaborative group planning web application built with Svelte.',
+			metrics: [
+				{
+					label: 'TYPE',
+					value:
+						'<span class="val-flex"><i class="pixelart-icons-font-users val-icon"></i> Team Planner</span>',
+					pixelIcon: 'pixelart-icons-font-users'
+				},
+				{
+					label: 'FRAMEWORK',
+					value: `<span class="val-flex logo-group"><span class="logo-item flex-label" title="Svelte 5">${brandLogos.svelte} <span>Svelte 5</span></span></span>`,
+					pixelIcon: 'pixelart-icons-font-code'
+				}
+			],
+			tags: ['Svelte', 'TypeScript', 'State Management', 'Team Tooling'],
+			githubUrl: 'https://github.com/PLATONG34821/GroupPlan',
+			links: [
+				{
+					label: 'GitHub Repo',
+					url: 'https://github.com/PLATONG34821/GroupPlan',
+					iconClass: 'pixelart-icons-font-github'
+				}
+			]
+		}
+	];
+
+	const awards: Award[] = [
+		{
+			id: '01',
+			title: 'Web Applications Development (ม.ปลาย)',
+			subtitle: '71st National Student Arts & Crafts Fair (งานศิลปหัตถกรรมนักเรียน ครั้งที่ 71)',
+			badge: 'GOLD MEDAL',
+			badgeColor: 'gold',
+			year: '2023',
+			pixelIcon: 'pixelart-icons-font-trophy',
+			certImage: '/certs/gold_cert.png'
+		},
+		{
+			id: '02',
+			title: 'Web Applications Development (ม.ปลาย)',
+			subtitle: '70th National Student Arts & Crafts Fair (งานศิลปหัตถกรรมนักเรียน ครั้งที่ 70)',
+			badge: 'SILVER MEDAL',
+			badgeColor: 'silver',
+			year: '2022',
+			pixelIcon: 'pixelart-icons-font-trophy',
+			certImage: '/certs/silver_cert.jpg'
+		},
+		{
+			id: '03',
+			title: '25th National Software Contest (NSC 25)',
+			subtitle: 'Funded Grant Winner & Finalist for Automated Silkworm Silk Spinning Frame (CMU)',
+			badge: 'GRANT WINNER',
+			badgeColor: 'blue',
+			year: '2023',
+			pixelIcon: 'pixelart-icons-font-trophy',
+			certImage: '/certs/nsc25_cert.jpg'
+		},
+		{
+			id: '04',
+			title: 'Samsung Solve for Tomorrow 2024',
+			subtitle: 'Innovation Shortlist & Design Thinking / Entrepreneurship Workshop',
+			badge: 'FINALIST',
+			badgeColor: 'blue',
+			year: '2024',
+			pixelIcon: 'pixelart-icons-font-sliders',
+			certImage: '/certs/samsung_cert.jpg'
+		},
+		{
+			id: '05',
+			title: 'BornToDev DevLab 3 Nationwide Contest',
+			subtitle: 'Rank #1,152 out of 31,905 developers nationwide (Top 3.6%)',
+			badge: 'TOP 3.6%',
+			badgeColor: 'emerald',
+			year: '2024',
+			pixelIcon: 'pixelart-icons-font-chart-bar-big',
+			certImage: '/certs/borntodev_cert.png'
+		},
+		{
+			id: '06',
+			title: 'Thailand-Japan Student ICT Fair (TJ-SIF 2022)',
+			subtitle: 'International ICT Innovation Presentation Trophy & Award (เชียงราย)',
+			badge: 'INTL AWARD',
+			badgeColor: 'gold',
+			year: '2022',
+			pixelIcon: 'pixelart-icons-font-trophy',
+			certImage: '/certs/tjsif_stage.png'
+		},
+		{
+			id: '07',
+			title: 'Student of Excellence "Khon Dee Sri Damrong"',
+			subtitle: 'Honorary award for public service devotion (โรงเรียนดํารงราษฎร์สงเคราะห์ 2567)',
+			badge: 'HONOR ROLL',
+			badgeColor: 'gold',
+			year: '2024',
+			pixelIcon: 'pixelart-icons-font-star'
+		}
+	];
+
+	const certifications: Certification[] = [
+		{
+			name: 'Introduction to Software Engineering',
+			issuer: 'Mae Fah Luang University',
+			code: 'MFU-SE',
+			pixelIcon: 'pixelart-icons-font-code'
+		},
+		{
+			name: 'Computer Programming: Core Syntax',
+			issuer: 'Mae Fah Luang University',
+			code: 'MFU-PROG',
+			pixelIcon: 'pixelart-icons-font-code'
+		},
+		{
+			name: 'Object-Oriented Design & Programming (OOP)',
+			issuer: 'Mae Fah Luang University',
+			code: 'MFU-OOP',
+			pixelIcon: 'pixelart-icons-font-code'
+		},
+		{
+			name: 'Internet of Things (IoT) Fundamentals',
+			issuer: 'ThaiMOOC • Hat Yai Univ',
+			code: 'MOOC-IOT',
+			pixelIcon: 'pixelart-icons-font-sliders'
+		},
+		{
+			name: 'Python for Data Science',
+			issuer: 'ThaiMOOC • RMUTT',
+			code: 'MOOC-PY',
+			pixelIcon: 'pixelart-icons-font-chart-bar-big'
+		},
+		{
+			name: 'R Programming for Data Analysis',
+			issuer: 'ThaiMOOC • SKRU',
+			code: 'MOOC-R',
+			pixelIcon: 'pixelart-icons-font-chart-bar-big'
 		}
 	];
 
@@ -326,20 +534,20 @@
 			pixelIcon: 'pixelart-icons-font-server'
 		},
 		{
-			name: 'Astro / Static Sites',
-			category: 'Modern Web Architecture',
+			name: 'IoT & Hardware Prototyping',
+			category: 'Sensors, Arduino & Embedded',
 			status: 'SYS_OK',
 			pixelIcon: 'pixelart-icons-font-sliders'
 		},
 		{
-			name: 'Java / PaperMC API',
-			category: 'Game Server Engineering',
+			name: 'Astro / Modern Static Sites',
+			category: 'High-Performance Web',
 			status: 'SYS_OK',
-			pixelIcon: 'pixelart-icons-font-gamepad'
+			pixelIcon: 'pixelart-icons-font-zap'
 		},
 		{
-			name: 'Python / Scripting',
-			category: 'Automation & Hardware Tools',
+			name: 'Python & Data Analysis',
+			category: 'Scientific & Automation Tools',
 			status: 'SYS_OK',
 			pixelIcon: 'pixelart-icons-font-chart-bar-big'
 		}
@@ -351,89 +559,185 @@
 
 <section class="experience-section" class:is-revealed={isRevealed} id="experience">
 	<div class="content-container">
-		<!-- Projects TUI Grid -->
-		<div class="projects-grid">
-			{#each projects as project (project.id)}
-				<div class="tui-card">
-					<!-- Card Header: ID + Category -->
-					<div class="tui-card-topbar">
-						<div class="tui-card-id">
-							<i class="{project.pixelIcon} tui-pixel-icon" aria-hidden="true"></i>
-							<span class="tui-id-num">#{project.id}</span>
-							<span class="tui-category">{project.category}</span>
-						</div>
-					</div>
-
-					<!-- Title -->
-					<div class="tui-title-row">
-						<h3 class="tui-project-title">
-							<!-- eslint-disable-next-line svelte/no-navigation-without-resolve -->
-							<a
-								href={project.githubUrl}
-								target="_blank"
-								rel="external noreferrer"
-								class="tui-title-link"
-							>
-								{project.title}
-								<span class="tui-arrow">↗</span>
-							</a>
-						</h3>
-					</div>
-
-					<!-- Visual Telemetry / Metric Readout Boxes -->
-					<div class="tui-metric-grid">
-						{#each project.metrics as metric (metric.label)}
-							<div class="tui-metric-box">
-								<span class="tui-m-label">
-									{#if metric.pixelIcon}
-										<i class="{metric.pixelIcon} tui-metric-pixel-icon" aria-hidden="true"></i>
-									{/if}
-									{metric.label}
-								</span>
-								<div class="tui-m-val">
-									<!-- eslint-disable-next-line svelte/no-at-html-tags -->
-									{@html metric.value}
-								</div>
+		<!-- Section 01: Projects TUI Grid -->
+		<div class="section-block">
+			<div class="tui-section-header">
+				<span class="tui-sec-id">[ 01 // SELECTED_PROJECTS.SYS ]</span>
+				<span class="tui-sec-desc">CORE PRODUCTION & OPEN-SOURCE SYSTEMS</span>
+			</div>
+			<div class="projects-grid">
+				{#each projects as project (project.id)}
+					<div class="tui-card">
+						<!-- Card Header: ID + Category -->
+						<div class="tui-card-topbar">
+							<div class="tui-card-id">
+								<i class="{project.pixelIcon} tui-pixel-icon" aria-hidden="true"></i>
+								<span class="tui-id-num">#{project.id}</span>
+								<span class="tui-category">{project.category}</span>
 							</div>
-						{/each}
-					</div>
+						</div>
 
-					<!-- Concise Summary Pitch -->
-					<p class="tui-desc">{project.summary}</p>
+						<!-- Title -->
+						<div class="tui-title-row">
+							<h3 class="tui-project-title">
+								{#if project.certImage}
+									<button
+										type="button"
+										onclick={() => openCert(project.title, project.certImage!)}
+										class="tui-title-btn"
+									>
+										{project.title}
+										<span class="tui-arrow">↗</span>
+									</button>
+								{:else}
+									<!-- eslint-disable-next-line svelte/no-navigation-without-resolve -->
+									<a
+										href={project.githubUrl}
+										target="_blank"
+										rel="external noreferrer"
+										class="tui-title-link"
+									>
+										{project.title}
+										<span class="tui-arrow">↗</span>
+									</a>
+								{/if}
+							</h3>
+						</div>
 
-					<!-- Footer: Tech Stack Chips & Action Command Buttons -->
-					<div class="tui-card-footer">
-						<div class="tui-tags-list">
-							{#each project.tags as tag (tag)}
-								<span class="tui-tag">
-									<span class="tui-tag-dot">·</span>{tag}
-								</span>
+						<!-- Visual Telemetry / Metric Readout Boxes -->
+						<div class="tui-metric-grid">
+							{#each project.metrics as metric (metric.label)}
+								<div class="tui-metric-box">
+									<span class="tui-m-label">
+										{#if metric.pixelIcon}
+											<i class="{metric.pixelIcon} tui-metric-pixel-icon" aria-hidden="true"></i>
+										{/if}
+										{metric.label}
+									</span>
+									<div class="tui-m-val">
+										<!-- eslint-disable-next-line svelte/no-at-html-tags -->
+										{@html metric.value}
+									</div>
+								</div>
 							{/each}
 						</div>
 
-						{#if project.links && project.links.length > 0}
-							<div class="tui-links-list">
-								{#each project.links as link (link.url)}
-									<!-- eslint-disable-next-line svelte/no-navigation-without-resolve -->
-									<a href={link.url} target="_blank" rel="external noreferrer" class="tui-btn">
-										{#if link.iconClass}
-											<i class="{link.iconClass} tui-btn-pixel-icon" aria-hidden="true"></i>
-										{:else}
-											<span class="tui-btn-prefix">&gt;</span>
-										{/if}
-										<span class="tui-btn-text">{link.label}</span>
-										<span class="tui-btn-arrow">↗</span>
-									</a>
+						<!-- Concise Summary Pitch -->
+						<p class="tui-desc">{project.summary}</p>
+
+						<!-- Footer: Tech Stack Chips & Action Command Buttons -->
+						<div class="tui-card-footer">
+							<div class="tui-tags-list">
+								{#each project.tags as tag (tag)}
+									<span class="tui-tag">
+										<span class="tui-tag-dot">·</span>{tag}
+									</span>
 								{/each}
 							</div>
-						{/if}
+
+							{#if project.links && project.links.length > 0}
+								<div class="tui-links-list">
+									{#each project.links as link (link.label)}
+										{#if link.isCertModal && link.certImage}
+											<button
+												type="button"
+												onclick={() => openCert(project.title, link.certImage!)}
+												class="tui-btn cert-trigger"
+											>
+												{#if link.iconClass}
+													<i class="{link.iconClass} tui-btn-pixel-icon" aria-hidden="true"></i>
+												{:else}
+													<span class="tui-btn-prefix">&gt;</span>
+												{/if}
+												<span class="tui-btn-text">{link.label}</span>
+												<span class="tui-btn-arrow">↗</span>
+											</button>
+										{:else}
+											<!-- eslint-disable-next-line svelte/no-navigation-without-resolve -->
+											<a href={link.url} target="_blank" rel="external noreferrer" class="tui-btn">
+												{#if link.iconClass}
+													<i class="{link.iconClass} tui-btn-pixel-icon" aria-hidden="true"></i>
+												{:else}
+													<span class="tui-btn-prefix">&gt;</span>
+												{/if}
+												<span class="tui-btn-text">{link.label}</span>
+												<span class="tui-btn-arrow">↗</span>
+											</a>
+										{/if}
+									{/each}
+								</div>
+							{/if}
+						</div>
 					</div>
-				</div>
-			{/each}
+				{/each}
+			</div>
 		</div>
 
-		<!-- Capabilities / Skills TUI Matrix -->
-		<div class="skills-wrapper" id="skills">
+		<!-- Section 02: Awards & Competitions Matrix (From MFU Portfolio) -->
+		<div class="section-block" id="awards">
+			<div class="tui-section-header">
+				<span class="tui-sec-id">[ 02 // AWARDS_AND_HONORS.SYS ]</span>
+				<span class="tui-sec-desc">COMPETITION HONORS & RECOGNITION</span>
+			</div>
+			<div class="awards-grid">
+				{#each awards as award (award.id)}
+					<div class="tui-award-card">
+						<div class="tui-award-top">
+							<div class="tui-award-left">
+								<i class="{award.pixelIcon} tui-award-icon {award.badgeColor}" aria-hidden="true"
+								></i>
+								{#if award.certImage}
+									<button
+										type="button"
+										onclick={() => openCert(award.title, award.certImage!)}
+										class="tui-award-btn-title"
+									>
+										{award.title}
+										<span class="tui-award-link-icon">↗</span>
+									</button>
+								{:else}
+									<span class="tui-award-title">{award.title}</span>
+								{/if}
+							</div>
+							<span class="tui-award-badge {award.badgeColor}">[{award.badge}]</span>
+						</div>
+						<div class="tui-award-meta">
+							<span class="tui-award-sub">{award.subtitle}</span>
+							<span class="tui-award-year">{award.year}</span>
+						</div>
+					</div>
+				{/each}
+			</div>
+		</div>
+
+		<!-- Section 03: Academic & Professional Certifications (From MFU Portfolio) -->
+		<div class="section-block" id="certifications">
+			<div class="tui-section-header">
+				<span class="tui-sec-id">[ 03 // CERTIFIED_PATHWAYS.SYS ]</span>
+				<span class="tui-sec-desc">ACADEMIC & MOOC SPECIALIZATIONS</span>
+			</div>
+			<div class="certs-grid">
+				{#each certifications as cert (cert.code)}
+					<div class="tui-cert-card">
+						<div class="tui-cert-top">
+							<i class="{cert.pixelIcon} tui-cert-icon" aria-hidden="true"></i>
+							<span class="tui-cert-name">{cert.name}</span>
+							<span class="tui-cert-code">[{cert.code}]</span>
+						</div>
+						<div class="tui-cert-issuer">
+							<span class="tui-cert-iss-text">{cert.issuer}</span>
+						</div>
+					</div>
+				{/each}
+			</div>
+		</div>
+
+		<!-- Section 04: Capabilities / Skills TUI Matrix -->
+		<div class="section-block" id="skills">
+			<div class="tui-section-header">
+				<span class="tui-sec-id">[ 04 // CAPABILITIES_MATRIX.SYS ]</span>
+				<span class="tui-sec-desc">HARDWARE & SOFTWARE SKILL PROFILES</span>
+			</div>
 			<div class="skills-grid">
 				{#each skills as skill (skill.name)}
 					<div class="tui-skill-box">
@@ -454,7 +758,7 @@
 		<div class="portfolio-footer">
 			<div class="tui-footer-box">
 				<div class="tui-footer-line">
-					<span class="tui-f-item">[ SESSION: THANAPHUM@PORTFOLIO ]</span>
+					<span class="tui-f-item">[ OPERATOR: THANAPHUM MASAYAMAS ]</span>
 					<span class="tui-f-item">[ YEAR: {new Date().getFullYear()} ]</span>
 					<span class="tui-f-item">[ ARCH: SVELTE 5 ]</span>
 				</div>
@@ -473,6 +777,53 @@
 		</div>
 	</div>
 </section>
+
+<!-- Sleek TUI Certificate Modal / Lightbox -->
+{#if activeCertModal}
+	<div
+		class="tui-modal-backdrop"
+		role="dialog"
+		aria-modal="true"
+		tabindex="-1"
+		onclick={closeCert}
+		onkeydown={(e) => e.key === 'Escape' && closeCert()}
+	>
+		<!-- svelte-ignore a11y_click_events_have_key_events -->
+		<!-- svelte-ignore a11y_no_noninteractive_element_interactions -->
+		<div class="tui-modal-dialog" onclick={(e) => e.stopPropagation()} role="document">
+			<div class="tui-modal-header">
+				<div class="tui-modal-title-box">
+					<i class="pixelart-icons-font-file-text tui-modal-icon" aria-hidden="true"></i>
+					<span class="tui-modal-title">{activeCertModal.title}</span>
+				</div>
+				<button type="button" class="tui-modal-close" onclick={closeCert} aria-label="Close modal">
+					[ESC ×]
+				</button>
+			</div>
+			<div class="tui-modal-body">
+				<img
+					src={activeCertModal.image}
+					alt={activeCertModal.title}
+					class="tui-cert-img"
+					loading="eager"
+				/>
+			</div>
+			<div class="tui-modal-footer">
+				<span class="tui-modal-hint"
+					>&gt; OFFICIAL CERTIFICATE RECORD // MFU ADMISSION PORTFOLIO</span
+				>
+				<a
+					href={activeCertModal.image}
+					target="_blank"
+					rel="external noreferrer"
+					class="tui-modal-raw-btn"
+				>
+					OPEN HIGH-RES ↗
+				</a>
+			</div>
+		</div>
+	</div>
+{/if}
 
 <style>
 	/* Global Monospace & TUI Base */
@@ -519,7 +870,37 @@
 		margin: 0 auto;
 		display: flex;
 		flex-direction: column;
-		gap: 5rem;
+		gap: 4.5rem;
+	}
+
+	.section-block {
+		display: flex;
+		flex-direction: column;
+		gap: 1.25rem;
+	}
+
+	.tui-section-header {
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+		flex-wrap: wrap;
+		gap: 0.5rem;
+		border-bottom: 1px dashed #1e293b;
+		padding-bottom: 0.6rem;
+	}
+
+	.tui-sec-id {
+		font-size: 0.82rem;
+		font-weight: 700;
+		color: #38bdf8;
+		letter-spacing: 0.04em;
+	}
+
+	.tui-sec-desc {
+		font-size: 0.72rem;
+		color: #64748b;
+		letter-spacing: 0.05em;
+		font-weight: 600;
 	}
 
 	/* TUI Project Grid */
@@ -605,8 +986,17 @@
 		letter-spacing: -0.01em;
 	}
 
-	.tui-title-link {
+	.tui-title-link,
+	.tui-title-btn {
 		color: #ffffff;
+		background: transparent;
+		border: none;
+		padding: 0;
+		cursor: pointer;
+		font-family: inherit;
+		font-size: inherit;
+		font-weight: inherit;
+		text-align: left;
 		text-decoration: none;
 		display: inline-flex;
 		align-items: center;
@@ -614,7 +1004,8 @@
 		transition: color 0.2s ease;
 	}
 
-	.tui-title-link:hover {
+	.tui-title-link:hover,
+	.tui-title-btn:hover {
 		color: #38bdf8;
 	}
 
@@ -626,7 +1017,8 @@
 			transform 0.2s ease;
 	}
 
-	.tui-title-link:hover .tui-arrow {
+	.tui-title-link:hover .tui-arrow,
+	.tui-title-btn:hover .tui-arrow {
 		color: #38bdf8;
 		transform: translate(2px, -2px);
 	}
@@ -820,6 +1212,8 @@
 		text-decoration: none;
 		font-size: 0.74rem;
 		font-weight: 600;
+		cursor: pointer;
+		font-family: inherit;
 		transition: all 0.2s ease;
 	}
 
@@ -827,6 +1221,18 @@
 		background: #1e3a5f;
 		color: #ffffff;
 		border-color: #38bdf8;
+	}
+
+	.tui-btn.cert-trigger {
+		background: #141e12;
+		border-color: #274f26;
+		color: #4ade80;
+	}
+
+	.tui-btn.cert-trigger:hover {
+		background: #274f26;
+		border-color: #4ade80;
+		color: #ffffff;
 	}
 
 	.tui-btn-pixel-icon {
@@ -844,14 +1250,204 @@
 		font-size: 0.85rem;
 	}
 
-	/* Capabilities / Skills Section */
-	.skills-wrapper {
-		display: flex;
-		flex-direction: column;
-		gap: 1.5rem;
-		padding-top: 1rem;
+	/* Section 02: Awards & Honors */
+	.awards-grid {
+		display: grid;
+		grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+		gap: 1rem;
 	}
 
+	.tui-award-card {
+		background: #080b12;
+		border: 1px solid #1a2333;
+		border-radius: 4px;
+		padding: 1rem 1.25rem;
+		display: flex;
+		flex-direction: column;
+		gap: 0.5rem;
+		transition: border-color 0.2s ease;
+	}
+
+	.tui-award-card:hover {
+		border-color: #38bdf8;
+		background: #0d121c;
+	}
+
+	.tui-award-top {
+		display: flex;
+		justify-content: space-between;
+		align-items: center;
+		gap: 0.5rem;
+	}
+
+	.tui-award-left {
+		display: flex;
+		align-items: center;
+		gap: 0.55rem;
+		flex-grow: 1;
+	}
+
+	.tui-award-icon {
+		font-size: 1.15rem !important;
+		line-height: 1;
+	}
+
+	.tui-award-icon.gold {
+		color: #fbbf24;
+	}
+	.tui-award-icon.silver {
+		color: #cbd5e1;
+	}
+	.tui-award-icon.blue {
+		color: #38bdf8;
+	}
+	.tui-award-icon.emerald {
+		color: #34d399;
+	}
+
+	.tui-award-title {
+		font-weight: 700;
+		font-size: 0.92rem;
+		color: #ffffff;
+	}
+
+	.tui-award-btn-title {
+		background: transparent;
+		border: none;
+		padding: 0;
+		color: #ffffff;
+		font-family: inherit;
+		font-weight: 700;
+		font-size: 0.92rem;
+		cursor: pointer;
+		text-align: left;
+		display: inline-flex;
+		align-items: center;
+		gap: 0.35rem;
+		transition: color 0.2s ease;
+	}
+
+	.tui-award-btn-title:hover {
+		color: #38bdf8;
+	}
+
+	.tui-award-link-icon {
+		font-size: 0.8rem;
+		color: #64748b;
+	}
+
+	.tui-award-btn-title:hover .tui-award-link-icon {
+		color: #38bdf8;
+	}
+
+	.tui-award-badge {
+		font-size: 0.68rem;
+		font-weight: 700;
+		padding: 0.12rem 0.45rem;
+		border-radius: 3px;
+		letter-spacing: 0.04em;
+		flex-shrink: 0;
+	}
+
+	.tui-award-badge.gold {
+		color: #fbbf24;
+		background: rgba(251, 191, 36, 0.1);
+		border: 1px solid rgba(251, 191, 36, 0.3);
+	}
+
+	.tui-award-badge.silver {
+		color: #cbd5e1;
+		background: rgba(203, 213, 225, 0.1);
+		border: 1px solid rgba(203, 213, 225, 0.3);
+	}
+
+	.tui-award-badge.blue {
+		color: #38bdf8;
+		background: rgba(56, 189, 248, 0.1);
+		border: 1px solid rgba(56, 189, 248, 0.3);
+	}
+
+	.tui-award-badge.emerald {
+		color: #34d399;
+		background: rgba(52, 211, 153, 0.1);
+		border: 1px solid rgba(52, 211, 153, 0.3);
+	}
+
+	.tui-award-meta {
+		display: flex;
+		justify-content: space-between;
+		align-items: center;
+		padding-left: 1.7rem;
+		font-size: 0.76rem;
+		gap: 0.5rem;
+	}
+
+	.tui-award-sub {
+		color: #94a3b8;
+		line-height: 1.4;
+	}
+
+	.tui-award-year {
+		color: #64748b;
+		font-weight: 600;
+		flex-shrink: 0;
+	}
+
+	/* Section 03: Certifications */
+	.certs-grid {
+		display: grid;
+		grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+		gap: 0.85rem;
+	}
+
+	.tui-cert-card {
+		background: #080a0f;
+		border: 1px solid #161f30;
+		border-radius: 4px;
+		padding: 0.85rem 1.15rem;
+		display: flex;
+		flex-direction: column;
+		gap: 0.3rem;
+		transition: border-color 0.2s ease;
+	}
+
+	.tui-cert-card:hover {
+		border-color: #38bdf8;
+		background: #0b0f17;
+	}
+
+	.tui-cert-top {
+		display: flex;
+		align-items: center;
+		gap: 0.5rem;
+	}
+
+	.tui-cert-icon {
+		font-size: 1rem !important;
+		color: #38bdf8;
+		line-height: 1;
+	}
+
+	.tui-cert-name {
+		font-size: 0.85rem;
+		font-weight: 700;
+		color: #f1f5f9;
+		flex-grow: 1;
+	}
+
+	.tui-cert-code {
+		font-size: 0.68rem;
+		color: #38bdf8;
+		font-weight: 700;
+	}
+
+	.tui-cert-issuer {
+		padding-left: 1.5rem;
+		font-size: 0.74rem;
+		color: #64748b;
+	}
+
+	/* Section 04: Capabilities / Skills Section */
 	.skills-grid {
 		display: grid;
 		grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
@@ -909,7 +1505,7 @@
 
 	/* Footer */
 	.portfolio-footer {
-		padding-top: 2rem;
+		padding-top: 1rem;
 	}
 
 	.tui-footer-box {
@@ -951,5 +1547,139 @@
 
 	.tui-footer-btn:hover {
 		color: #ffffff;
+	}
+
+	/* Certificate Lightbox Modal */
+	.tui-modal-backdrop {
+		position: fixed;
+		top: 0;
+		left: 0;
+		width: 100vw;
+		height: 100vh;
+		background: rgba(0, 0, 0, 0.85);
+		backdrop-filter: blur(8px);
+		-webkit-backdrop-filter: blur(8px);
+		z-index: 100;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		padding: 1.5rem;
+		animation: modalFadeIn 0.2s ease-out;
+	}
+
+	.tui-modal-dialog {
+		background: #090c14;
+		border: 1px solid #38bdf8;
+		border-radius: 8px;
+		max-width: 860px;
+		width: 100%;
+		display: flex;
+		flex-direction: column;
+		box-shadow:
+			0 20px 50px rgba(0, 0, 0, 0.9),
+			0 0 30px rgba(56, 189, 248, 0.2);
+		overflow: hidden;
+		outline: none;
+	}
+
+	.tui-modal-header {
+		display: flex;
+		justify-content: space-between;
+		align-items: center;
+		padding: 0.85rem 1.25rem;
+		background: #05070c;
+		border-bottom: 1px dashed #1e293b;
+	}
+
+	.tui-modal-title-box {
+		display: flex;
+		align-items: center;
+		gap: 0.5rem;
+	}
+
+	.tui-modal-icon {
+		color: #38bdf8;
+		font-size: 1.15rem !important;
+	}
+
+	.tui-modal-title {
+		font-size: 0.92rem;
+		font-weight: 700;
+		color: #ffffff;
+	}
+
+	.tui-modal-close {
+		background: transparent;
+		border: none;
+		color: #ef4444;
+		font-family: inherit;
+		font-weight: 700;
+		font-size: 0.82rem;
+		cursor: pointer;
+		padding: 0.2rem 0.5rem;
+		transition: opacity 0.2s ease;
+	}
+
+	.tui-modal-close:hover {
+		opacity: 0.75;
+	}
+
+	.tui-modal-body {
+		padding: 1rem;
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		background: #030407;
+		max-height: 75vh;
+		overflow-y: auto;
+	}
+
+	.tui-cert-img {
+		max-width: 100%;
+		max-height: 70vh;
+		object-fit: contain;
+		border-radius: 4px;
+		border: 1px solid #1e293b;
+		box-shadow: 0 4px 20px rgba(0, 0, 0, 0.6);
+	}
+
+	.tui-modal-footer {
+		display: flex;
+		justify-content: space-between;
+		align-items: center;
+		flex-wrap: wrap;
+		gap: 0.5rem;
+		padding: 0.75rem 1.25rem;
+		background: #05070c;
+		border-top: 1px solid #141c2b;
+		font-size: 0.75rem;
+	}
+
+	.tui-modal-hint {
+		color: #64748b;
+	}
+
+	.tui-modal-raw-btn {
+		color: #38bdf8;
+		text-decoration: none;
+		font-weight: 600;
+		display: inline-flex;
+		align-items: center;
+		gap: 0.3rem;
+	}
+
+	.tui-modal-raw-btn:hover {
+		color: #ffffff;
+	}
+
+	@keyframes modalFadeIn {
+		from {
+			opacity: 0;
+			transform: scale(0.98);
+		}
+		to {
+			opacity: 1;
+			transform: scale(1);
+		}
 	}
 </style>
