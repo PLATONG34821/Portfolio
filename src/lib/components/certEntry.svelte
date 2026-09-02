@@ -22,7 +22,7 @@
 		align-items: baseline;
 		gap: 0.75rem;
 		padding-bottom: 0.55rem;
-		border-bottom: 1px dashed #181d26;
+		border-bottom: 1px dashed #27272a;
 		font-family:
 			ui-monospace, 'SF Mono', 'Cascadia Code', 'Fira Code', Menlo, Monaco, Consolas, monospace;
 	}
@@ -33,7 +33,7 @@
 	}
 
 	.cert-code {
-		color: #38bdf8;
+		color: #fbbf24; /* Warm Gold Code */
 		font-size: 0.78rem;
 		font-weight: 700;
 		flex-shrink: 0;

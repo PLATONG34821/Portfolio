@@ -17,7 +17,7 @@
 		titleColor = 'cyan',
 		borderColor = '#1e293b',
 		cornerColor = '#334155',
-		bgColor = 'transparent'
+		bgColor = '#030712'
 	}: Props = $props();
 
 	// In-place fade-in matching experience section (scrollProgress >= 0.6)
@@ -126,26 +126,26 @@
 		gap: 0.45rem;
 		font-size: 0.78rem;
 		line-height: 1.4;
-		color: #6b7280;
+		color: #94a3b8;
 	}
 
 	.tui-title-static {
-		color: #e5e7eb;
+		color: #e2e8f0;
 		font-size: 0.88rem;
 		font-weight: 500;
 	}
 
 	.tui-title-static.highlighted {
-		color: #fdba74;
+		color: #38bdf8; /* Cyber Cyan highlight in skills section */
 	}
 
 	.check-mark {
-		color: #f97316;
+		color: #22d3ee; /* Electric Cyan checkmark */
 		margin-left: 0.35rem;
 		font-weight: 700;
 	}
 
 	.tui-desc {
-		color: #6b7280;
+		color: #94a3b8;
 	}
 </style>

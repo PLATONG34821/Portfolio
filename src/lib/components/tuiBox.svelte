@@ -16,7 +16,7 @@
 	interface Props {
 		title: string;
 		boxStyle?: BoxStyleType;
-		titleColor?: string; // Hex code or preset ('coral' | 'cyan' | 'emerald' | 'amber' | 'purple')
+		titleColor?: string; // Hex code or preset ('coral' | 'cyan' | 'emerald' | 'amber' | 'gold' | 'purple')
 		borderColor?: string; // Hex code for border lines
 		cornerColor?: string; // Hex code for corners
 		bgColor?: string; // Background color for the box body
@@ -32,7 +32,7 @@
 	let {
 		title,
 		boxStyle = 'classic',
-		titleColor = 'coral',
+		titleColor = 'amber',
 		borderColor = '#27272a',
 		cornerColor = '#3f3f46',
 		bgColor = 'transparent',
@@ -67,6 +67,8 @@
 				return '#34d399';
 			case 'amber':
 				return '#fbbf24';
+			case 'gold':
+				return '#facc15';
 			case 'purple':
 				return '#c084fc';
 			case 'rose':
@@ -146,7 +148,7 @@
 	}
 
 	.tui-title {
-		color: var(--tui-title-color, #f87171);
+		color: var(--tui-title-color, #fbbf24);
 		font-weight: 600;
 		font-size: 0.88rem;
 		padding: 0 0.5rem;

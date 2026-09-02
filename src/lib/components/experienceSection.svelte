@@ -32,20 +32,30 @@
 
 <section class="experience-section" class:is-revealed={isRevealed} id="experience">
 	<div class="content-container">
-		<!-- SECTION 01: SELECTED PROJECTS & RECOGNITION -->
+		<!-- SECTION 01: SELECTED PROJECTS & RECOGNITION (GOLD THEME) -->
 		<div class="section-block" id="projects">
 			<div class="two-column-layout">
 				<!-- LEFT COLUMN: Selected Projects & Open Source Systems -->
 				<div class="column-stack">
 					<!-- Box 1: Core Production Systems -->
-					<TuiBox title="Selected Projects" titleColor="coral">
+					<TuiBox
+						title="Selected Projects"
+						titleColor="amber"
+						borderColor="#382f1d"
+						cornerColor="#785e2f"
+					>
 						{#each coreProjects as project (project.id)}
 							<ProjectEntry {project} onOpenCert={openCert} />
 						{/each}
 					</TuiBox>
 
 					<!-- Box 2: Open Source & Research Systems -->
-					<TuiBox title="Open Source & Systems" titleColor="coral">
+					<TuiBox
+						title="Open Source & Systems"
+						titleColor="amber"
+						borderColor="#382f1d"
+						cornerColor="#785e2f"
+					>
 						{#each ossProjects as project (project.id)}
 							<ProjectEntry {project} onOpenCert={openCert} />
 						{/each}
@@ -55,14 +65,26 @@
 				<!-- RIGHT COLUMN: Awards & Certifications -->
 				<div class="column-stack">
 					<!-- Box 3: Awards & Recognition -->
-					<TuiBox title="Awards & Honors" titleColor="coral" id="awards">
+					<TuiBox
+						title="Awards & Honors"
+						titleColor="amber"
+						borderColor="#382f1d"
+						cornerColor="#785e2f"
+						id="awards"
+					>
 						{#each awards as award (award.id)}
 							<AwardEntry {award} onOpenCert={openCert} />
 						{/each}
 					</TuiBox>
 
 					<!-- Box 4: Academic Certifications -->
-					<TuiBox title="Academic Certifications" titleColor="coral" id="certifications">
+					<TuiBox
+						title="Academic Certifications"
+						titleColor="amber"
+						borderColor="#382f1d"
+						cornerColor="#785e2f"
+						id="certifications"
+					>
 						{#each certifications as cert (cert.code)}
 							<CertEntry {cert} />
 						{/each}
@@ -72,7 +94,14 @@
 		</div>
 
 		<!-- Operator Status Box -->
-		<TuiBox title="Operator Session" titleColor="coral" class="footer-box" bodyClass="footer-body">
+		<TuiBox
+			title="Operator Session"
+			titleColor="amber"
+			borderColor="#382f1d"
+			cornerColor="#785e2f"
+			class="footer-box"
+			bodyClass="footer-body"
+		>
 			<span class="footer-text">Operator: Thanaphum Masayamas</span>
 			<span class="footer-text">Status: Active ({new Date().getFullYear()})</span>
 			<a
@@ -89,7 +118,14 @@
 
 <!-- Sleek Pure TUI Modal / Lightbox -->
 {#if activeCertModal}
-	<TuiModal title={activeCertModal.title} image={activeCertModal.image} onClose={closeCert} />
+	<TuiModal
+		title={activeCertModal.title}
+		image={activeCertModal.image}
+		titleColor="amber"
+		borderColor="#785e2f"
+		cornerColor="#fbbf24"
+		onClose={closeCert}
+	/>
 {/if}
 
 <style>
@@ -169,7 +205,7 @@
 	}
 
 	.footer-text {
-		color: #6b7280;
+		color: #78716c;
 		font-size: 0.76rem;
 	}
 
@@ -178,7 +214,7 @@
 		border: none !important;
 		padding: 0 !important;
 		margin: 0 !important;
-		color: #38bdf8 !important;
+		color: #fbbf24 !important; /* Gold Link */
 		font-family: inherit;
 		font-size: 0.78rem;
 		font-weight: 500;

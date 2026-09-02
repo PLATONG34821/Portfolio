@@ -47,7 +47,7 @@
 		align-items: flex-start;
 		gap: 0.75rem;
 		padding-bottom: 0.85rem;
-		border-bottom: 1px dashed #1e2430;
+		border-bottom: 1px dashed #27272a;
 		font-family:
 			ui-monospace, 'SF Mono', 'Cascadia Code', 'Fira Code', Menlo, Monaco, Consolas, monospace;
 	}
@@ -97,13 +97,13 @@
 	}
 
 	.award-title-btn:hover .award-title {
-		color: #38bdf8;
+		color: #fde047;
 		text-decoration: underline;
 		text-underline-offset: 3px;
 	}
 
 	.award-badge {
-		color: #fbbf24;
+		color: #facc15; /* Bright Gold badge */
 		font-weight: 600;
 		font-size: 0.8rem;
 	}
@@ -113,17 +113,17 @@
 	}
 
 	.award-title-btn.highlighted .award-title {
-		color: #fdba74;
+		color: #fde047; /* Gold Highlight */
 	}
 
 	.check-mark {
-		color: #f97316;
+		color: #fbbf24; /* Warm Gold Checkmark */
 		margin-left: 0.35rem;
 		font-weight: 700;
 	}
 
 	.cert-link-hint {
-		color: #38bdf8;
+		color: #fbbf24; /* Gold Link Hint */
 		font-size: 0.76rem;
 		font-weight: 500;
 		margin-left: 0.2rem;

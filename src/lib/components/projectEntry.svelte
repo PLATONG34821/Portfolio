@@ -82,7 +82,7 @@
 		flex-direction: column;
 		gap: 0.45rem;
 		padding-bottom: 1.4rem;
-		border-bottom: 1px dashed #1e2430;
+		border-bottom: 1px dashed #27272a;
 		font-family:
 			ui-monospace, 'SF Mono', 'Cascadia Code', 'Fira Code', Menlo, Monaco, Consolas, monospace;
 	}
@@ -132,24 +132,24 @@
 
 	.entry-title-btn:hover,
 	.entry-title-link:hover {
-		color: #38bdf8;
+		color: #fde047;
 		text-decoration: underline;
 		text-underline-offset: 3px;
 	}
 
 	.entry-title-btn.highlighted,
 	.entry-title-link.highlighted {
-		color: #fdba74;
+		color: #facc15; /* Pure Gold highlight */
 	}
 
 	.check-mark {
-		color: #f97316;
+		color: #fbbf24; /* Warm Gold checkmark */
 		margin-left: 0.35rem;
 		font-weight: 700;
 	}
 
 	.entry-badge {
-		color: #71717a;
+		color: #a1a1aa;
 		font-size: 0.76rem;
 		font-weight: 500;
 	}
@@ -203,7 +203,7 @@
 		border: none !important;
 		padding: 0 !important;
 		margin: 0 !important;
-		color: #38bdf8 !important;
+		color: #fbbf24 !important; /* Gold Link */
 		font-family: inherit;
 		font-size: 0.8rem;
 		font-weight: 500;
