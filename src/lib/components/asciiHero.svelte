@@ -10,13 +10,17 @@
 	interface Props {
 		startText?: string;
 		endText?: string;
+		scrollProgress?: number;
 	}
 
-	let { startText = 'THANAPHUM', endText = 'EXPERIENCE' }: Props = $props();
+	let {
+		startText = 'THANAPHUM',
+		endText = 'EXPERIENCE',
+		scrollProgress = $bindable(0)
+	}: Props = $props();
 
 	let containerElement = $state<HTMLElement | null>(null);
 	let canvasElement = $state<HTMLCanvasElement | null>(null);
-	let scrollProgress = $state(0);
 
 	onMount(() => {
 		if (!canvasElement) return;
@@ -60,9 +64,11 @@
 		let targetProgress = 0;
 
 		const handleScroll = () => {
-			const scrollY = window.scrollY || window.pageYOffset;
-			const scrollTrack = window.innerHeight * 0.65;
-			const rawProgress = scrollY / scrollTrack;
+			if (!containerElement) return;
+			const rect = containerElement.getBoundingClientRect();
+			const totalScroll = rect.height - window.innerHeight;
+			if (totalScroll <= 0) return;
+			const rawProgress = -rect.top / totalScroll;
 			targetProgress = Math.max(0, Math.min(1, rawProgress));
 			scrollProgress = targetProgress;
 		};
@@ -102,11 +108,12 @@
 			const height = window.innerHeight;
 
 			// Smooth scroll interpolation
-			currentProgress += (targetProgress - currentProgress) * 0.16;
+			currentProgress += (targetProgress - currentProgress) * 0.15;
 
-			// Morph and slide concurrently throughout the 65vh track
+			// Phase 1: 0.0 -> 0.7 (Morph THANAPHUM -> EXPERIENCE)
+			// Phase 2: 0.2 -> 0.85 (Slide EXP smoothly up to top header)
 			const morphPhase = Math.min(1, currentProgress / 0.7);
-			const slidePhase = currentProgress;
+			const slidePhase = Math.max(0, Math.min(1, (currentProgress - 0.2) / 0.65));
 
 			const t = easeInOutCubic(morphPhase);
 			const slideT = easeInOutCubic(slidePhase);
@@ -207,7 +214,7 @@
 		<canvas bind:this={canvasElement} class="ascii-canvas"></canvas>
 
 		<!-- Floating scroll hint -->
-		<div class="ascii-footer-hint" style="opacity: {Math.max(0, 1 - scrollProgress * 3)};">
+		<div class="ascii-footer-hint" style="opacity: {Math.max(0, 1 - scrollProgress * 2.5)};">
 			<span class="scroll-arrow">↓</span>
 			<span class="scroll-text">Scroll down</span>
 		</div>
@@ -218,7 +225,7 @@
 	.ascii-scroll-container {
 		position: relative;
 		width: 100%;
-		height: 65vh;
+		height: 180vh;
 		background: #000000;
 	}
 

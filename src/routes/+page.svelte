@@ -1,6 +1,8 @@
 <script lang="ts">
 	import AsciiHero from '$lib/components/asciiHero.svelte';
 	import ExperienceSection from '$lib/components/experienceSection.svelte';
+
+	let scrollProgress = $state(0);
 </script>
 
 <svelte:head>
@@ -9,8 +11,8 @@
 </svelte:head>
 
 <main class="page-container">
-	<AsciiHero startText="THANAPHUM" endText="EXPERIENCE" />
-	<ExperienceSection />
+	<AsciiHero bind:scrollProgress startText="THANAPHUM" endText="EXPERIENCE" />
+	<ExperienceSection {scrollProgress} />
 </main>
 
 <style>

@@ -8,6 +8,17 @@
 		category: string;
 	}
 
+	interface Props {
+		scrollProgress?: number;
+	}
+
+	let { scrollProgress = 0 }: Props = $props();
+
+	// Keep cards 100% hidden until EXP finishes forming (0.7), then smoothly fade in
+	let sectionOpacity = $derived(
+		scrollProgress < 0.7 ? 0 : Math.min(1, (scrollProgress - 0.7) / 0.25)
+	);
+
 	const projects: Project[] = [
 		{
 			title: 'The Hive Scoreboard',
@@ -75,7 +86,11 @@
 <!-- Fixed top gradient curtain that progressively masks cards top-first as they scroll up under EXP -->
 <div class="top-fade-curtain" aria-hidden="true"></div>
 
-<section class="experience-section" id="experience">
+<section
+	class="experience-section"
+	style="opacity: {sectionOpacity}; pointer-events: {sectionOpacity > 0.5 ? 'auto' : 'none'};"
+	id="experience"
+>
 	<div class="content-container">
 		<!-- Projects Grid -->
 		<div class="projects-grid">
@@ -166,6 +181,7 @@
 		color: #ededed;
 		padding: 2.5rem 1.5rem 6rem;
 		z-index: 10;
+		transition: opacity 0.2s linear;
 	}
 
 	.content-container {
