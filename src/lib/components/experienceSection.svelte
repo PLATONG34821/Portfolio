@@ -14,7 +14,7 @@
 
 	let { scrollProgress = 0 }: Props = $props();
 
-	// Pure in-place fade in once EXP finishes assembling (scrollProgress >= 0.7)
+	// Pure in-place fade in once EXP finishes assembling (scrollProgress >= 0.6)
 	let isRevealed = $derived(scrollProgress >= 0.6);
 
 	const projects: Project[] = [
@@ -114,10 +114,9 @@
 		</div>
 
 		<!-- Skills & Tech Overview -->
-		<div class="skills-wrapper">
+		<div class="skills-wrapper" id="skills">
 			<div class="skills-header">
 				<span class="section-label">02 // CAPABILITIES</span>
-				<h2 class="section-title">Technical Skills</h2>
 			</div>
 
 			<div class="skills-grid">
@@ -173,7 +172,7 @@
 		min-height: 100vh;
 		background: #000000;
 		color: #ededed;
-		padding: 7rem 1.5rem 6rem;
+		padding: 7rem 1.5rem 22rem;
 		z-index: 10;
 		opacity: 0;
 		pointer-events: none;
@@ -199,13 +198,6 @@
 		letter-spacing: 0.12em;
 		color: #64748b;
 		text-transform: uppercase;
-	}
-
-	.section-title {
-		font-size: clamp(1.8rem, 3.5vw, 2.8rem);
-		font-weight: 700;
-		letter-spacing: -0.02em;
-		color: #ffffff;
 	}
 
 	.projects-grid {
@@ -315,6 +307,7 @@
 		display: flex;
 		flex-direction: column;
 		gap: 2rem;
+		padding-top: 2rem;
 	}
 
 	.skills-header {

@@ -234,3 +234,96 @@ export function createFigletParticles(
 
 	return particles;
 }
+
+export interface MultiStageTarget {
+	x: number;
+	y: number;
+	char: string;
+	type: CharType;
+}
+
+export interface MultiStageFigletParticle {
+	x: number;
+	y: number;
+	targets: MultiStageTarget[];
+	angle: number;
+	speed: number;
+	radiusX: number;
+	radiusY: number;
+}
+
+export function createMultiStageFigletParticles(
+	stages: FigletPoint[][]
+): MultiStageFigletParticle[] {
+	if (!stages.length) return [];
+	const count = Math.max(...stages.map((s) => s.length));
+	if (count === 0) return [];
+
+	const particles: MultiStageFigletParticle[] = new Array(count);
+
+	for (let i = 0; i < count; i++) {
+		particles[i] = {
+			x: 0,
+			y: 0,
+			targets: [],
+			angle: (i / count) * TWO_PI,
+			speed: 0.001 + (i % 11) * 0.0002,
+			radiusX: 2 + (i % 4) * 0.8,
+			radiusY: 1 + (i % 3) * 0.5
+		};
+	}
+
+	for (let k = 0; k < stages.length; k++) {
+		const pts = stages[k];
+		const ptsLen = pts.length;
+		if (ptsLen === 0) continue;
+
+		const used = new Uint8Array(ptsLen);
+
+		for (let i = 0; i < count; i++) {
+			if (k === 0) {
+				const pt = pts[i % ptsLen];
+				particles[i].targets.push({ x: pt.x, y: pt.y, char: pt.char, type: pt.type });
+			} else {
+				const prevTarget = particles[i].targets[k - 1];
+				let bestIdx = -1;
+				let bestDist = Infinity;
+
+				for (let j = 0; j < ptsLen; j++) {
+					if (used[j] === 0) {
+						const dx = prevTarget.x - pts[j].x;
+						const dy = prevTarget.y - pts[j].y;
+						const dist = dx * dx + dy * dy;
+						if (dist < bestDist) {
+							bestDist = dist;
+							bestIdx = j;
+						}
+					}
+				}
+
+				if (bestIdx !== -1) {
+					used[bestIdx] = 1;
+					const pt = pts[bestIdx];
+					particles[i].targets.push({ x: pt.x, y: pt.y, char: pt.char, type: pt.type });
+				} else {
+					// Fallback: map to nearest point in this stage
+					let nearestIdx = 0;
+					let nearestDist = Infinity;
+					for (let j = 0; j < ptsLen; j++) {
+						const dx = prevTarget.x - pts[j].x;
+						const dy = prevTarget.y - pts[j].y;
+						const dist = dx * dx + dy * dy;
+						if (dist < nearestDist) {
+							nearestDist = dist;
+							nearestIdx = j;
+						}
+					}
+					const pt = pts[nearestIdx];
+					particles[i].targets.push({ x: pt.x, y: pt.y, char: pt.char, type: pt.type });
+				}
+			}
+		}
+	}
+
+	return particles;
+}

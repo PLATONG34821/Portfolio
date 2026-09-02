@@ -3,19 +3,21 @@
 	import {
 		generateFigletArt,
 		extractFigletPoints,
-		createFigletParticles,
-		type FigletParticle
+		createMultiStageFigletParticles,
+		type MultiStageFigletParticle
 	} from '$lib/ascii/variableAscii';
 
 	interface Props {
 		startText?: string;
 		endText?: string;
+		skillsText?: string;
 		scrollProgress?: number;
 	}
 
 	let {
 		startText = 'THANAPHUM\nPORTFOLIO',
 		endText = 'EXPERIENCE',
+		skillsText = 'SKILLS',
 		scrollProgress = $bindable(0)
 	}: Props = $props();
 
@@ -26,7 +28,7 @@
 		if (!canvasElement) return;
 
 		let animationFrameId: number;
-		let particles: FigletParticle[] = [];
+		let particles: MultiStageFigletParticle[] = [];
 		let currentCols = 120;
 		let currentRows = 38;
 		let maxArtHeight = 19;
@@ -46,9 +48,14 @@
 
 			const linesA = generateFigletArt(startText);
 			const linesB = generateFigletArt(endText);
+			const linesC = generateFigletArt(skillsText);
 
-			const maxArtWidth = Math.max(...linesA.map((l) => l.length), ...linesB.map((l) => l.length));
-			maxArtHeight = Math.max(linesA.length, linesB.length);
+			const maxArtWidth = Math.max(
+				...linesA.map((l) => l.length),
+				...linesB.map((l) => l.length),
+				...linesC.map((l) => l.length)
+			);
+			maxArtHeight = Math.max(linesA.length, linesB.length, linesC.length);
 			endTextLinesCount = linesB.length;
 
 			currentCols = Math.max(maxArtWidth + 14, 120);
@@ -56,8 +63,9 @@
 
 			const pointsA = extractFigletPoints(linesA, currentCols, currentRows);
 			const pointsB = extractFigletPoints(linesB, currentCols, currentRows);
+			const pointsC = extractFigletPoints(linesC, currentCols, currentRows);
 
-			particles = createFigletParticles(pointsA, pointsB);
+			particles = createMultiStageFigletParticles([pointsA, pointsB, pointsC]);
 		};
 
 		initSimulation();
@@ -68,9 +76,22 @@
 		const handleScroll = () => {
 			const scrollY = window.scrollY || window.pageYOffset;
 			const scrollDistance = Math.max(350, window.innerHeight * 0.65);
-			const rawProgress = scrollY / scrollDistance;
-			targetProgress = Math.max(0, Math.min(1, rawProgress));
-			scrollProgress = targetProgress;
+			const heroProgress = scrollY / scrollDistance;
+			scrollProgress = Math.max(0, Math.min(1, heroProgress));
+
+			// Detect scroll position of #skills section for stage 1 -> stage 2 morph
+			let skillsProgress = 0;
+			const skillsEl = document.getElementById('skills');
+			if (skillsEl) {
+				const rect = skillsEl.getBoundingClientRect();
+				const startY = window.innerHeight * 0.88;
+				const endY = window.innerHeight * 0.45;
+				if (rect.top < startY) {
+					skillsProgress = Math.max(0, Math.min(1, (startY - rect.top) / (startY - endY)));
+				}
+			}
+
+			targetProgress = heroProgress < 1 ? Math.max(0, heroProgress) : 1 + skillsProgress;
 		};
 
 		const handleResize = () => {
@@ -110,14 +131,25 @@
 			// Smooth scroll interpolation
 			currentProgress += (targetProgress - currentProgress) * 0.16;
 
-			// Phase 1: 0.0 -> 0.7 (Morph THANAPHUM -> EXPERIENCE)
-			// Phase 2: 0.2 -> 0.85 (Slide EXP smoothly up to top header)
-			const morphPhase = Math.min(1, currentProgress / 0.7);
-			const slidePhase = Math.max(0, Math.min(1, (currentProgress - 0.2) / 0.65));
+			// Multi-stage progression:
+			// Stage 0 -> 1 (0.0 to 1.0): THANAPHUM -> EXPERIENCE (with slide to top)
+			// Stage 1 -> 2 (1.0 to 2.0): EXPERIENCE -> SKILLS (docked at sticky top)
+			let stageIdx: number;
+			let morphPhase: number;
+			let slideT: number;
+
+			if (currentProgress <= 1.0) {
+				stageIdx = 0;
+				morphPhase = Math.min(1, currentProgress / 0.7);
+				const slidePhase = Math.max(0, Math.min(1, (currentProgress - 0.2) / 0.65));
+				slideT = easeInOutCubic(slidePhase);
+			} else {
+				stageIdx = 1;
+				morphPhase = Math.min(1, currentProgress - 1.0);
+				slideT = 1.0;
+			}
 
 			const t = easeInOutCubic(morphPhase);
-			const slideT = easeInOutCubic(slidePhase);
-
 			const midDispersal = Math.sin(t * Math.PI);
 			const dispersionFactor = Math.pow(midDispersal, 1.8);
 
@@ -153,13 +185,15 @@
 			// Render all particles with subpixel precision
 			for (let i = 0; i < particles.length; i++) {
 				const p = particles[i];
+				const targetA = p.targets[stageIdx];
+				const targetB = p.targets[stageIdx + 1] || targetA;
 
 				p.angle += p.speed * delta;
 				const noiseX = Math.cos(p.angle + i * 0.4) * p.radiusX * dispersionFactor * 0.7;
 				const noiseY = Math.sin(p.angle * 1.2 + i * 0.4) * p.radiusY * dispersionFactor * 0.45;
 
-				const targetGridX = p.startX + (p.endX - p.startX) * t + noiseX;
-				const targetGridY = p.startY + (p.endY - p.startY) * t + noiseY;
+				const targetGridX = targetA.x + (targetB.x - targetA.x) * t + noiseX;
+				const targetGridY = targetA.y + (targetB.y - targetA.y) * t + noiseY;
 
 				p.x = targetGridX;
 				p.y = targetGridY;
@@ -167,8 +201,8 @@
 				const pixelX = originX + p.x * cellWidth + cellWidth / 2;
 				const pixelY = originY + p.y * cellHeight + cellHeight / 2;
 
-				const char = t < 0.5 ? p.startChar : p.endChar;
-				const type = t < 0.5 ? p.startType : p.endType;
+				const char = t < 0.5 ? targetA.char : targetB.char;
+				const type = t < 0.5 ? targetA.type : targetB.type;
 
 				// Swapped color mapping:
 				// - Body fill ($) in crisp pure white
