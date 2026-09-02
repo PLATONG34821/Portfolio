@@ -19,7 +19,6 @@
 		category: string;
 		year: string;
 		metrics: string;
-		status: 'PROD' | 'FEAT' | 'RESEARCH' | 'OSS';
 		isFeatured?: boolean;
 		tags: string[];
 		githubUrl: string;
@@ -47,7 +46,7 @@
 		skill: string;
 		level: string;
 		evidence: string;
-		status: string;
+		focus: string;
 		isHighlighted?: boolean;
 	}
 
@@ -81,14 +80,13 @@
 		{
 			id: '01',
 			title: 'HLLC 2026 Platform',
-			subtitle: 'Orientation Mobile & Web Ecosystem',
-			category: 'CAMPUS // PROD',
+			subtitle: 'Freshmen Orientation & Activity Ecosystem',
+			category: 'Campus Production',
 			year: '2026',
-			status: 'PROD',
 			isFeatured: true,
 			summary:
-				'High-concurrency freshmen orientation & live activity management ecosystem for Mae Fah Luang University.',
-			metrics: 'Scale: 4.4k+ Active Sessions • SvelteKit, TypeScript, iOS, Android',
+				'High-concurrency orientation and live activity management platform engineered for Mae Fah Luang University.',
+			metrics: 'Scale: 4,400+ Active Users • Stack: SvelteKit, TypeScript, iOS, Android',
 			tags: ['SvelteKit', 'TypeScript', 'High Concurrency', 'REST API'],
 			githubUrl: 'https://apps.apple.com/th/app/hllc/id6748238190',
 			links: [
@@ -103,14 +101,13 @@
 		{
 			id: '02',
 			title: 'TJ-SIF 2022 Innovation',
-			subtitle: 'Smart IV Stand Hardware & Sensors',
-			category: 'INTL // RESEARCH',
+			subtitle: 'Smart IV Stand Hardware & Telemetry',
+			category: 'International ICT Fair',
 			year: '2022',
-			status: 'RESEARCH',
 			isFeatured: true,
 			summary:
 				'Selected student research & embedded "IV Stand" smart infusion hardware presented in English at Thailand-Japan Student ICT Fair.',
-			metrics: 'Forum: Thailand 🇹🇭 × Japan 🇯🇵 Student ICT Fair • Embedded IoT & Sensors',
+			metrics: 'Forum: Thailand 🇹🇭 × Japan 🇯🇵 Student ICT Fair • Embedded IoT & Flow Sensors',
 			tags: ['Embedded Systems', 'IoT Hardware', 'Research Paper', 'Sensors'],
 			githubUrl: '/certs/tjsif_cert.jpg',
 			certImage: '/certs/tjsif_cert.jpg',
@@ -143,9 +140,8 @@
 			id: '03',
 			title: 'NSC 25 — Auto-Silkworm Reeling Frame',
 			subtitle: 'Biological Gravitropism Control System',
-			category: 'NATIONAL // CONTEST',
+			category: 'National Contest Finalist',
 			year: '2023',
-			status: 'RESEARCH',
 			isFeatured: true,
 			summary:
 				'Automated uniform silk reeling system utilizing biological gravitropism response. Funded grantee in the 25th National Software Contest.',
@@ -172,9 +168,8 @@
 			id: '04',
 			title: 'polyTone',
 			subtitle: 'Digital Guitar Amp Preset Platform',
-			category: 'AUDIO // PROD',
+			category: 'Audio Web Platform',
 			year: '2024',
-			status: 'PROD',
 			isFeatured: true,
 			summary:
 				'Community audio platform for discovering and sharing digital guitar amplifier presets and Impulse Responses (IRs).',
@@ -190,12 +185,11 @@
 			id: '05',
 			title: 'Study-Schedule',
 			subtitle: '4K Wallpaper Canvas Renderer',
-			category: 'TOOLING // OSS',
+			category: 'Tooling & Canvas',
 			year: '2024',
-			status: 'OSS',
 			summary:
 				'Interactive study timetable designer with high-resolution 4K wallpaper rendering engine.',
-			metrics: 'Engine: HTML5 Canvas 2D + Svelte State Management',
+			metrics: 'Stack: HTML5 Canvas 2D + Svelte State Management',
 			tags: ['Svelte', 'TypeScript', 'Web Canvas', 'Responsive UI'],
 			githubUrl: 'https://github.com/PLATONG34821/Study-Schedule',
 			links: [
@@ -207,12 +201,11 @@
 			id: '06',
 			title: 'Portable Hybrid Swarm Cluster',
 			subtitle: 'Multi-Arch Docker Swarm Homelab',
-			category: 'DEVOPS // CLUSTER',
+			category: 'DevOps & Cluster',
 			year: '2024',
-			status: 'FEAT',
 			summary:
 				'Resilient multi-node hybrid x86/ARM Docker Swarm edge cluster with automated failover & proxy routing.',
-			metrics: 'Nodes: Hybrid Multi-Arch (x86_64 + ARM64) • Automated Proxy Failover',
+			metrics: 'Nodes: Hybrid Multi-Arch (x86_64 + ARM64) • Reverse Proxy Routing',
 			tags: ['Docker Swarm', 'Homelab', 'Reverse Proxy', 'Linux'],
 			githubUrl: 'https://github.com/PLATONG34821/Portable-Hybrid-Arch-Docker-Swarm-Cluster',
 			links: [
@@ -226,9 +219,8 @@
 			id: '07',
 			title: 'Project-DSM',
 			subtitle: 'Vehicle Telemetry & Road Safety',
-			category: 'IOT // TELEMETRY',
+			category: 'IoT & Telemetry',
 			year: '2024',
-			status: 'FEAT',
 			summary:
 				'Vehicle telemetry & driver behavior analytics application engineered for smart passenger safety.',
 			metrics: 'Sensors: GPS Real-Time Telemetry + Accelerometer Tracking',
@@ -243,12 +235,11 @@
 			id: '08',
 			title: 'GroupPlan',
 			subtitle: 'Schedule Sync & Team Planner',
-			category: 'WEB // OSS',
+			category: 'Web Application',
 			year: '2024',
-			status: 'OSS',
 			summary:
 				'Modern team schedule coordination and collaborative group planning web application built with Svelte.',
-			metrics: 'Framework: Svelte 5 Runes + TypeScript State Engine',
+			metrics: 'Stack: Svelte 5 Runes + TypeScript State Engine',
 			tags: ['Svelte', 'TypeScript', 'State Management', 'Team Tooling'],
 			githubUrl: 'https://github.com/PLATONG34821/GroupPlan',
 			links: [{ label: 'GitHub Repo', url: 'https://github.com/PLATONG34821/GroupPlan' }]
@@ -260,7 +251,7 @@
 			id: '01',
 			title: 'Web Applications Development (ม.ปลาย)',
 			subtitle: '71st National Student Arts & Crafts Fair (งานศิลปหัตถกรรมนักเรียน ครั้งที่ 71)',
-			badge: 'Gold Medal (71st)',
+			badge: 'Gold Medal',
 			year: '2023',
 			isHighlighted: true,
 			certImage: '/certs/gold_cert.png'
@@ -269,7 +260,7 @@
 			id: '02',
 			title: 'Web Applications Development (ม.ปลาย)',
 			subtitle: '70th National Student Arts & Crafts Fair (งานศิลปหัตถกรรมนักเรียน ครั้งที่ 70)',
-			badge: 'Silver Medal (70th)',
+			badge: 'Silver Medal',
 			year: '2022',
 			certImage: '/certs/silver_cert.jpg'
 		},
@@ -277,7 +268,7 @@
 			id: '03',
 			title: '25th National Software Contest (NSC 25)',
 			subtitle: 'Funded Grant Winner & Finalist for Automated Silkworm Silk Spinning Frame (CMU)',
-			badge: 'Grantee Finalist',
+			badge: 'Grant Winner',
 			year: '2023',
 			isHighlighted: true,
 			certImage: '/certs/nsc25_cert.jpg'
@@ -286,7 +277,7 @@
 			id: '04',
 			title: 'Samsung Solve for Tomorrow 2024',
 			subtitle: 'Innovation Shortlist & Design Thinking / Entrepreneurship Workshop',
-			badge: 'Finalist (Top 20)',
+			badge: 'Finalist',
 			year: '2024',
 			certImage: '/certs/samsung_cert.jpg'
 		},
@@ -294,7 +285,7 @@
 			id: '05',
 			title: 'BornToDev DevLab 3 Nationwide Contest',
 			subtitle: 'Rank #1,152 out of 31,905 developers nationwide (Top 3.6%)',
-			badge: 'Top 3.6% (Rank 1152)',
+			badge: 'Top 3.6%',
 			year: '2024',
 			certImage: '/certs/borntodev_cert.png'
 		},
@@ -302,7 +293,7 @@
 			id: '06',
 			title: 'Thailand-Japan Student ICT Fair (TJ-SIF 2022)',
 			subtitle: 'International ICT Innovation Presentation Trophy & Award (เชียงราย)',
-			badge: 'Intl Trophy Award',
+			badge: 'Intl Trophy',
 			year: '2022',
 			isHighlighted: true,
 			certImage: '/certs/tjsif_stage.png'
@@ -311,7 +302,7 @@
 			id: '07',
 			title: 'Student of Excellence "Khon Dee Sri Damrong"',
 			subtitle: 'Honorary award for public service devotion (โรงเรียนดํารงราษฎร์สงเคราะห์ 2567)',
-			badge: 'Honor Roll (2567)',
+			badge: 'Honor Roll',
 			year: '2024'
 		}
 	];
@@ -333,7 +324,7 @@
 			code: 'MFU-OOP'
 		},
 		{
-			name: 'Internet of Things (IoT) Intro',
+			name: 'Internet of Things (IoT) Fundamentals',
 			issuer: 'ThaiMOOC • Hat Yai Univ',
 			code: 'MOOC-IOT'
 		},
@@ -349,44 +340,43 @@
 		}
 	];
 
-	// Detailed capabilities computed from all 15 GitHub Repos, Certifications & Competition Awards
+	// Clean, highly-readable technical capabilities
 	const capabilityCategories: CapabilityCategory[] = [
 		{
 			id: '01',
-			title: 'Frontend & Web Architecture',
+			title: 'Frontend & UI Architecture',
 			items: [
 				{
 					skill: 'Svelte 5 / SvelteKit',
-					level: 'Advanced',
-					evidence:
-						'HLLC 2026 (4.4k users), polyTone, Portfolio, Study-Schedule, GroupPlan, pt-chord',
-					status: 'SYS_OK',
+					level: 'Advanced (Production)',
+					evidence: 'HLLC 2026 (4.4k users), polyTone, Study-Schedule, GroupPlan, pt-chord',
+					focus: 'Runes state engine, server SSR/CSR hydration, dynamic routing & endpoints',
 					isHighlighted: true
 				},
 				{
-					skill: 'TypeScript / JavaScript',
+					skill: 'TypeScript & JavaScript',
 					level: 'Advanced',
-					evidence: 'Strict typing across 9 repos, DOM & Canvas pipelines, Project-DSM',
-					status: 'SYS_OK',
+					evidence: 'Strict type safety across 9 repositories, Canvas 2D pipelines, Project-DSM',
+					focus: 'Strict compile-time verification, browser DOM manipulation, modular architecture',
 					isHighlighted: true
 				},
 				{
 					skill: 'HTML5 Canvas 2D & DSP Audio',
 					level: 'Proficient',
-					evidence: 'Study-Schedule (4K renderer), polyTone (IR DSP engine), pt-chord',
-					status: 'SYS_OK'
+					evidence: 'Study-Schedule (4K wallpaper renderer), polyTone (Guitar IR DSP engine)',
+					focus: 'Offscreen pixel rendering, Web Audio nodes, Impulse Response convolution'
 				},
 				{
-					skill: 'Astro & Static Jamstack',
+					skill: 'Astro & Jamstack Web',
 					level: 'Proficient',
-					evidence: 'pt-blog (Content collections, markdown compiler, optimized assets)',
-					status: 'SYS_OK'
+					evidence: 'pt-blog (Content collections, Markdown compile pipeline, asset optimizer)',
+					focus: 'Zero-JS static site generation, fast edge delivery, content collections'
 				},
 				{
 					skill: 'Web App Competition Mastery',
-					level: 'Certified',
+					level: 'Gold Medalist',
 					evidence: 'Gold Medal (71st) & Silver Medal (70th) National Student Arts & Crafts',
-					status: 'GOLD_MEDAL',
+					focus: 'Rapid frontend prototyping, UI design systems, real-time client state',
 					isHighlighted: true
 				}
 			]
@@ -397,66 +387,66 @@
 			items: [
 				{
 					skill: 'High-Concurrency System Design',
-					level: 'Production',
+					level: 'Production Scale',
 					evidence: 'HLLC 2026 API architecture serving 4,400+ simultaneous orientation students',
-					status: 'SYS_OK',
+					focus: 'Traffic spike mitigation, session state synchronization, mobile/web endpoints',
 					isHighlighted: true
 				},
 				{
 					skill: 'Supabase Cloud & PostgreSQL',
 					level: 'Proficient',
 					evidence: 'polyTone (Relational schema, realtime subscriptions, cloud storage buckets)',
-					status: 'SYS_OK'
+					focus: 'Relational table design, row-level security policies, object storage'
 				},
 				{
 					skill: 'Java & Game Server Plugins',
 					level: 'Proficient',
 					evidence: 'PT-Story, PT-Spawn, PT-Warp (Paper 1.20.4 OOP architecture & event loop)',
-					status: 'SYS_OK'
+					focus: 'Object-oriented event listeners, multi-player state, server packet handlers'
 				},
 				{
 					skill: 'Python & R Data Analytics',
 					level: 'Certified',
 					evidence: 'ThaiMOOC Python for Data Science (RMUTT) & R Data Analysis (SKRU)',
-					status: 'CERTIFIED'
+					focus: 'Data transformation, statistical summary matrices, tabular processing'
 				},
 				{
-					skill: 'Software Engineering & OOP',
-					level: 'Certified',
+					skill: 'Software Engineering Principles',
+					level: 'Certified (MFU)',
 					evidence: 'MFU-SE, MFU-PROG, MFU-OOP Academic Specializations (Mae Fah Luang Univ)',
-					status: 'CERTIFIED',
+					focus: 'Design patterns, software lifecycle, encapsulation, robust code design',
 					isHighlighted: true
 				}
 			]
 		},
 		{
 			id: '03',
-			title: 'DevOps & Systems Engineering',
+			title: 'DevOps, Clustering & Edge Systems',
 			items: [
 				{
 					skill: 'Docker & Docker Swarm',
 					level: 'Proficient',
-					evidence: 'Portable-Hybrid-Arch-Docker-Swarm-Cluster (Multi-node orchestration)',
-					status: 'SYS_OK',
+					evidence: 'Portable-Hybrid-Arch-Docker-Swarm-Cluster (Multi-node swarm orchestration)',
+					focus: 'Service stack composition, container overlays, automated restart policies',
 					isHighlighted: true
 				},
 				{
 					skill: 'Heterogeneous Multi-Arch (x86/ARM)',
 					level: 'Proficient',
 					evidence: 'Hybrid cluster combining x86_64 servers & ARM64 edge nodes (Pi/Rockchip)',
-					status: 'SYS_OK'
+					focus: 'Cross-platform container images, resource balancing, edge node telemetry'
 				},
 				{
 					skill: 'Reverse Proxy & High Availability',
 					level: 'Proficient',
 					evidence: 'Automated SSL termination, failover routing, zero-downtime stacks',
-					status: 'SYS_OK'
+					focus: 'TLS certificates, dynamic reverse proxying, traffic routing'
 				},
 				{
 					skill: 'Linux Administration & Scripting',
 					level: 'Proficient',
 					evidence: 'Debian/Alpine homelab setups, Bash automation, CMDEdge Windows CLI',
-					status: 'SYS_OK'
+					focus: 'Systemd management, shell scripting, environment configuration'
 				}
 			]
 		},
@@ -466,16 +456,17 @@
 			items: [
 				{
 					skill: 'Biological Gravitropism Control',
-					level: 'Grant Winner',
+					level: 'National Grant Winner',
 					evidence: 'NSC 25 Funded Grantee — Automated silkworm reeling with motor drivers',
-					status: 'NSC_25',
+					focus:
+						'Sensory feedback loops, stepper motor driver tuning, automated biological reeling',
 					isHighlighted: true
 				},
 				{
-					skill: 'Smart Medical Hardware & Flow Sensors',
-					level: 'Intl Award',
+					skill: 'Smart Medical Hardware & Sensors',
+					level: 'Intl Trophy Award',
 					evidence: 'TJ-SIF 2022 — IV Stand embedded telemetry presented to Thailand-Japan forum',
-					status: 'TJ_SIF',
+					focus: 'Infusion drop rate sensors, microcontroller telemetry, English oral presentation',
 					isHighlighted: true
 				},
 				{
@@ -483,13 +474,13 @@
 					level: 'Proficient',
 					evidence:
 						'Project-DSM — GPS real-time positioning & accelerometer driver safety tracking',
-					status: 'SYS_OK'
+					focus: 'GPS NMEA stream parsing, G-force threshold analysis, safety metrics'
 				},
 				{
 					skill: 'IoT Sensor Foundations',
 					level: 'Certified',
 					evidence: 'ThaiMOOC Internet of Things Fundamentals (Prince of Songkla Univ)',
-					status: 'CERTIFIED'
+					focus: 'Analog/digital signal acquisition, wireless protocols, IoT architectures'
 				}
 			]
 		},
@@ -498,23 +489,23 @@
 			title: 'Competitive Problem Solving & Leadership',
 			items: [
 				{
-					skill: 'Competitive Programming & Algorithms',
-					level: 'Top 3.6%',
+					skill: 'Competitive Algorithms & Coding',
+					level: 'Top 3.6% Nationwide',
 					evidence: 'BornToDev DevLab 3 Nationwide Contest (Rank #1,152 out of 31,905 developers)',
-					status: 'TOP_3.6%',
+					focus: 'Data structures, algorithm complexity, rapid debugging under constraints',
 					isHighlighted: true
 				},
 				{
 					skill: 'Product Design & Design Thinking',
 					level: 'Finalist',
 					evidence: 'Samsung Solve for Tomorrow 2024 shortlisted innovation & workshop',
-					status: 'FINALIST'
+					focus: 'User empathy modeling, iterative prototyping, pitch presentation'
 				},
 				{
 					skill: 'Civic Software & Leadership',
-					level: 'Honor Roll',
+					level: 'Honor Roll Award',
 					evidence: 'Student of Excellence "Khon Dee Sri Damrong 2567" & damrong_pitakphong portal',
-					status: 'HONOR_ROLL',
+					focus: 'Digital services for student governance, cross-functional team coordination',
 					isHighlighted: true
 				}
 			]
@@ -527,43 +518,44 @@
 
 <section class="experience-section" class:is-revealed={isRevealed} id="experience">
 	<div class="content-container">
-		<!-- SECTION 01: SELECTED PROJECTS & RECOGNITION -->
-		<div class="section-block">
-			<div class="section-title-bar">
-				<span class="sec-title-tag">[ 01 // SELECTED_PROJECTS_AND_HONORS.SYS ]</span>
-				<span class="sec-title-line"></span>
-				<span class="sec-title-meta">CORE PRODUCTION, COMPETITIONS & CERTIFICATES</span>
+		<!-- ========================================================================= -->
+		<!-- SECTION 01: SELECTED PROJECTS & RECOGNITION (CASE FILES & HONORS)         -->
+		<!-- ========================================================================= -->
+		<div class="section-block" id="projects">
+			<div class="section-header-bar">
+				<span class="sec-label">Selected Projects & Honors</span>
+				<span class="sec-line"></span>
+				<span class="sec-hint">Core Production • Competitions • Certifications</span>
 			</div>
 
-			<div class="cli-dashboard-grid">
+			<div class="two-column-layout">
 				<!-- LEFT COLUMN: Selected Projects & Open Source Systems -->
-				<div class="cli-column">
+				<div class="column-stack">
 					<!-- Box 1: Core Production Systems -->
-					<div class="cli-box">
-						<div class="box-line-top">
-							<span class="box-corner">{classicBox.topLeft}{classicBox.top}{classicBox.top}</span>
-							<span class="box-title">Selected Projects</span>
-							<span class="box-fill">{classicBox.top}</span>
-							<span class="box-corner">{classicBox.top}{classicBox.top}{classicBox.topRight}</span>
+					<div class="tui-box">
+						<div class="tui-line-top">
+							<span class="tui-corner">{classicBox.topLeft}{classicBox.top}{classicBox.top}</span>
+							<span class="tui-title-coral">Selected Projects</span>
+							<span class="tui-fill">{classicBox.top}</span>
+							<span class="tui-corner">{classicBox.top}{classicBox.top}{classicBox.topRight}</span>
 						</div>
 
-						<div class="box-body">
+						<div class="tui-body">
 							{#each coreProjects as project (project.id)}
-								<div class="cli-card-item">
-									<!-- Header Line: ID + Title + Status -->
-									<div class="cli-card-head">
-										<div class="cli-head-left">
-											<span class="cli-id">[{project.id}]</span>
+								<div class="project-entry">
+									<div class="entry-header">
+										<div class="entry-title-wrap">
+											<span class="entry-number">{project.id}.</span>
 											{#if project.certImage}
 												<button
 													type="button"
 													onclick={() => openCert(project.title, project.certImage!)}
-													class="cli-title-btn"
+													class="entry-title-btn"
 													class:highlighted={project.isFeatured}
 												>
 													{project.title}
 													{#if project.isFeatured}
-														<span class="cli-check">✓</span>
+														<span class="check-mark">✓</span>
 													{/if}
 												</button>
 											{:else}
@@ -572,39 +564,38 @@
 													href={project.githubUrl}
 													target="_blank"
 													rel="external noreferrer"
-													class="cli-title-link"
+													class="entry-title-link"
 													class:highlighted={project.isFeatured}
 												>
 													{project.title}
 													{#if project.isFeatured}
-														<span class="cli-check">✓</span>
+														<span class="check-mark">✓</span>
 													{/if}
 												</a>
 											{/if}
 										</div>
-										<span class="cli-cat-tag">[{project.category}]</span>
+										<span class="entry-badge">{project.category}</span>
 									</div>
 
-									<!-- Subtitle & Metrics -->
-									<div class="cli-card-desc">{project.summary}</div>
-									<div class="cli-card-telemetry">
-										<span class="telemetry-label">TELEMETRY:</span>
-										<span class="telemetry-val">{project.metrics}</span>
+									<p class="entry-summary">{project.summary}</p>
+
+									<div class="entry-meta">
+										<span class="meta-label">Details:</span>
+										<span class="meta-text">{project.metrics}</span>
 									</div>
 
-									<!-- Action Links -->
 									{#if project.links && project.links.length > 0}
-										<div class="cli-card-actions">
-											<span class="action-prefix">&gt;</span>
-											<div class="action-links-list">
+										<div class="entry-links">
+											<span class="links-label">Links:</span>
+											<div class="links-list">
 												{#each project.links as link (link.label)}
 													{#if link.isCertModal && link.certImage}
 														<button
 															type="button"
 															onclick={() => openCert(project.title, link.certImage!)}
-															class="cli-link-btn"
+															class="text-link"
 														>
-															[{link.label} ↗]
+															{link.label} ↗
 														</button>
 													{:else}
 														<!-- eslint-disable-next-line svelte/no-navigation-without-resolve -->
@@ -612,9 +603,9 @@
 															href={link.url}
 															target="_blank"
 															rel="external noreferrer"
-															class="cli-link"
+															class="text-link"
 														>
-															[{link.label} ↗]
+															{link.label} ↗
 														</a>
 													{/if}
 												{/each}
@@ -625,64 +616,65 @@
 							{/each}
 						</div>
 
-						<div class="box-line-bot">
-							<span class="box-corner"
+						<div class="tui-line-bot">
+							<span class="tui-corner"
 								>{classicBox.bottomLeft}{classicBox.bottom}{classicBox.bottom}</span
 							>
-							<span class="box-fill">{classicBox.bottom}</span>
-							<span class="box-corner"
+							<span class="tui-fill">{classicBox.bottom}</span>
+							<span class="tui-corner"
 								>{classicBox.bottom}{classicBox.bottom}{classicBox.bottomRight}</span
 							>
 						</div>
 					</div>
 
 					<!-- Box 2: Open Source & Research Systems -->
-					<div class="cli-box">
-						<div class="box-line-top">
-							<span class="box-corner">{classicBox.topLeft}{classicBox.top}{classicBox.top}</span>
-							<span class="box-title">Open Source & Systems</span>
-							<span class="box-fill">{classicBox.top}</span>
-							<span class="box-corner">{classicBox.top}{classicBox.top}{classicBox.topRight}</span>
+					<div class="tui-box">
+						<div class="tui-line-top">
+							<span class="tui-corner">{classicBox.topLeft}{classicBox.top}{classicBox.top}</span>
+							<span class="tui-title-coral">Open Source & Systems</span>
+							<span class="tui-fill">{classicBox.top}</span>
+							<span class="tui-corner">{classicBox.top}{classicBox.top}{classicBox.topRight}</span>
 						</div>
 
-						<div class="box-body">
+						<div class="tui-body">
 							{#each ossProjects as project (project.id)}
-								<div class="cli-card-item">
-									<div class="cli-card-head">
-										<div class="cli-head-left">
-											<span class="cli-id">[{project.id}]</span>
+								<div class="project-entry">
+									<div class="entry-header">
+										<div class="entry-title-wrap">
+											<span class="entry-number">{project.id}.</span>
 											<!-- eslint-disable-next-line svelte/no-navigation-without-resolve -->
 											<a
 												href={project.githubUrl}
 												target="_blank"
 												rel="external noreferrer"
-												class="cli-title-link"
+												class="entry-title-link"
 											>
 												{project.title}
 											</a>
 										</div>
-										<span class="cli-cat-tag">[{project.category}]</span>
+										<span class="entry-badge">{project.category}</span>
 									</div>
 
-									<div class="cli-card-desc">{project.summary}</div>
-									<div class="cli-card-telemetry">
-										<span class="telemetry-label">TELEMETRY:</span>
-										<span class="telemetry-val">{project.metrics}</span>
+									<p class="entry-summary">{project.summary}</p>
+
+									<div class="entry-meta">
+										<span class="meta-label">Details:</span>
+										<span class="meta-text">{project.metrics}</span>
 									</div>
 
 									{#if project.links && project.links.length > 0}
-										<div class="cli-card-actions">
-											<span class="action-prefix">&gt;</span>
-											<div class="action-links-list">
+										<div class="entry-links">
+											<span class="links-label">Links:</span>
+											<div class="links-list">
 												{#each project.links as link (link.label)}
 													<!-- eslint-disable-next-line svelte/no-navigation-without-resolve -->
 													<a
 														href={link.url}
 														target="_blank"
 														rel="external noreferrer"
-														class="cli-link"
+														class="text-link"
 													>
-														[{link.label} ↗]
+														{link.label} ↗
 													</a>
 												{/each}
 											</div>
@@ -692,12 +684,12 @@
 							{/each}
 						</div>
 
-						<div class="box-line-bot">
-							<span class="box-corner"
+						<div class="tui-line-bot">
+							<span class="tui-corner"
 								>{classicBox.bottomLeft}{classicBox.bottom}{classicBox.bottom}</span
 							>
-							<span class="box-fill">{classicBox.bottom}</span>
-							<span class="box-corner"
+							<span class="tui-fill">{classicBox.bottom}</span>
+							<span class="tui-corner"
 								>{classicBox.bottom}{classicBox.bottom}{classicBox.bottomRight}</span
 							>
 						</div>
@@ -705,90 +697,90 @@
 				</div>
 
 				<!-- RIGHT COLUMN: Awards & Certifications -->
-				<div class="cli-column">
+				<div class="column-stack">
 					<!-- Box 3: Awards & Recognition -->
-					<div class="cli-box" id="awards">
-						<div class="box-line-top">
-							<span class="box-corner">{classicBox.topLeft}{classicBox.top}{classicBox.top}</span>
-							<span class="box-title">Awards & Honors</span>
-							<span class="box-fill">{classicBox.top}</span>
-							<span class="box-corner">{classicBox.top}{classicBox.top}{classicBox.topRight}</span>
+					<div class="tui-box" id="awards">
+						<div class="tui-line-top">
+							<span class="tui-corner">{classicBox.topLeft}{classicBox.top}{classicBox.top}</span>
+							<span class="tui-title-coral">Awards & Honors</span>
+							<span class="tui-fill">{classicBox.top}</span>
+							<span class="tui-corner">{classicBox.top}{classicBox.top}{classicBox.topRight}</span>
 						</div>
 
-						<div class="box-body">
+						<div class="tui-body">
 							{#each awards as award (award.id)}
-								<div class="cli-table-row">
-									<span class="row-year">[{award.year}]</span>
-									<div class="row-main">
-										<div class="row-title-line">
+								<div class="award-entry">
+									<span class="award-year">{award.year}</span>
+									<div class="award-content">
+										<div class="award-head">
 											{#if award.certImage}
 												<button
 													type="button"
 													onclick={() => openCert(award.title, award.certImage!)}
-													class="row-title-btn"
+													class="award-title-btn"
 													class:highlighted={award.isHighlighted}
 												>
-													<span class="row-badge">[{award.badge}]</span>
-													<span class="row-name">{award.title}</span>
+													<span class="award-badge">[{award.badge}]</span>
+													<span class="award-title">{award.title}</span>
 													{#if award.isHighlighted}
-														<span class="cli-check">✓</span>
+														<span class="check-mark">✓</span>
 													{/if}
-													<span class="row-cert-link">[VIEW ↗]</span>
+													<span class="cert-link-hint">[View ↗]</span>
 												</button>
 											{:else}
-												<div class="row-title-static">
-													<span class="row-badge">[{award.badge}]</span>
-													<span class="row-name">{award.title}</span>
+												<div class="award-title-static">
+													<span class="award-badge">[{award.badge}]</span>
+													<span class="award-title">{award.title}</span>
 													{#if award.isHighlighted}
-														<span class="cli-check">✓</span>
+														<span class="check-mark">✓</span>
 													{/if}
 												</div>
 											{/if}
 										</div>
-										<div class="row-sub">{award.subtitle}</div>
+										<p class="award-sub">{award.subtitle}</p>
 									</div>
 								</div>
 							{/each}
 						</div>
 
-						<div class="box-line-bot">
-							<span class="box-corner"
+						<div class="tui-line-bot">
+							<span class="tui-corner"
 								>{classicBox.bottomLeft}{classicBox.bottom}{classicBox.bottom}</span
 							>
-							<span class="box-fill">{classicBox.bottom}</span>
-							<span class="box-corner"
+							<span class="tui-fill">{classicBox.bottom}</span>
+							<span class="tui-corner"
 								>{classicBox.bottom}{classicBox.bottom}{classicBox.bottomRight}</span
 							>
 						</div>
 					</div>
 
 					<!-- Box 4: Academic Certifications -->
-					<div class="cli-box" id="certifications">
-						<div class="box-line-top">
-							<span class="box-corner">{classicBox.topLeft}{classicBox.top}{classicBox.top}</span>
-							<span class="box-title">Academic Certifications</span>
-							<span class="box-fill">{classicBox.top}</span>
-							<span class="box-corner">{classicBox.top}{classicBox.top}{classicBox.topRight}</span>
+					<div class="tui-box" id="certifications">
+						<div class="tui-line-top">
+							<span class="tui-corner">{classicBox.topLeft}{classicBox.top}{classicBox.top}</span>
+							<span class="tui-title-coral">Academic Certifications</span>
+							<span class="tui-fill">{classicBox.top}</span>
+							<span class="tui-corner">{classicBox.top}{classicBox.top}{classicBox.topRight}</span>
 						</div>
 
-						<div class="box-body">
+						<div class="tui-body">
 							{#each certifications as cert (cert.code)}
-								<div class="cli-table-row compact">
-									<span class="row-code">[{cert.code}]</span>
-									<div class="row-cert-content">
+								<div class="cert-entry">
+									<span class="cert-code">{cert.code}</span>
+									<div class="cert-info">
 										<span class="cert-name">{cert.name}</span>
-										<span class="cert-issuer">:: {cert.issuer}</span>
+										<span class="cert-meta">— {cert.issuer}</span>
 									</div>
 								</div>
 							{/each}
 						</div>
 
-						<div class="box-line-bot">
-							<span class="box-corner"
+						<div class="tui-line-bot">
+							<span class="tui-corner"
 								>{classicBox.bottomLeft}{classicBox.bottom}{classicBox.bottom}</span
 							>
-							<span class="box-fill">{classicBox.bottom}</span>
-							<span class="box-corner"
+							<span class="tui-fill">{classicBox.bottom}</span>
+							<span class="tui-corner"
 								>{classicBox.bottom}{classicBox.bottom}{classicBox.bottomRight}</span
 							>
 						</div>
@@ -797,55 +789,60 @@
 			</div>
 		</div>
 
-		<!-- SECTION 02: DEDICATED CAPABILITIES MATRIX & TECHNICAL DOSSIER -->
+		<!-- ========================================================================= -->
+		<!-- SECTION 02: TECHNICAL CAPABILITIES MATRIX (PROVEN SKILLS & DOSSIER)       -->
+		<!-- ========================================================================= -->
 		<div class="section-block" id="skills">
-			<div class="section-title-bar">
-				<span class="sec-title-tag">[ 02 // CAPABILITIES_MATRIX.SYS ]</span>
-				<span class="sec-title-line"></span>
-				<span class="sec-title-meta"
-					>PROVEN DOMAIN MATRIX COMPUTED FROM 15 REPOSITORIES, AWARDS & CERTIFICATIONS</span
+			<div class="section-header-bar sec2-bar">
+				<span class="sec-label sec2-label">Technical Capabilities Matrix</span>
+				<span class="sec-line sec2-line"></span>
+				<span class="sec-hint sec2-hint"
+					>Proven Across 15 Repositories • Competitions & Certifications</span
 				>
 			</div>
 
-			<div class="capabilities-matrix-grid">
+			<div class="capabilities-grid">
 				{#each capabilityCategories as category (category.id)}
-					<div class="cli-box">
-						<div class="box-line-top">
-							<span class="box-corner">{classicBox.topLeft}{classicBox.top}{classicBox.top}</span>
-							<span class="box-title">[{category.id}] {category.title}</span>
-							<span class="box-fill">{classicBox.top}</span>
-							<span class="box-corner">{classicBox.top}{classicBox.top}{classicBox.topRight}</span>
+					<div class="tui-box cap-box">
+						<div class="tui-line-top">
+							<span class="tui-corner">{classicBox.topLeft}{classicBox.top}{classicBox.top}</span>
+							<span class="tui-title-cyan">{category.title}</span>
+							<span class="tui-fill">{classicBox.top}</span>
+							<span class="tui-corner">{classicBox.top}{classicBox.top}{classicBox.topRight}</span>
 						</div>
 
-						<div class="box-body capability-body">
+						<div class="tui-body cap-body">
 							{#each category.items as item (item.skill)}
-								<div class="cap-item-row">
-									<div class="cap-item-head">
-										<span class="cap-skill-name" class:highlighted={item.isHighlighted}>
+								<div class="skill-entry">
+									<div class="skill-header">
+										<span class="skill-title" class:highlighted={item.isHighlighted}>
 											{item.skill}
 											{#if item.isHighlighted}
-												<span class="cli-check">✓</span>
+												<span class="check-mark">✓</span>
 											{/if}
 										</span>
-										<div class="cap-badge-group">
-											<span class="cap-level-tag">[{item.level}]</span>
-											<span class="cap-status-tag">[{item.status}]</span>
-										</div>
+										<span class="skill-level">{item.level}</span>
 									</div>
-									<div class="cap-evidence-text">
-										<span class="cap-ev-lbl">&gt; PROVEN IN:</span>
-										<span class="cap-ev-val">{item.evidence}</span>
+
+									<div class="skill-meta-row">
+										<span class="skill-meta-lbl">Proven In:</span>
+										<span class="skill-meta-val">{item.evidence}</span>
+									</div>
+
+									<div class="skill-meta-row">
+										<span class="skill-meta-lbl">Focus:</span>
+										<span class="skill-meta-val">{item.focus}</span>
 									</div>
 								</div>
 							{/each}
 						</div>
 
-						<div class="box-line-bot">
-							<span class="box-corner"
+						<div class="tui-line-bot">
+							<span class="tui-corner"
 								>{classicBox.bottomLeft}{classicBox.bottom}{classicBox.bottom}</span
 							>
-							<span class="box-fill">{classicBox.bottom}</span>
-							<span class="box-corner"
+							<span class="tui-fill">{classicBox.bottom}</span>
+							<span class="tui-corner"
 								>{classicBox.bottom}{classicBox.bottom}{classicBox.bottomRight}</span
 							>
 						</div>
@@ -855,31 +852,30 @@
 		</div>
 
 		<!-- Operator Status Box -->
-		<div class="cli-box footer-box">
-			<div class="box-line-top">
-				<span class="box-corner">{classicBox.topLeft}{classicBox.top}{classicBox.top}</span>
-				<span class="box-title">Operator Session</span>
-				<span class="box-fill">{classicBox.top}</span>
-				<span class="box-corner">{classicBox.top}{classicBox.top}{classicBox.topRight}</span>
+		<div class="tui-box footer-box">
+			<div class="tui-line-top">
+				<span class="tui-corner">{classicBox.topLeft}{classicBox.top}{classicBox.top}</span>
+				<span class="tui-title-coral">Operator Session</span>
+				<span class="tui-fill">{classicBox.top}</span>
+				<span class="tui-corner">{classicBox.top}{classicBox.top}{classicBox.topRight}</span>
 			</div>
-			<div class="box-body footer-body">
-				<span class="footer-meta">OPERATOR: THANAPHUM MASAYAMAS</span>
-				<span class="footer-meta">STATUS: ACTIVE // {new Date().getFullYear()}</span>
-				<span class="footer-meta">ECOSYSTEM: SVELTE 5 RUNES // MONOSPACE CLI</span>
+			<div class="tui-body footer-body">
+				<span class="footer-text">Operator: Thanaphum Masayamas</span>
+				<span class="footer-text">Status: Active ({new Date().getFullYear()})</span>
 				<a
 					href="https://github.com/PLATONG34821"
 					target="_blank"
 					rel="external noreferrer"
-					class="cli-link"
+					class="text-link"
 				>
-					[GITHUB.COM/PLATONG34821 ↗]
+					GitHub Profile ↗
 				</a>
 			</div>
-			<div class="box-line-bot">
-				<span class="box-corner">{classicBox.bottomLeft}{classicBox.bottom}{classicBox.bottom}</span
+			<div class="tui-line-bot">
+				<span class="tui-corner">{classicBox.bottomLeft}{classicBox.bottom}{classicBox.bottom}</span
 				>
-				<span class="box-fill">{classicBox.bottom}</span>
-				<span class="box-corner"
+				<span class="tui-fill">{classicBox.bottom}</span>
+				<span class="tui-corner"
 					>{classicBox.bottom}{classicBox.bottom}{classicBox.bottomRight}</span
 				>
 			</div>
@@ -900,14 +896,14 @@
 		<!-- svelte-ignore a11y_click_events_have_key_events -->
 		<!-- svelte-ignore a11y_no_noninteractive_element_interactions -->
 		<div class="tui-modal-dialog" onclick={(e) => e.stopPropagation()} role="document">
-			<div class="cli-box modal-box">
-				<div class="box-line-top">
-					<span class="box-corner">{classicBox.topLeft}{classicBox.top}{classicBox.top}</span>
-					<span class="box-title">{activeCertModal.title}</span>
-					<span class="box-fill">{classicBox.top}</span>
-					<span class="box-corner">{classicBox.top}{classicBox.top}{classicBox.topRight}</span>
+			<div class="tui-box modal-box">
+				<div class="tui-line-top">
+					<span class="tui-corner">{classicBox.topLeft}{classicBox.top}{classicBox.top}</span>
+					<span class="tui-title-coral">{activeCertModal.title}</span>
+					<span class="tui-fill">{classicBox.top}</span>
+					<span class="tui-corner">{classicBox.top}{classicBox.top}{classicBox.topRight}</span>
 				</div>
-				<div class="box-body">
+				<div class="tui-body">
 					<div class="tui-modal-body">
 						<img
 							src={activeCertModal.image}
@@ -917,28 +913,28 @@
 						/>
 					</div>
 					<div class="tui-modal-footer">
-						<span class="footer-meta">&gt; Official Certificate Record</span>
+						<span class="footer-text">&gt; Official Certificate Record</span>
 						<div class="tui-modal-actions">
 							<a
 								href={activeCertModal.image}
 								target="_blank"
 								rel="external noreferrer"
-								class="cli-link"
+								class="text-link"
 							>
-								[OPEN HIGH-RES ↗]
+								Open Full-Res ↗
 							</a>
 							<button type="button" class="cli-close-btn" onclick={closeCert}>
-								[CLOSE ESC ×]
+								Close [ESC ×]
 							</button>
 						</div>
 					</div>
 				</div>
-				<div class="box-line-bot">
-					<span class="box-corner"
+				<div class="tui-line-bot">
+					<span class="tui-corner"
 						>{classicBox.bottomLeft}{classicBox.bottom}{classicBox.bottom}</span
 					>
-					<span class="box-fill">{classicBox.bottom}</span>
-					<span class="box-corner"
+					<span class="tui-fill">{classicBox.bottom}</span>
+					<span class="tui-corner"
 						>{classicBox.bottom}{classicBox.bottom}{classicBox.bottomRight}</span
 					>
 				</div>
@@ -948,7 +944,7 @@
 {/if}
 
 <style>
-	/* Global Monospace & TUI Environment */
+	/* Global Monospace & TUI Layout */
 	.top-fade-curtain {
 		position: fixed;
 		top: 0;
@@ -992,76 +988,86 @@
 		margin: 0 auto;
 		display: flex;
 		flex-direction: column;
-		gap: 3.5rem;
+		gap: 4rem;
 	}
 
 	.section-block {
 		display: flex;
 		flex-direction: column;
-		gap: 1.25rem;
+		gap: 1.5rem;
 	}
 
-	/* Section Title Bar */
-	.section-title-bar {
+	/* Clean Section Header Bars */
+	.section-header-bar {
 		display: flex;
 		align-items: center;
-		gap: 0.65rem;
+		gap: 0.85rem;
 		user-select: none;
 		white-space: nowrap;
 	}
 
-	.sec-title-tag {
-		color: #38bdf8;
+	.sec-label {
+		color: #f87171;
 		font-weight: 700;
-		font-size: 0.84rem;
-		letter-spacing: 0.03em;
+		font-size: 0.92rem;
+		letter-spacing: 0.02em;
 	}
 
-	.sec-title-line {
+	.sec-line {
 		flex-grow: 1;
-		border-bottom: 1px dashed #1e293b;
+		border-bottom: 1px dashed #27272a;
 		height: 1px;
 	}
 
-	.sec-title-meta {
-		color: #64748b;
-		font-size: 0.72rem;
-		font-weight: 600;
-		letter-spacing: 0.04em;
+	.sec-hint {
+		color: #71717a;
+		font-size: 0.78rem;
+		font-weight: 500;
 	}
 
-	/* 2-Column Balanced Dashboard */
-	.cli-dashboard-grid {
+	.sec2-label {
+		color: #38bdf8;
+	}
+
+	.sec2-line {
+		border-bottom-color: #1e293b;
+	}
+
+	.sec2-hint {
+		color: #64748b;
+	}
+
+	/* Two-Column Layout */
+	.two-column-layout {
 		display: grid;
 		grid-template-columns: repeat(auto-fit, minmax(460px, 1fr));
 		gap: 1.75rem;
 		align-items: start;
 	}
 
-	.cli-column {
+	.column-stack {
 		display: flex;
 		flex-direction: column;
 		gap: 1.75rem;
 	}
 
-	/* Dedicated Capabilities Matrix Grid */
-	.capabilities-matrix-grid {
+	.capabilities-grid {
 		display: grid;
 		grid-template-columns: repeat(auto-fit, minmax(460px, 1fr));
 		gap: 1.75rem;
 		align-items: start;
 	}
 
-	/* CLI Box Drawing Container */
-	.cli-box {
+	/* Classic ASCII Box Borders */
+	.tui-box {
 		display: flex;
 		flex-direction: column;
 		background: transparent;
 		user-select: none;
 	}
 
-	.box-line-top,
-	.box-line-bot {
+	.tui-line-top,
+	.tui-line-bot {
 		display: flex;
 		align-items: center;
 		font-size: 0.88rem;
@@ -1070,56 +1076,77 @@
 		white-space: nowrap;
 	}
 
-	.box-corner {
+	.tui-corner {
 		color: #3f3f46;
 		font-weight: 400;
 	}
 
-	.box-title {
-		color: #f87171; /* Coral Red matching screenshot */
-		font-weight: 600;
-		font-size: 0.88rem;
-		padding: 0 0.5rem;
-		letter-spacing: 0.02em;
-	}
-
-	.box-fill {
+	.tui-fill {
 		flex-grow: 1;
 		overflow: hidden;
 		letter-spacing: -0.05em;
 		color: #27272a;
 	}
 
-	.box-body {
+	.tui-title-coral {
+		color: #f87171;
+		font-weight: 600;
+		font-size: 0.88rem;
+		padding: 0 0.5rem;
+		letter-spacing: 0.02em;
+	}
+
+	.tui-title-cyan {
+		color: #38bdf8;
+		font-weight: 600;
+		font-size: 0.88rem;
+		padding: 0 0.5rem;
+		letter-spacing: 0.02em;
+	}
+
+	.tui-body {
 		border-left: 1px solid #27272a;
 		border-right: 1px solid #27272a;
-		padding: 1rem 1.25rem 1.15rem;
+		padding: 1.25rem 1.4rem;
 		display: flex;
 		flex-direction: column;
-		gap: 1.25rem;
+		gap: 1.5rem;
 		margin: 0 1px;
 		user-select: text;
 	}
 
-	.box-body.capability-body {
-		gap: 1rem;
+	.cap-body {
+		gap: 1.35rem;
+		background: #040810;
+		border-color: #1e293b;
 	}
 
-	/* Project Card Item inside Box */
-	.cli-card-item {
+	.cap-box .tui-line-top,
+	.cap-box .tui-line-bot {
+		color: #1e293b;
+	}
+
+	.cap-box .tui-corner {
+		color: #334155;
+	}
+
+	/* ========================================================================= */
+	/* PROJECT ENTRY STYLES (Clean & Highly Readable)                            */
+	/* ========================================================================= */
+	.project-entry {
 		display: flex;
 		flex-direction: column;
-		gap: 0.35rem;
-		padding-bottom: 1.15rem;
-		border-bottom: 1px dashed #181f2a;
+		gap: 0.45rem;
+		padding-bottom: 1.4rem;
+		border-bottom: 1px dashed #1e2430;
 	}
 
-	.cli-card-item:last-child {
+	.project-entry:last-child {
 		padding-bottom: 0;
 		border-bottom: none;
 	}
 
-	.cli-card-head {
+	.entry-header {
 		display: flex;
 		justify-content: space-between;
 		align-items: baseline;
@@ -1127,27 +1154,27 @@
 		flex-wrap: wrap;
 	}
 
-	.cli-head-left {
+	.entry-title-wrap {
 		display: flex;
 		align-items: baseline;
 		gap: 0.45rem;
 	}
 
-	.cli-id {
-		color: #38bdf8;
-		font-weight: 700;
-		font-size: 0.84rem;
+	.entry-number {
+		color: #71717a;
+		font-size: 0.88rem;
+		font-weight: 600;
 	}
 
-	.cli-title-btn,
-	.cli-title-link {
+	.entry-title-btn,
+	.entry-title-link {
 		background: transparent;
 		border: none;
 		padding: 0;
 		margin: 0;
-		color: #f3f4f6;
+		color: #f4f4f5;
 		font-family: inherit;
-		font-size: 0.95rem;
+		font-size: 0.96rem;
 		font-weight: 600;
 		text-align: left;
 		text-decoration: none;
@@ -1157,84 +1184,268 @@
 		transition: color 0.15s ease;
 	}
 
-	.cli-title-btn:hover,
-	.cli-title-link:hover {
+	.entry-title-btn:hover,
+	.entry-title-link:hover {
 		color: #38bdf8;
 		text-decoration: underline;
 		text-underline-offset: 3px;
 	}
 
-	.cli-title-btn.highlighted,
-	.cli-title-link.highlighted {
-		color: #fdba74; /* Warm orange highlight */
+	.entry-title-btn.highlighted,
+	.entry-title-link.highlighted {
+		color: #fdba74;
 	}
 
-	.cli-check {
+	.check-mark {
 		color: #f97316;
-		margin-left: 0.3rem;
+		margin-left: 0.35rem;
 		font-weight: 700;
+	}
+
+	.entry-badge {
+		color: #71717a;
+		font-size: 0.76rem;
+		font-weight: 500;
+	}
+
+	.entry-summary {
+		margin: 0;
+		color: #d4d4d8;
 		font-size: 0.85rem;
+		line-height: 1.55;
 	}
 
-	.cli-cat-tag {
-		color: #64748b;
-		font-size: 0.7rem;
-		font-weight: 600;
-		letter-spacing: 0.04em;
-	}
-
-	.cli-card-desc {
-		color: #9ca3af;
-		font-size: 0.82rem;
+	.entry-meta {
+		display: flex;
+		gap: 0.5rem;
+		font-size: 0.78rem;
 		line-height: 1.45;
 	}
 
-	.cli-card-telemetry {
+	.meta-label {
+		color: #71717a;
+		font-weight: 600;
+		flex-shrink: 0;
+	}
+
+	.meta-text {
+		color: #a1a1aa;
+	}
+
+	.entry-links {
 		display: flex;
-		gap: 0.4rem;
+		align-items: center;
+		gap: 0.5rem;
+		font-size: 0.8rem;
+		padding-top: 0.15rem;
+	}
+
+	.links-label {
+		color: #71717a;
+		font-weight: 600;
+		flex-shrink: 0;
+	}
+
+	.links-list {
+		display: flex;
+		flex-wrap: wrap;
+		gap: 0.85rem;
+	}
+
+	/* ========================================================================= */
+	/* AWARDS & CERTS STYLES                                                     */
+	/* ========================================================================= */
+	.award-entry {
+		display: flex;
+		align-items: flex-start;
+		gap: 0.75rem;
+		padding-bottom: 0.85rem;
+		border-bottom: 1px dashed #1e2430;
+	}
+
+	.award-entry:last-child {
+		padding-bottom: 0;
+		border-bottom: none;
+	}
+
+	.award-year {
+		color: #71717a;
+		font-size: 0.82rem;
+		font-weight: 600;
+		flex-shrink: 0;
+		padding-top: 0.1rem;
+	}
+
+	.award-content {
+		display: flex;
+		flex-direction: column;
+		gap: 0.18rem;
+		flex-grow: 1;
+	}
+
+	.award-head {
+		display: flex;
+		align-items: baseline;
+	}
+
+	.award-title-btn,
+	.award-title-static {
+		background: transparent;
+		border: none;
+		padding: 0;
+		margin: 0;
+		color: #f4f4f5;
+		font-family: inherit;
+		font-size: 0.88rem;
+		font-weight: 500;
+		text-align: left;
+		cursor: pointer;
+		display: inline-flex;
+		align-items: baseline;
+		gap: 0.35rem;
+		flex-wrap: wrap;
+		transition: color 0.15s ease;
+	}
+
+	.award-title-btn:hover .award-title {
+		color: #38bdf8;
+		text-decoration: underline;
+		text-underline-offset: 3px;
+	}
+
+	.award-badge {
+		color: #fbbf24;
+		font-weight: 600;
+		font-size: 0.8rem;
+	}
+
+	.award-title {
+		color: #e4e4e7;
+	}
+
+	.award-title-btn.highlighted .award-title {
+		color: #fdba74;
+	}
+
+	.cert-link-hint {
+		color: #38bdf8;
 		font-size: 0.76rem;
+		font-weight: 500;
+		margin-left: 0.2rem;
+	}
+
+	.award-sub {
+		margin: 0;
+		color: #71717a;
+		font-size: 0.78rem;
 		line-height: 1.4;
 	}
 
-	.telemetry-label {
+	/* Certifications */
+	.cert-entry {
+		display: flex;
+		align-items: baseline;
+		gap: 0.75rem;
+		padding-bottom: 0.55rem;
+		border-bottom: 1px dashed #181d26;
+	}
+
+	.cert-entry:last-child {
+		padding-bottom: 0;
+		border-bottom: none;
+	}
+
+	.cert-code {
+		color: #38bdf8;
+		font-size: 0.78rem;
+		font-weight: 700;
+		flex-shrink: 0;
+	}
+
+	.cert-info {
+		display: flex;
+		align-items: baseline;
+		gap: 0.4rem;
+		flex-wrap: wrap;
+		font-size: 0.84rem;
+	}
+
+	.cert-name {
+		color: #e4e4e7;
+		font-weight: 500;
+	}
+
+	.cert-meta {
+		color: #71717a;
+		font-size: 0.78rem;
+	}
+
+	/* ========================================================================= */
+	/* CAPABILITIES MATRIX STYLES                                                */
+	/* ========================================================================= */
+	.skill-entry {
+		display: flex;
+		flex-direction: column;
+		gap: 0.3rem;
+		padding-bottom: 1rem;
+		border-bottom: 1px dashed #1e293b;
+	}
+
+	.skill-entry:last-child {
+		padding-bottom: 0;
+		border-bottom: none;
+	}
+
+	.skill-header {
+		display: flex;
+		justify-content: space-between;
+		align-items: baseline;
+		gap: 0.75rem;
+		flex-wrap: wrap;
+	}
+
+	.skill-title {
+		color: #f1f5f9;
+		font-size: 0.92rem;
+		font-weight: 600;
+	}
+
+	.skill-title.highlighted {
+		color: #fdba74;
+	}
+
+	.skill-level {
+		color: #38bdf8;
+		font-size: 0.76rem;
+		font-weight: 600;
+	}
+
+	.skill-meta-row {
+		display: flex;
+		gap: 0.5rem;
+		font-size: 0.78rem;
+		line-height: 1.45;
+	}
+
+	.skill-meta-lbl {
 		color: #64748b;
 		font-weight: 600;
 		flex-shrink: 0;
 	}
 
-	.telemetry-val {
+	.skill-meta-val {
 		color: #cbd5e1;
 	}
 
-	/* Action Links */
-	.cli-card-actions {
-		display: flex;
-		align-items: center;
-		gap: 0.45rem;
-		padding-top: 0.2rem;
-		font-size: 0.78rem;
-	}
-
-	.action-prefix {
-		color: #22c55e;
-		font-weight: 700;
-	}
-
-	.action-links-list {
-		display: flex;
-		flex-wrap: wrap;
-		gap: 0.65rem;
-	}
-
-	.cli-link,
-	.cli-link-btn {
+	/* Pure Text Link Buttons */
+	.text-link {
 		background: transparent !important;
 		border: none !important;
 		padding: 0 !important;
 		margin: 0 !important;
 		color: #38bdf8 !important;
 		font-family: inherit;
-		font-size: 0.78rem;
+		font-size: 0.8rem;
 		font-weight: 500;
 		text-decoration: none;
 		cursor: pointer;
@@ -1245,211 +1456,26 @@
 			text-decoration 0.15s ease;
 	}
 
-	.cli-link:hover,
-	.cli-link-btn:hover {
+	.text-link:hover {
 		color: #ffffff !important;
 		text-decoration: underline !important;
 		text-underline-offset: 3px;
 	}
 
-	/* Awards & Certifications Rows */
-	.cli-table-row {
-		display: flex;
-		align-items: flex-start;
-		gap: 0.65rem;
-		padding-bottom: 0.65rem;
-		border-bottom: 1px dashed #141b24;
-	}
-
-	.cli-table-row:last-child {
-		padding-bottom: 0;
-		border-bottom: none;
-	}
-
-	.cli-table-row.compact {
-		align-items: baseline;
-		padding-bottom: 0.45rem;
-	}
-
-	.row-year {
-		color: #38bdf8;
-		font-weight: 600;
-		font-size: 0.76rem;
-		flex-shrink: 0;
-	}
-
-	.row-main {
-		display: flex;
-		flex-direction: column;
-		gap: 0.15rem;
-		flex-grow: 1;
-	}
-
-	.row-title-line {
-		display: flex;
-		align-items: baseline;
-	}
-
-	.row-title-btn,
-	.row-title-static {
-		background: transparent;
-		border: none;
-		padding: 0;
-		margin: 0;
-		color: #f3f4f6;
-		font-family: inherit;
-		font-size: 0.85rem;
-		font-weight: 500;
-		text-align: left;
-		cursor: pointer;
-		display: inline-flex;
-		align-items: baseline;
-		gap: 0.35rem;
-		flex-wrap: wrap;
-		transition: color 0.15s ease;
-	}
-
-	.row-title-btn:hover .row-name {
-		color: #38bdf8;
-		text-decoration: underline;
-		text-underline-offset: 3px;
-	}
-
-	.row-badge {
-		color: #fbbf24;
-		font-weight: 600;
-		font-size: 0.8rem;
-	}
-
-	.row-name {
-		color: #e2e8f0;
-	}
-
-	.row-title-btn.highlighted .row-name {
-		color: #fdba74;
-	}
-
-	.row-cert-link {
-		color: #38bdf8;
-		font-size: 0.72rem;
-		font-weight: 600;
-		margin-left: 0.2rem;
-	}
-
-	.row-sub {
-		color: #64748b;
-		font-size: 0.74rem;
-		line-height: 1.35;
-	}
-
-	/* Certifications */
-	.row-code {
-		color: #38bdf8;
-		font-weight: 700;
-		font-size: 0.76rem;
-		flex-shrink: 0;
-	}
-
-	.row-cert-content {
-		display: flex;
-		align-items: baseline;
-		gap: 0.4rem;
-		flex-wrap: wrap;
-		font-size: 0.82rem;
-	}
-
-	.cert-name {
-		color: #f1f5f9;
-		font-weight: 500;
-	}
-
-	.cert-issuer {
-		color: #64748b;
-		font-size: 0.74rem;
-	}
-
-	/* Capabilities Item Rows */
-	.cap-item-row {
-		display: flex;
-		flex-direction: column;
-		gap: 0.25rem;
-		padding-bottom: 0.85rem;
-		border-bottom: 1px dashed #182233;
-	}
-
-	.cap-item-row:last-child {
-		padding-bottom: 0;
-		border-bottom: none;
-	}
-
-	.cap-item-head {
-		display: flex;
-		justify-content: space-between;
-		align-items: baseline;
-		gap: 0.75rem;
-		flex-wrap: wrap;
-	}
-
-	.cap-skill-name {
-		color: #f3f4f6;
-		font-size: 0.88rem;
-		font-weight: 600;
-	}
-
-	.cap-skill-name.highlighted {
-		color: #fdba74;
-	}
-
-	.cap-badge-group {
-		display: flex;
-		align-items: center;
-		gap: 0.45rem;
-	}
-
-	.cap-level-tag {
-		color: #38bdf8;
-		font-size: 0.72rem;
-		font-weight: 600;
-	}
-
-	.cap-status-tag {
-		color: #22c55e;
-		font-size: 0.7rem;
-		font-weight: 700;
-	}
-
-	.cap-evidence-text {
-		display: flex;
-		gap: 0.45rem;
-		font-size: 0.76rem;
-		line-height: 1.4;
-	}
-
-	.cap-ev-lbl {
-		color: #64748b;
-		font-weight: 700;
-		flex-shrink: 0;
-		font-size: 0.72rem;
-	}
-
-	.cap-ev-val {
-		color: #94a3b8;
-	}
-
 	/* Footer Box */
-	.footer-box .box-body {
+	.footer-box .tui-body {
 		flex-direction: row;
 		justify-content: space-between;
 		align-items: center;
 		flex-wrap: wrap;
 		gap: 1rem;
-		padding: 0.65rem 1.25rem;
+		padding: 0.75rem 1.4rem;
 	}
 
-	.footer-meta {
-		color: #64748b;
-		font-size: 0.76rem;
-		font-weight: 600;
+	.footer-text {
+		color: #71717a;
+		font-size: 0.78rem;
+		font-weight: 500;
 	}
 
 	/* Modal / Lightbox */
