@@ -64,11 +64,9 @@
 		let targetProgress = 0;
 
 		const handleScroll = () => {
-			if (!containerElement) return;
-			const rect = containerElement.getBoundingClientRect();
-			const totalScroll = rect.height - window.innerHeight;
-			if (totalScroll <= 0) return;
-			const rawProgress = -rect.top / totalScroll;
+			const scrollY = window.scrollY || window.pageYOffset;
+			const scrollDistance = Math.max(350, window.innerHeight * 0.65);
+			const rawProgress = scrollY / scrollDistance;
 			targetProgress = Math.max(0, Math.min(1, rawProgress));
 			scrollProgress = targetProgress;
 		};
@@ -108,7 +106,7 @@
 			const height = window.innerHeight;
 
 			// Smooth scroll interpolation
-			currentProgress += (targetProgress - currentProgress) * 0.15;
+			currentProgress += (targetProgress - currentProgress) * 0.16;
 
 			// Phase 1: 0.0 -> 0.7 (Morph THANAPHUM -> EXPERIENCE)
 			// Phase 2: 0.2 -> 0.85 (Slide EXP smoothly up to top header)
@@ -126,14 +124,12 @@
 			context.scale(dpr, dpr);
 			context.clearRect(0, 0, width, height);
 
-			// Calculate font sizing and grid cell spacing
+			// Calculate original crisp font sizing (no shrinking)
 			const baseFontSize = Math.min(
 				Math.floor((width * 0.94) / (currentCols * 0.6)),
 				Math.floor((height * 0.8) / (currentRows * 1.15))
 			);
-			// Scale down slightly when sliding to sticky header
-			const scaleModifier = 1 - slideT * 0.28;
-			const fontSize = Math.max(5.5, Math.min(14, baseFontSize * scaleModifier));
+			const fontSize = Math.max(7, Math.min(14, baseFontSize));
 			const cellWidth = fontSize * 0.6;
 			const cellHeight = fontSize * 1.15;
 
@@ -141,10 +137,8 @@
 			const gridPixelHeight = currentRows * cellHeight;
 			const originX = (width - gridPixelWidth) / 2;
 
-			// Calculate exact top row offset of the ASCII letters inside the grid
+			// Center Y transitioning smoothly to top sticky position (60px from top)
 			const artTopRow = (currentRows - maxArtHeight) >> 1;
-
-			// Center Y transitioning smoothly to sticky top position (adjusted to 60px from top)
 			const centerY = (height - gridPixelHeight) / 2;
 			const targetLetterTop = 60;
 			const stickyOriginY = targetLetterTop - artTopRow * cellHeight;
@@ -225,7 +219,7 @@
 	.ascii-scroll-container {
 		position: relative;
 		width: 100%;
-		height: 180vh;
+		height: 65vh;
 		background: #000000;
 	}
 

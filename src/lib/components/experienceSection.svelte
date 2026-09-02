@@ -14,10 +14,8 @@
 
 	let { scrollProgress = 0 }: Props = $props();
 
-	// Keep cards 100% hidden until EXP finishes forming (0.7), then smoothly fade in
-	let sectionOpacity = $derived(
-		scrollProgress < 0.7 ? 0 : Math.min(1, (scrollProgress - 0.7) / 0.25)
-	);
+	// Pure in-place fade in once EXP finishes assembling (scrollProgress >= 0.7)
+	let isRevealed = $derived(scrollProgress >= 0.6);
 
 	const projects: Project[] = [
 		{
@@ -86,11 +84,7 @@
 <!-- Fixed top gradient curtain that progressively masks cards top-first as they scroll up under EXP -->
 <div class="top-fade-curtain" aria-hidden="true"></div>
 
-<section
-	class="experience-section"
-	style="opacity: {sectionOpacity}; pointer-events: {sectionOpacity > 0.5 ? 'auto' : 'none'};"
-	id="experience"
->
+<section class="experience-section" class:is-revealed={isRevealed} id="experience">
 	<div class="content-container">
 		<!-- Projects Grid -->
 		<div class="projects-grid">
@@ -179,9 +173,16 @@
 		min-height: 100vh;
 		background: #000000;
 		color: #ededed;
-		padding: 2.5rem 1.5rem 6rem;
+		padding: 7rem 1.5rem 6rem;
 		z-index: 10;
-		transition: opacity 0.2s linear;
+		opacity: 0;
+		pointer-events: none;
+		transition: opacity 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+	}
+
+	.experience-section.is-revealed {
+		opacity: 1;
+		pointer-events: auto;
 	}
 
 	.content-container {
