@@ -43,11 +43,18 @@
 		code: string;
 	}
 
-	interface Skill {
-		name: string;
-		category: string;
+	interface CapabilityItem {
+		skill: string;
+		level: string;
+		evidence: string;
 		status: string;
-		isPrimary?: boolean;
+		isHighlighted?: boolean;
+	}
+
+	interface CapabilityCategory {
+		id: string;
+		title: string;
+		items: CapabilityItem[];
 	}
 
 	interface Props {
@@ -342,39 +349,175 @@
 		}
 	];
 
-	const skills: Skill[] = [
+	// Detailed capabilities computed from all 15 GitHub Repos, Certifications & Competition Awards
+	const capabilityCategories: CapabilityCategory[] = [
 		{
-			name: 'Svelte 5 / SvelteKit',
-			category: 'Frontend & UI Frameworks',
-			status: 'SYS_OK',
-			isPrimary: true
+			id: '01',
+			title: 'Frontend & Web Architecture',
+			items: [
+				{
+					skill: 'Svelte 5 / SvelteKit',
+					level: 'Advanced',
+					evidence:
+						'HLLC 2026 (4.4k users), polyTone, Portfolio, Study-Schedule, GroupPlan, pt-chord',
+					status: 'SYS_OK',
+					isHighlighted: true
+				},
+				{
+					skill: 'TypeScript / JavaScript',
+					level: 'Advanced',
+					evidence: 'Strict typing across 9 repos, DOM & Canvas pipelines, Project-DSM',
+					status: 'SYS_OK',
+					isHighlighted: true
+				},
+				{
+					skill: 'HTML5 Canvas 2D & DSP Audio',
+					level: 'Proficient',
+					evidence: 'Study-Schedule (4K renderer), polyTone (IR DSP engine), pt-chord',
+					status: 'SYS_OK'
+				},
+				{
+					skill: 'Astro & Static Jamstack',
+					level: 'Proficient',
+					evidence: 'pt-blog (Content collections, markdown compiler, optimized assets)',
+					status: 'SYS_OK'
+				},
+				{
+					skill: 'Web App Competition Mastery',
+					level: 'Certified',
+					evidence: 'Gold Medal (71st) & Silver Medal (70th) National Student Arts & Crafts',
+					status: 'GOLD_MEDAL',
+					isHighlighted: true
+				}
+			]
 		},
 		{
-			name: 'TypeScript / JavaScript',
-			category: 'Fullstack Web Architecture',
-			status: 'SYS_OK',
-			isPrimary: true
+			id: '02',
+			title: 'Backend, Cloud & Data Infrastructure',
+			items: [
+				{
+					skill: 'High-Concurrency System Design',
+					level: 'Production',
+					evidence: 'HLLC 2026 API architecture serving 4,400+ simultaneous orientation students',
+					status: 'SYS_OK',
+					isHighlighted: true
+				},
+				{
+					skill: 'Supabase Cloud & PostgreSQL',
+					level: 'Proficient',
+					evidence: 'polyTone (Relational schema, realtime subscriptions, cloud storage buckets)',
+					status: 'SYS_OK'
+				},
+				{
+					skill: 'Java & Game Server Plugins',
+					level: 'Proficient',
+					evidence: 'PT-Story, PT-Spawn, PT-Warp (Paper 1.20.4 OOP architecture & event loop)',
+					status: 'SYS_OK'
+				},
+				{
+					skill: 'Python & R Data Analytics',
+					level: 'Certified',
+					evidence: 'ThaiMOOC Python for Data Science (RMUTT) & R Data Analysis (SKRU)',
+					status: 'CERTIFIED'
+				},
+				{
+					skill: 'Software Engineering & OOP',
+					level: 'Certified',
+					evidence: 'MFU-SE, MFU-PROG, MFU-OOP Academic Specializations (Mae Fah Luang Univ)',
+					status: 'CERTIFIED',
+					isHighlighted: true
+				}
+			]
 		},
 		{
-			name: 'Docker / Docker Swarm',
-			category: 'DevOps & Homelab Clusters',
-			status: 'SYS_OK',
-			isPrimary: true
+			id: '03',
+			title: 'DevOps & Systems Engineering',
+			items: [
+				{
+					skill: 'Docker & Docker Swarm',
+					level: 'Proficient',
+					evidence: 'Portable-Hybrid-Arch-Docker-Swarm-Cluster (Multi-node orchestration)',
+					status: 'SYS_OK',
+					isHighlighted: true
+				},
+				{
+					skill: 'Heterogeneous Multi-Arch (x86/ARM)',
+					level: 'Proficient',
+					evidence: 'Hybrid cluster combining x86_64 servers & ARM64 edge nodes (Pi/Rockchip)',
+					status: 'SYS_OK'
+				},
+				{
+					skill: 'Reverse Proxy & High Availability',
+					level: 'Proficient',
+					evidence: 'Automated SSL termination, failover routing, zero-downtime stacks',
+					status: 'SYS_OK'
+				},
+				{
+					skill: 'Linux Administration & Scripting',
+					level: 'Proficient',
+					evidence: 'Debian/Alpine homelab setups, Bash automation, CMDEdge Windows CLI',
+					status: 'SYS_OK'
+				}
+			]
 		},
 		{
-			name: 'IoT & Hardware Prototyping',
-			category: 'Sensors, Arduino & Embedded',
-			status: 'SYS_OK'
+			id: '04',
+			title: 'Embedded IoT & Hardware Automation',
+			items: [
+				{
+					skill: 'Biological Gravitropism Control',
+					level: 'Grant Winner',
+					evidence: 'NSC 25 Funded Grantee — Automated silkworm reeling with motor drivers',
+					status: 'NSC_25',
+					isHighlighted: true
+				},
+				{
+					skill: 'Smart Medical Hardware & Flow Sensors',
+					level: 'Intl Award',
+					evidence: 'TJ-SIF 2022 — IV Stand embedded telemetry presented to Thailand-Japan forum',
+					status: 'TJ_SIF',
+					isHighlighted: true
+				},
+				{
+					skill: 'Vehicle Telemetry & Road Safety',
+					level: 'Proficient',
+					evidence:
+						'Project-DSM — GPS real-time positioning & accelerometer driver safety tracking',
+					status: 'SYS_OK'
+				},
+				{
+					skill: 'IoT Sensor Foundations',
+					level: 'Certified',
+					evidence: 'ThaiMOOC Internet of Things Fundamentals (Prince of Songkla Univ)',
+					status: 'CERTIFIED'
+				}
+			]
 		},
 		{
-			name: 'Astro / Modern Static Sites',
-			category: 'High-Performance Web',
-			status: 'SYS_OK'
-		},
-		{
-			name: 'Python & Data Analysis',
-			category: 'Scientific & Automation Tools',
-			status: 'SYS_OK'
+			id: '05',
+			title: 'Competitive Problem Solving & Leadership',
+			items: [
+				{
+					skill: 'Competitive Programming & Algorithms',
+					level: 'Top 3.6%',
+					evidence: 'BornToDev DevLab 3 Nationwide Contest (Rank #1,152 out of 31,905 developers)',
+					status: 'TOP_3.6%',
+					isHighlighted: true
+				},
+				{
+					skill: 'Product Design & Design Thinking',
+					level: 'Finalist',
+					evidence: 'Samsung Solve for Tomorrow 2024 shortlisted innovation & workshop',
+					status: 'FINALIST'
+				},
+				{
+					skill: 'Civic Software & Leadership',
+					level: 'Honor Roll',
+					evidence: 'Student of Excellence "Khon Dee Sri Damrong 2567" & damrong_pitakphong portal',
+					status: 'HONOR_ROLL',
+					isHighlighted: true
+				}
+			]
 		}
 	];
 </script>
@@ -384,79 +527,154 @@
 
 <section class="experience-section" class:is-revealed={isRevealed} id="experience">
 	<div class="content-container">
-		<!-- 2-Column Balanced Dashboard -->
-		<div class="cli-dashboard-grid">
-			<!-- LEFT COLUMN: Selected Projects & Open Source Systems -->
-			<div class="cli-column">
-				<!-- Box 1: Core Production Systems -->
-				<div class="cli-box">
-					<div class="box-line-top">
-						<span class="box-corner">{classicBox.topLeft}{classicBox.top}{classicBox.top}</span>
-						<span class="box-title">Selected Projects</span>
-						<span class="box-fill">{classicBox.top}</span>
-						<span class="box-corner">{classicBox.top}{classicBox.top}{classicBox.topRight}</span>
+		<!-- SECTION 01: SELECTED PROJECTS & RECOGNITION -->
+		<div class="section-block">
+			<div class="section-title-bar">
+				<span class="sec-title-tag">[ 01 // SELECTED_PROJECTS_AND_HONORS.SYS ]</span>
+				<span class="sec-title-line"></span>
+				<span class="sec-title-meta">CORE PRODUCTION, COMPETITIONS & CERTIFICATES</span>
+			</div>
+
+			<div class="cli-dashboard-grid">
+				<!-- LEFT COLUMN: Selected Projects & Open Source Systems -->
+				<div class="cli-column">
+					<!-- Box 1: Core Production Systems -->
+					<div class="cli-box">
+						<div class="box-line-top">
+							<span class="box-corner">{classicBox.topLeft}{classicBox.top}{classicBox.top}</span>
+							<span class="box-title">Selected Projects</span>
+							<span class="box-fill">{classicBox.top}</span>
+							<span class="box-corner">{classicBox.top}{classicBox.top}{classicBox.topRight}</span>
+						</div>
+
+						<div class="box-body">
+							{#each coreProjects as project (project.id)}
+								<div class="cli-card-item">
+									<!-- Header Line: ID + Title + Status -->
+									<div class="cli-card-head">
+										<div class="cli-head-left">
+											<span class="cli-id">[{project.id}]</span>
+											{#if project.certImage}
+												<button
+													type="button"
+													onclick={() => openCert(project.title, project.certImage!)}
+													class="cli-title-btn"
+													class:highlighted={project.isFeatured}
+												>
+													{project.title}
+													{#if project.isFeatured}
+														<span class="cli-check">✓</span>
+													{/if}
+												</button>
+											{:else}
+												<!-- eslint-disable-next-line svelte/no-navigation-without-resolve -->
+												<a
+													href={project.githubUrl}
+													target="_blank"
+													rel="external noreferrer"
+													class="cli-title-link"
+													class:highlighted={project.isFeatured}
+												>
+													{project.title}
+													{#if project.isFeatured}
+														<span class="cli-check">✓</span>
+													{/if}
+												</a>
+											{/if}
+										</div>
+										<span class="cli-cat-tag">[{project.category}]</span>
+									</div>
+
+									<!-- Subtitle & Metrics -->
+									<div class="cli-card-desc">{project.summary}</div>
+									<div class="cli-card-telemetry">
+										<span class="telemetry-label">TELEMETRY:</span>
+										<span class="telemetry-val">{project.metrics}</span>
+									</div>
+
+									<!-- Action Links -->
+									{#if project.links && project.links.length > 0}
+										<div class="cli-card-actions">
+											<span class="action-prefix">&gt;</span>
+											<div class="action-links-list">
+												{#each project.links as link (link.label)}
+													{#if link.isCertModal && link.certImage}
+														<button
+															type="button"
+															onclick={() => openCert(project.title, link.certImage!)}
+															class="cli-link-btn"
+														>
+															[{link.label} ↗]
+														</button>
+													{:else}
+														<!-- eslint-disable-next-line svelte/no-navigation-without-resolve -->
+														<a
+															href={link.url}
+															target="_blank"
+															rel="external noreferrer"
+															class="cli-link"
+														>
+															[{link.label} ↗]
+														</a>
+													{/if}
+												{/each}
+											</div>
+										</div>
+									{/if}
+								</div>
+							{/each}
+						</div>
+
+						<div class="box-line-bot">
+							<span class="box-corner"
+								>{classicBox.bottomLeft}{classicBox.bottom}{classicBox.bottom}</span
+							>
+							<span class="box-fill">{classicBox.bottom}</span>
+							<span class="box-corner"
+								>{classicBox.bottom}{classicBox.bottom}{classicBox.bottomRight}</span
+							>
+						</div>
 					</div>
 
-					<div class="box-body">
-						{#each coreProjects as project (project.id)}
-							<div class="cli-card-item">
-								<!-- Header Line: ID + Title + Status -->
-								<div class="cli-card-head">
-									<div class="cli-head-left">
-										<span class="cli-id">[{project.id}]</span>
-										{#if project.certImage}
-											<button
-												type="button"
-												onclick={() => openCert(project.title, project.certImage!)}
-												class="cli-title-btn"
-												class:highlighted={project.isFeatured}
-											>
-												{project.title}
-												{#if project.isFeatured}
-													<span class="cli-check">✓</span>
-												{/if}
-											</button>
-										{:else}
+					<!-- Box 2: Open Source & Research Systems -->
+					<div class="cli-box">
+						<div class="box-line-top">
+							<span class="box-corner">{classicBox.topLeft}{classicBox.top}{classicBox.top}</span>
+							<span class="box-title">Open Source & Systems</span>
+							<span class="box-fill">{classicBox.top}</span>
+							<span class="box-corner">{classicBox.top}{classicBox.top}{classicBox.topRight}</span>
+						</div>
+
+						<div class="box-body">
+							{#each ossProjects as project (project.id)}
+								<div class="cli-card-item">
+									<div class="cli-card-head">
+										<div class="cli-head-left">
+											<span class="cli-id">[{project.id}]</span>
 											<!-- eslint-disable-next-line svelte/no-navigation-without-resolve -->
 											<a
 												href={project.githubUrl}
 												target="_blank"
 												rel="external noreferrer"
 												class="cli-title-link"
-												class:highlighted={project.isFeatured}
 											>
 												{project.title}
-												{#if project.isFeatured}
-													<span class="cli-check">✓</span>
-												{/if}
 											</a>
-										{/if}
+										</div>
+										<span class="cli-cat-tag">[{project.category}]</span>
 									</div>
-									<span class="cli-cat-tag">[{project.category}]</span>
-								</div>
 
-								<!-- Subtitle & Metrics -->
-								<div class="cli-card-desc">{project.summary}</div>
-								<div class="cli-card-telemetry">
-									<span class="telemetry-label">TELEMETRY:</span>
-									<span class="telemetry-val">{project.metrics}</span>
-								</div>
+									<div class="cli-card-desc">{project.summary}</div>
+									<div class="cli-card-telemetry">
+										<span class="telemetry-label">TELEMETRY:</span>
+										<span class="telemetry-val">{project.metrics}</span>
+									</div>
 
-								<!-- Action Links -->
-								{#if project.links && project.links.length > 0}
-									<div class="cli-card-actions">
-										<span class="action-prefix">&gt;</span>
-										<div class="action-links-list">
-											{#each project.links as link (link.label)}
-												{#if link.isCertModal && link.certImage}
-													<button
-														type="button"
-														onclick={() => openCert(project.title, link.certImage!)}
-														class="cli-link-btn"
-													>
-														[{link.label} ↗]
-													</button>
-												{:else}
+									{#if project.links && project.links.length > 0}
+										<div class="cli-card-actions">
+											<span class="action-prefix">&gt;</span>
+											<div class="action-links-list">
+												{#each project.links as link (link.label)}
 													<!-- eslint-disable-next-line svelte/no-navigation-without-resolve -->
 													<a
 														href={link.url}
@@ -466,220 +684,173 @@
 													>
 														[{link.label} ↗]
 													</a>
-												{/if}
-											{/each}
+												{/each}
+											</div>
 										</div>
-									</div>
-								{/if}
-							</div>
-						{/each}
-					</div>
+									{/if}
+								</div>
+							{/each}
+						</div>
 
-					<div class="box-line-bot">
-						<span class="box-corner"
-							>{classicBox.bottomLeft}{classicBox.bottom}{classicBox.bottom}</span
-						>
-						<span class="box-fill">{classicBox.bottom}</span>
-						<span class="box-corner"
-							>{classicBox.bottom}{classicBox.bottom}{classicBox.bottomRight}</span
-						>
+						<div class="box-line-bot">
+							<span class="box-corner"
+								>{classicBox.bottomLeft}{classicBox.bottom}{classicBox.bottom}</span
+							>
+							<span class="box-fill">{classicBox.bottom}</span>
+							<span class="box-corner"
+								>{classicBox.bottom}{classicBox.bottom}{classicBox.bottomRight}</span
+							>
+						</div>
 					</div>
 				</div>
 
-				<!-- Box 2: Open Source & Research Systems -->
-				<div class="cli-box">
-					<div class="box-line-top">
-						<span class="box-corner">{classicBox.topLeft}{classicBox.top}{classicBox.top}</span>
-						<span class="box-title">Open Source & Systems</span>
-						<span class="box-fill">{classicBox.top}</span>
-						<span class="box-corner">{classicBox.top}{classicBox.top}{classicBox.topRight}</span>
-					</div>
+				<!-- RIGHT COLUMN: Awards & Certifications -->
+				<div class="cli-column">
+					<!-- Box 3: Awards & Recognition -->
+					<div class="cli-box" id="awards">
+						<div class="box-line-top">
+							<span class="box-corner">{classicBox.topLeft}{classicBox.top}{classicBox.top}</span>
+							<span class="box-title">Awards & Honors</span>
+							<span class="box-fill">{classicBox.top}</span>
+							<span class="box-corner">{classicBox.top}{classicBox.top}{classicBox.topRight}</span>
+						</div>
 
-					<div class="box-body">
-						{#each ossProjects as project (project.id)}
-							<div class="cli-card-item">
-								<div class="cli-card-head">
-									<div class="cli-head-left">
-										<span class="cli-id">[{project.id}]</span>
-										<!-- eslint-disable-next-line svelte/no-navigation-without-resolve -->
-										<a
-											href={project.githubUrl}
-											target="_blank"
-											rel="external noreferrer"
-											class="cli-title-link"
-										>
-											{project.title}
-										</a>
-									</div>
-									<span class="cli-cat-tag">[{project.category}]</span>
-								</div>
-
-								<div class="cli-card-desc">{project.summary}</div>
-								<div class="cli-card-telemetry">
-									<span class="telemetry-label">TELEMETRY:</span>
-									<span class="telemetry-val">{project.metrics}</span>
-								</div>
-
-								{#if project.links && project.links.length > 0}
-									<div class="cli-card-actions">
-										<span class="action-prefix">&gt;</span>
-										<div class="action-links-list">
-											{#each project.links as link (link.label)}
-												<!-- eslint-disable-next-line svelte/no-navigation-without-resolve -->
-												<a
-													href={link.url}
-													target="_blank"
-													rel="external noreferrer"
-													class="cli-link"
+						<div class="box-body">
+							{#each awards as award (award.id)}
+								<div class="cli-table-row">
+									<span class="row-year">[{award.year}]</span>
+									<div class="row-main">
+										<div class="row-title-line">
+											{#if award.certImage}
+												<button
+													type="button"
+													onclick={() => openCert(award.title, award.certImage!)}
+													class="row-title-btn"
+													class:highlighted={award.isHighlighted}
 												>
-													[{link.label} ↗]
-												</a>
-											{/each}
+													<span class="row-badge">[{award.badge}]</span>
+													<span class="row-name">{award.title}</span>
+													{#if award.isHighlighted}
+														<span class="cli-check">✓</span>
+													{/if}
+													<span class="row-cert-link">[VIEW ↗]</span>
+												</button>
+											{:else}
+												<div class="row-title-static">
+													<span class="row-badge">[{award.badge}]</span>
+													<span class="row-name">{award.title}</span>
+													{#if award.isHighlighted}
+														<span class="cli-check">✓</span>
+													{/if}
+												</div>
+											{/if}
 										</div>
+										<div class="row-sub">{award.subtitle}</div>
 									</div>
-								{/if}
-							</div>
-						{/each}
+								</div>
+							{/each}
+						</div>
+
+						<div class="box-line-bot">
+							<span class="box-corner"
+								>{classicBox.bottomLeft}{classicBox.bottom}{classicBox.bottom}</span
+							>
+							<span class="box-fill">{classicBox.bottom}</span>
+							<span class="box-corner"
+								>{classicBox.bottom}{classicBox.bottom}{classicBox.bottomRight}</span
+							>
+						</div>
 					</div>
 
-					<div class="box-line-bot">
-						<span class="box-corner"
-							>{classicBox.bottomLeft}{classicBox.bottom}{classicBox.bottom}</span
-						>
-						<span class="box-fill">{classicBox.bottom}</span>
-						<span class="box-corner"
-							>{classicBox.bottom}{classicBox.bottom}{classicBox.bottomRight}</span
-						>
+					<!-- Box 4: Academic Certifications -->
+					<div class="cli-box" id="certifications">
+						<div class="box-line-top">
+							<span class="box-corner">{classicBox.topLeft}{classicBox.top}{classicBox.top}</span>
+							<span class="box-title">Academic Certifications</span>
+							<span class="box-fill">{classicBox.top}</span>
+							<span class="box-corner">{classicBox.top}{classicBox.top}{classicBox.topRight}</span>
+						</div>
+
+						<div class="box-body">
+							{#each certifications as cert (cert.code)}
+								<div class="cli-table-row compact">
+									<span class="row-code">[{cert.code}]</span>
+									<div class="row-cert-content">
+										<span class="cert-name">{cert.name}</span>
+										<span class="cert-issuer">:: {cert.issuer}</span>
+									</div>
+								</div>
+							{/each}
+						</div>
+
+						<div class="box-line-bot">
+							<span class="box-corner"
+								>{classicBox.bottomLeft}{classicBox.bottom}{classicBox.bottom}</span
+							>
+							<span class="box-fill">{classicBox.bottom}</span>
+							<span class="box-corner"
+								>{classicBox.bottom}{classicBox.bottom}{classicBox.bottomRight}</span
+							>
+						</div>
 					</div>
 				</div>
 			</div>
+		</div>
 
-			<!-- RIGHT COLUMN: Awards, Certifications & Skills -->
-			<div class="cli-column">
-				<!-- Box 3: Awards & Recognition -->
-				<div class="cli-box" id="awards">
-					<div class="box-line-top">
-						<span class="box-corner">{classicBox.topLeft}{classicBox.top}{classicBox.top}</span>
-						<span class="box-title">Awards & Honors</span>
-						<span class="box-fill">{classicBox.top}</span>
-						<span class="box-corner">{classicBox.top}{classicBox.top}{classicBox.topRight}</span>
-					</div>
+		<!-- SECTION 02: DEDICATED CAPABILITIES MATRIX & TECHNICAL DOSSIER -->
+		<div class="section-block" id="skills">
+			<div class="section-title-bar">
+				<span class="sec-title-tag">[ 02 // CAPABILITIES_MATRIX.SYS ]</span>
+				<span class="sec-title-line"></span>
+				<span class="sec-title-meta"
+					>PROVEN DOMAIN MATRIX COMPUTED FROM 15 REPOSITORIES, AWARDS & CERTIFICATIONS</span
+				>
+			</div>
 
-					<div class="box-body">
-						{#each awards as award (award.id)}
-							<div class="cli-table-row">
-								<span class="row-year">[{award.year}]</span>
-								<div class="row-main">
-									<div class="row-title-line">
-										{#if award.certImage}
-											<button
-												type="button"
-												onclick={() => openCert(award.title, award.certImage!)}
-												class="row-title-btn"
-												class:highlighted={award.isHighlighted}
-											>
-												<span class="row-badge">[{award.badge}]</span>
-												<span class="row-name">{award.title}</span>
-												{#if award.isHighlighted}
-													<span class="cli-check">✓</span>
-												{/if}
-												<span class="row-cert-link">[VIEW ↗]</span>
-											</button>
-										{:else}
-											<div class="row-title-static">
-												<span class="row-badge">[{award.badge}]</span>
-												<span class="row-name">{award.title}</span>
-												{#if award.isHighlighted}
-													<span class="cli-check">✓</span>
-												{/if}
-											</div>
-										{/if}
+			<div class="capabilities-matrix-grid">
+				{#each capabilityCategories as category (category.id)}
+					<div class="cli-box">
+						<div class="box-line-top">
+							<span class="box-corner">{classicBox.topLeft}{classicBox.top}{classicBox.top}</span>
+							<span class="box-title">[{category.id}] {category.title}</span>
+							<span class="box-fill">{classicBox.top}</span>
+							<span class="box-corner">{classicBox.top}{classicBox.top}{classicBox.topRight}</span>
+						</div>
+
+						<div class="box-body capability-body">
+							{#each category.items as item (item.skill)}
+								<div class="cap-item-row">
+									<div class="cap-item-head">
+										<span class="cap-skill-name" class:highlighted={item.isHighlighted}>
+											{item.skill}
+											{#if item.isHighlighted}
+												<span class="cli-check">✓</span>
+											{/if}
+										</span>
+										<div class="cap-badge-group">
+											<span class="cap-level-tag">[{item.level}]</span>
+											<span class="cap-status-tag">[{item.status}]</span>
+										</div>
 									</div>
-									<div class="row-sub">{award.subtitle}</div>
+									<div class="cap-evidence-text">
+										<span class="cap-ev-lbl">&gt; PROVEN IN:</span>
+										<span class="cap-ev-val">{item.evidence}</span>
+									</div>
 								</div>
-							</div>
-						{/each}
-					</div>
+							{/each}
+						</div>
 
-					<div class="box-line-bot">
-						<span class="box-corner"
-							>{classicBox.bottomLeft}{classicBox.bottom}{classicBox.bottom}</span
-						>
-						<span class="box-fill">{classicBox.bottom}</span>
-						<span class="box-corner"
-							>{classicBox.bottom}{classicBox.bottom}{classicBox.bottomRight}</span
-						>
+						<div class="box-line-bot">
+							<span class="box-corner"
+								>{classicBox.bottomLeft}{classicBox.bottom}{classicBox.bottom}</span
+							>
+							<span class="box-fill">{classicBox.bottom}</span>
+							<span class="box-corner"
+								>{classicBox.bottom}{classicBox.bottom}{classicBox.bottomRight}</span
+							>
+						</div>
 					</div>
-				</div>
-
-				<!-- Box 4: Academic Certifications -->
-				<div class="cli-box" id="certifications">
-					<div class="box-line-top">
-						<span class="box-corner">{classicBox.topLeft}{classicBox.top}{classicBox.top}</span>
-						<span class="box-title">Academic Certifications</span>
-						<span class="box-fill">{classicBox.top}</span>
-						<span class="box-corner">{classicBox.top}{classicBox.top}{classicBox.topRight}</span>
-					</div>
-
-					<div class="box-body">
-						{#each certifications as cert (cert.code)}
-							<div class="cli-table-row compact">
-								<span class="row-code">[{cert.code}]</span>
-								<div class="row-cert-content">
-									<span class="cert-name">{cert.name}</span>
-									<span class="cert-issuer">:: {cert.issuer}</span>
-								</div>
-							</div>
-						{/each}
-					</div>
-
-					<div class="box-line-bot">
-						<span class="box-corner"
-							>{classicBox.bottomLeft}{classicBox.bottom}{classicBox.bottom}</span
-						>
-						<span class="box-fill">{classicBox.bottom}</span>
-						<span class="box-corner"
-							>{classicBox.bottom}{classicBox.bottom}{classicBox.bottomRight}</span
-						>
-					</div>
-				</div>
-
-				<!-- Box 5: Capabilities Matrix -->
-				<div class="cli-box" id="skills">
-					<div class="box-line-top">
-						<span class="box-corner">{classicBox.topLeft}{classicBox.top}{classicBox.top}</span>
-						<span class="box-title">Capabilities Matrix</span>
-						<span class="box-fill">{classicBox.top}</span>
-						<span class="box-corner">{classicBox.top}{classicBox.top}{classicBox.topRight}</span>
-					</div>
-
-					<div class="box-body">
-						{#each skills as skill (skill.name)}
-							<div class="cli-table-row compact">
-								<span class="row-status">[{skill.status}]</span>
-								<div class="row-skill-content">
-									<span class="skill-name" class:highlighted={skill.isPrimary}>
-										{skill.name}
-										{#if skill.isPrimary}
-											<span class="cli-check">✓</span>
-										{/if}
-									</span>
-									<span class="skill-cat">:: {skill.category}</span>
-								</div>
-							</div>
-						{/each}
-					</div>
-
-					<div class="box-line-bot">
-						<span class="box-corner"
-							>{classicBox.bottomLeft}{classicBox.bottom}{classicBox.bottom}</span
-						>
-						<span class="box-fill">{classicBox.bottom}</span>
-						<span class="box-corner"
-							>{classicBox.bottom}{classicBox.bottom}{classicBox.bottomRight}</span
-						>
-					</div>
-				</div>
+				{/each}
 			</div>
 		</div>
 
@@ -694,6 +865,7 @@
 			<div class="box-body footer-body">
 				<span class="footer-meta">OPERATOR: THANAPHUM MASAYAMAS</span>
 				<span class="footer-meta">STATUS: ACTIVE // {new Date().getFullYear()}</span>
+				<span class="footer-meta">ECOSYSTEM: SVELTE 5 RUNES // MONOSPACE CLI</span>
 				<a
 					href="https://github.com/PLATONG34821"
 					target="_blank"
@@ -820,7 +992,42 @@
 		margin: 0 auto;
 		display: flex;
 		flex-direction: column;
-		gap: 1.75rem;
+		gap: 3.5rem;
+	}
+
+	.section-block {
+		display: flex;
+		flex-direction: column;
+		gap: 1.25rem;
+	}
+
+	/* Section Title Bar */
+	.section-title-bar {
+		display: flex;
+		align-items: center;
+		gap: 0.65rem;
+		user-select: none;
+		white-space: nowrap;
+	}
+
+	.sec-title-tag {
+		color: #38bdf8;
+		font-weight: 700;
+		font-size: 0.84rem;
+		letter-spacing: 0.03em;
+	}
+
+	.sec-title-line {
+		flex-grow: 1;
+		border-bottom: 1px dashed #1e293b;
+		height: 1px;
+	}
+
+	.sec-title-meta {
+		color: #64748b;
+		font-size: 0.72rem;
+		font-weight: 600;
+		letter-spacing: 0.04em;
 	}
 
 	/* 2-Column Balanced Dashboard */
@@ -835,6 +1042,14 @@
 		display: flex;
 		flex-direction: column;
 		gap: 1.75rem;
+	}
+
+	/* Dedicated Capabilities Matrix Grid */
+	.capabilities-matrix-grid {
+		display: grid;
+		grid-template-columns: repeat(auto-fit, minmax(460px, 1fr));
+		gap: 1.75rem;
+		align-items: start;
 	}
 
 	/* CLI Box Drawing Container */
@@ -884,6 +1099,10 @@
 		gap: 1.25rem;
 		margin: 0 1px;
 		user-select: text;
+	}
+
+	.box-body.capability-body {
+		gap: 1rem;
 	}
 
 	/* Project Card Item inside Box */
@@ -1123,7 +1342,7 @@
 		line-height: 1.35;
 	}
 
-	/* Certifications & Skills */
+	/* Certifications */
 	.row-code {
 		color: #38bdf8;
 		font-weight: 700;
@@ -1131,15 +1350,7 @@
 		flex-shrink: 0;
 	}
 
-	.row-status {
-		color: #22c55e;
-		font-weight: 600;
-		font-size: 0.72rem;
-		flex-shrink: 0;
-	}
-
-	.row-cert-content,
-	.row-skill-content {
+	.row-cert-content {
 		display: flex;
 		align-items: baseline;
 		gap: 0.4rem;
@@ -1147,20 +1358,82 @@
 		font-size: 0.82rem;
 	}
 
-	.cert-name,
-	.skill-name {
+	.cert-name {
 		color: #f1f5f9;
 		font-weight: 500;
 	}
 
-	.skill-name.highlighted {
+	.cert-issuer {
+		color: #64748b;
+		font-size: 0.74rem;
+	}
+
+	/* Capabilities Item Rows */
+	.cap-item-row {
+		display: flex;
+		flex-direction: column;
+		gap: 0.25rem;
+		padding-bottom: 0.85rem;
+		border-bottom: 1px dashed #182233;
+	}
+
+	.cap-item-row:last-child {
+		padding-bottom: 0;
+		border-bottom: none;
+	}
+
+	.cap-item-head {
+		display: flex;
+		justify-content: space-between;
+		align-items: baseline;
+		gap: 0.75rem;
+		flex-wrap: wrap;
+	}
+
+	.cap-skill-name {
+		color: #f3f4f6;
+		font-size: 0.88rem;
+		font-weight: 600;
+	}
+
+	.cap-skill-name.highlighted {
 		color: #fdba74;
 	}
 
-	.cert-issuer,
-	.skill-cat {
+	.cap-badge-group {
+		display: flex;
+		align-items: center;
+		gap: 0.45rem;
+	}
+
+	.cap-level-tag {
+		color: #38bdf8;
+		font-size: 0.72rem;
+		font-weight: 600;
+	}
+
+	.cap-status-tag {
+		color: #22c55e;
+		font-size: 0.7rem;
+		font-weight: 700;
+	}
+
+	.cap-evidence-text {
+		display: flex;
+		gap: 0.45rem;
+		font-size: 0.76rem;
+		line-height: 1.4;
+	}
+
+	.cap-ev-lbl {
 		color: #64748b;
-		font-size: 0.74rem;
+		font-weight: 700;
+		flex-shrink: 0;
+		font-size: 0.72rem;
+	}
+
+	.cap-ev-val {
+		color: #94a3b8;
 	}
 
 	/* Footer Box */
