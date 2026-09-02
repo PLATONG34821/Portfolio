@@ -1,7 +1,9 @@
 import figlet from 'figlet';
 import { bigMoneySeFont } from '$lib/ascii/bigMoneySeFont';
+import { slantFont } from '$lib/ascii/slantFont';
 
 const FONT_NAME = 'Big Money-se';
+const SUBTITLE_FONT = 'Slant';
 const TWO_PI = Math.PI * 2;
 const artCache = new Map<string, string[]>();
 let isFontParsed = false;
@@ -9,6 +11,7 @@ let isFontParsed = false;
 function ensureFont(): void {
 	if (!isFontParsed) {
 		figlet.parseFont(FONT_NAME, bigMoneySeFont);
+		figlet.parseFont(SUBTITLE_FONT, slantFont);
 		isFontParsed = true;
 	}
 }
@@ -18,16 +21,35 @@ export function generateFigletArt(text: string): string[] {
 	if (cached) return cached;
 
 	ensureFont();
-	const raw = figlet.textSync(text, { font: FONT_NAME });
-	const lines = raw.split('\n');
 
-	// Trim trailing blank lines
-	while (lines.length > 0 && lines[lines.length - 1].trim() === '') {
-		lines.pop();
+	// Split by either literal "\n" string or actual newline characters
+	const words = text.split(/\\n|\n/);
+	const allLines: string[] = [];
+
+	for (let i = 0; i < words.length; i++) {
+		const word = words[i].trim();
+		if (!word) continue;
+
+		// Main title uses Big Money-se; subtitle line uses Slant for a smaller, sleeker scale
+		const font = i === 0 ? FONT_NAME : 'Slant';
+		const raw = figlet.textSync(word, { font });
+		const lines = raw.split('\n');
+
+		// Trim trailing blank lines of this word
+		while (lines.length > 0 && lines[lines.length - 1].trim() === '') {
+			lines.pop();
+		}
+
+		if (i > 0 && allLines.length > 0) {
+			// Add 1 blank spacer row between lines
+			allLines.push('');
+		}
+
+		allLines.push(...lines);
 	}
 
-	artCache.set(text, lines);
-	return lines;
+	artCache.set(text, allLines);
+	return allLines;
 }
 
 export type CharType = 'shadow' | 'outline' | 'normal';
@@ -66,32 +88,54 @@ function getCharType(char: string): CharType {
 
 export function extractFigletPoints(lines: string[], cols: number, rows: number): FigletPoint[] {
 	const lineCount = lines.length;
-	let maxLineWidth = 0;
+	const globalStartY = (rows - lineCount) >> 1;
 
-	for (let i = 0; i < lineCount; i++) {
-		const len = lines[i].length;
-		if (len > maxLineWidth) maxLineWidth = len;
-	}
-
-	const startY = (rows - lineCount) >> 1;
-	const startX = (cols - maxLineWidth) >> 1;
-
-	const points: FigletPoint[] = [];
+	// Group contiguous lines into blocks (separated by empty lines)
+	const blocks: { startRow: number; lines: string[]; width: number }[] = [];
+	let currentBlockLines: string[] = [];
+	let blockStartRow = 0;
 
 	for (let r = 0; r < lineCount; r++) {
 		const line = lines[r];
-		const len = line.length;
-		const py = startY + r;
+		if (line.trim() === '') {
+			if (currentBlockLines.length > 0) {
+				const width = Math.max(...currentBlockLines.map((l) => l.length));
+				blocks.push({ startRow: blockStartRow, lines: currentBlockLines, width });
+				currentBlockLines = [];
+			}
+		} else {
+			if (currentBlockLines.length === 0) {
+				blockStartRow = r;
+			}
+			currentBlockLines.push(line);
+		}
+	}
 
-		for (let c = 0; c < len; c++) {
-			const ch = line[c];
-			if (ch !== ' ') {
-				points.push({
-					x: startX + c,
-					y: py,
-					char: ch,
-					type: getCharType(ch)
-				});
+	if (currentBlockLines.length > 0) {
+		const width = Math.max(...currentBlockLines.map((l) => l.length));
+		blocks.push({ startRow: blockStartRow, lines: currentBlockLines, width });
+	}
+
+	const points: FigletPoint[] = [];
+
+	for (const block of blocks) {
+		const blockStartX = (cols - block.width) >> 1;
+
+		for (let r = 0; r < block.lines.length; r++) {
+			const line = block.lines[r];
+			const len = line.length;
+			const py = globalStartY + block.startRow + r;
+
+			for (let c = 0; c < len; c++) {
+				const ch = line[c];
+				if (ch !== ' ') {
+					points.push({
+						x: blockStartX + c,
+						y: py,
+						char: ch,
+						type: getCharType(ch)
+					});
+				}
 			}
 		}
 	}

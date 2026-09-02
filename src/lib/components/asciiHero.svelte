@@ -14,7 +14,7 @@
 	}
 
 	let {
-		startText = 'THANAPHUM',
+		startText = 'THANAPHUM\nPORTFOLIO',
 		endText = 'EXPERIENCE',
 		scrollProgress = $bindable(0)
 	}: Props = $props();
@@ -29,7 +29,8 @@
 		let particles: FigletParticle[] = [];
 		let currentCols = 120;
 		let currentRows = 38;
-		let maxArtHeight = 10;
+		let maxArtHeight = 19;
+		let endTextLinesCount = 9;
 
 		const initSimulation = () => {
 			if (!canvasElement) return;
@@ -48,9 +49,10 @@
 
 			const maxArtWidth = Math.max(...linesA.map((l) => l.length), ...linesB.map((l) => l.length));
 			maxArtHeight = Math.max(linesA.length, linesB.length);
+			endTextLinesCount = linesB.length;
 
 			currentCols = Math.max(maxArtWidth + 14, 120);
-			currentRows = Math.max(maxArtHeight + 16, 36);
+			currentRows = Math.max(maxArtHeight + 8, 32);
 
 			const pointsA = extractFigletPoints(linesA, currentCols, currentRows);
 			const pointsB = extractFigletPoints(linesB, currentCols, currentRows);
@@ -129,7 +131,7 @@
 				Math.floor((width * 0.94) / (currentCols * 0.6)),
 				Math.floor((height * 0.8) / (currentRows * 1.15))
 			);
-			const fontSize = Math.max(7, Math.min(14, baseFontSize));
+			const fontSize = Math.max(6.5, Math.min(14, baseFontSize));
 			const cellWidth = fontSize * 0.6;
 			const cellHeight = fontSize * 1.15;
 
@@ -138,10 +140,10 @@
 			const originX = (width - gridPixelWidth) / 2;
 
 			// Center Y transitioning smoothly to top sticky position (60px from top)
-			const artTopRow = (currentRows - maxArtHeight) >> 1;
+			const endArtTopRow = (currentRows - endTextLinesCount) >> 1;
 			const centerY = (height - gridPixelHeight) / 2;
 			const targetLetterTop = 60;
-			const stickyOriginY = targetLetterTop - artTopRow * cellHeight;
+			const stickyOriginY = targetLetterTop - endArtTopRow * cellHeight;
 			const originY = centerY + (stickyOriginY - centerY) * slideT;
 
 			context.font = `600 ${fontSize}px ui-monospace, "SF Mono", Menlo, Monaco, Consolas, monospace`;

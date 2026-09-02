@@ -11,7 +11,7 @@
 </svelte:head>
 
 <main class="page-container">
-	<AsciiHero bind:scrollProgress startText="THANAPHUM" endText="EXPERIENCE" />
+	<AsciiHero bind:scrollProgress startText="THANAPHUM\nPORTFOLIO" endText="EXPERIENCE" />
 	<ExperienceSection {scrollProgress} />
 </main>
 
