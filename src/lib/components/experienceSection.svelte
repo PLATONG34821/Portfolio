@@ -1,4 +1,9 @@
 <script lang="ts">
+	interface ProjectLink {
+		label: string;
+		url: string;
+	}
+
 	interface Project {
 		title: string;
 		description: string;
@@ -6,6 +11,7 @@
 		githubUrl: string;
 		stars?: number;
 		category: string;
+		links?: ProjectLink[];
 	}
 
 	interface Props {
@@ -19,65 +25,95 @@
 
 	const projects: Project[] = [
 		{
-			title: 'The Hive Scoreboard',
+			title: 'HLLC 2026 Platform',
 			description:
-				'Custom scoreboard UI and texture pack for The Hive Minecraft server, enhancing in-game readability and HUD aesthetics.',
-			tags: ['Minecraft Bedrock', 'UI Design', 'Texture Pack'],
-			githubUrl: 'https://github.com/PLATONG98/The-Hive-Scoreboard',
-			stars: 17,
-			category: 'Game UI & Modifications'
+				'Core developer for Mae Fah Luang University’s How to Live and Learn on Campus 2026 (HLLC 2026) ecosystem, facilitating orientation, live scheduling, and activity management for 4,400+ freshmen students.',
+			tags: ['SvelteKit', 'TypeScript', 'iOS / Android', 'Production'],
+			githubUrl: 'https://apps.apple.com/th/app/hllc/id6748238190',
+			category: 'Campus Web App & Production',
+			links: [
+				{ label: 'App Store', url: 'https://apps.apple.com/th/app/hllc/id6748238190' },
+				{
+					label: 'Google Play',
+					url: 'https://play.google.com/store/apps/details?id=com.hllc.mfuactivity&hl=en'
+				},
+				{
+					label: 'Instagram Highlights',
+					url: 'https://www.instagram.com/mfu_activities/p/Da1msGcCV8-/'
+				}
+			]
 		},
 		{
-			title: 'CubeCraft Scoreboard',
+			title: 'TJ-SIF 2022 Innovation',
 			description:
-				'High-clarity scoreboard interface and texture modification tailored for CubeCraft Games server community.',
-			tags: ['Minecraft Bedrock', 'HUD Pack', 'Community'],
-			githubUrl: 'https://github.com/PLATONG98/CubeCraft-Scoreboard',
-			stars: 4,
-			category: 'Game UI & Modifications'
+				'Student ICT researcher and presenter representing Damrongratsongkroh School at the Thailand-Japan Student ICT Fair 2022 (TJ-SIF 2022).',
+			tags: ['ICT Innovation', 'Research', 'Embedded / IoT', 'International Fair'],
+			githubUrl: 'https://online.anyflip.com/zpkny/qiwq/mobile/index.html#p=125',
+			category: 'International ICT Fair',
+			links: [
+				{
+					label: 'Report (Page 125)',
+					url: 'https://online.anyflip.com/zpkny/qiwq/mobile/index.html#page=137'
+				}
+			]
 		},
 		{
-			title: 'QR & Color Tracking Robot',
+			title: 'Study-Schedule',
 			description:
-				'Autonomous robotics project using Raspberry Pi, OpenCV computer vision, motor controllers, and camera feeds to track color targets and QR identifiers.',
-			tags: ['Python', 'OpenCV', 'Raspberry Pi', 'Robotics'],
-			githubUrl: 'https://github.com/PLATONG98/QR-Color-Following',
-			category: 'Hardware & Computer Vision'
+				'Interactive study schedule editor and responsive phone/desktop wallpaper generator built for student productivity.',
+			tags: ['Svelte', 'TypeScript', 'Web Canvas', 'UI/UX'],
+			githubUrl: 'https://github.com/PLATONG34821/Study-Schedule',
+			category: 'Web App & Tool'
 		},
 		{
-			title: 'Discord Music Bot (Wokkibot)',
+			title: 'Portable Hybrid Swarm Cluster',
 			description:
-				'Feature-rich audio streaming Discord bot supporting Spotify, YouTube, and SoundCloud playback with web dashboard controls.',
-			tags: ['JavaScript', 'Discord.js', 'Web Audio', 'Go'],
-			githubUrl: 'https://github.com/PLATONG98/Discord-MusicBot',
-			category: 'Backend & Bot Architecture'
+				'Full project documentation and infrastructure architecture of a portable hybrid-architecture Docker Swarm cluster for edge computing.',
+			tags: ['Docker Swarm', 'Homelab', 'Networking', 'DevOps'],
+			githubUrl: 'https://github.com/PLATONG34821/Portable-Hybrid-Arch-Docker-Swarm-Cluster',
+			category: 'DevOps & Systems'
 		},
 		{
-			title: 'Bedrock Emotes Library',
+			title: 'pt-chord',
 			description:
-				'Packet-level exploration and comprehensive collection of Bedrock Edition emote UUIDs analyzed via gophertunnel.',
-			tags: ['Protocol Analysis', 'Go', 'Gophertunnel'],
-			githubUrl: 'https://github.com/PLATONG98/bedrock-emotes',
-			category: 'Reverse Engineering & Protocol'
+				'Fast and intuitive web application designed for looking up guitar chord fingerings and musical voicings.',
+			tags: ['Svelte', 'Music Theory', 'Interactive UI', 'Frontend'],
+			githubUrl: 'https://github.com/PLATONG34821/pt-chord',
+			category: 'Interactive Web'
 		},
 		{
-			title: 'FixTime PocketMine Plugin',
+			title: 'Project-DSM',
 			description:
-				'Timezone management and server synchronization plugin for high-concurrency PocketMine-MP Minecraft servers.',
-			tags: ['PHP', 'PocketMine-MP', 'Server Plugin'],
-			githubUrl: 'https://github.com/PLATONG98/FixTime',
-			stars: 1,
+				'Smart road safety application engineered to monitor driving metrics and keep drivers and passengers safe on journeys.',
+			tags: ['JavaScript', 'Road Safety', 'Sensors', 'Fullstack'],
+			githubUrl: 'https://github.com/PLATONG34821/Project-DSM',
+			category: 'Safety & Web Tech'
+		},
+		{
+			title: 'Damrong Student Council Web',
+			description:
+				'Official school student council portal and activity management platform developed for Damrongratsongkroh School.',
+			tags: ['Svelte', 'School Council', 'Web Portal', 'Frontend'],
+			githubUrl: 'https://github.com/PLATONG34821/damrong_pitakphong',
+			category: 'School Portal & Web'
+		},
+		{
+			title: 'PT-Story & Server Ecosystem',
+			description:
+				'Story quest progression and server management plugin suite engineered for high-performance PaperMC Minecraft server infrastructure.',
+			tags: ['Java', 'PaperMC', 'Server Architecture', 'Plugins'],
+			githubUrl: 'https://github.com/PLATONG34821/PT-Story',
 			category: 'Server Engineering'
 		}
 	];
 
 	const skills = [
-		{ name: 'TypeScript / JavaScript', category: 'Frontend & Fullstack' },
-		{ name: 'Svelte 5 / SvelteKit', category: 'Frontend' },
-		{ name: 'Python / OpenCV', category: 'Computer Vision & Scripting' },
-		{ name: 'Go / Protocol Engineering', category: 'Systems & Tools' },
-		{ name: 'PHP / PocketMine', category: 'Backend & Plugins' },
-		{ name: 'Raspberry Pi / Embedded', category: 'Hardware' }
+		{ name: 'Svelte 5 / SvelteKit', category: 'Frontend & UI Frameworks' },
+		{ name: 'TypeScript / JavaScript', category: 'Fullstack Web' },
+		{ name: 'Docker / Docker Swarm', category: 'DevOps & Homelab Clusters' },
+		{ name: 'Astro / Static Sites', category: 'Modern Web Architecture' },
+		{ name: 'Java / PaperMC API', category: 'Game Server Engineering' },
+		{ name: 'Python / Scripting', category: 'Automation & Tools' }
 	];
 </script>
 
@@ -89,8 +125,7 @@
 		<!-- Projects Grid -->
 		<div class="projects-grid">
 			{#each projects as project (project.title)}
-				<!-- eslint-disable-next-line svelte/no-navigation-without-resolve -->
-				<a href={project.githubUrl} target="_blank" rel="external noreferrer" class="project-card">
+				<div class="project-card">
 					<div class="card-header">
 						<span class="project-category">{project.category}</span>
 						{#if project.stars}
@@ -98,7 +133,18 @@
 						{/if}
 					</div>
 
-					<h3 class="project-title">{project.title}</h3>
+					<h3 class="project-title">
+						<!-- eslint-disable-next-line svelte/no-navigation-without-resolve -->
+						<a
+							href={project.githubUrl}
+							target="_blank"
+							rel="external noreferrer"
+							class="title-link"
+						>
+							{project.title}
+							<span class="card-arrow">↗</span>
+						</a>
+					</h3>
 					<p class="project-desc">{project.description}</p>
 
 					<div class="project-footer">
@@ -107,9 +153,19 @@
 								<span class="tag-pill">{tag}</span>
 							{/each}
 						</div>
-						<span class="card-arrow">↗</span>
+
+						{#if project.links && project.links.length > 0}
+							<div class="project-links-group">
+								{#each project.links as link (link.url)}
+									<!-- eslint-disable-next-line svelte/no-navigation-without-resolve -->
+									<a href={link.url} target="_blank" rel="external noreferrer" class="link-pill">
+										{link.label} ↗
+									</a>
+								{/each}
+							</div>
+						{/if}
 					</div>
-				</a>
+				</div>
 			{/each}
 		</div>
 
@@ -137,7 +193,7 @@
 			</div>
 			<div class="footer-links">
 				<a
-					href="https://github.com/PLATONG98"
+					href="https://github.com/PLATONG34821"
 					target="_blank"
 					rel="external noreferrer"
 					class="footer-link">GitHub ↗</a
@@ -214,7 +270,6 @@
 		border: 1px solid #1e293b;
 		border-radius: 8px;
 		padding: 1.75rem;
-		text-decoration: none;
 		transition:
 			border-color 0.2s ease,
 			transform 0.2s ease,
@@ -257,6 +312,19 @@
 		letter-spacing: -0.01em;
 	}
 
+	.title-link {
+		color: inherit;
+		text-decoration: none;
+		display: inline-flex;
+		align-items: center;
+		gap: 0.4rem;
+		transition: color 0.2s ease;
+	}
+
+	.title-link:hover {
+		color: #38bdf8;
+	}
+
 	.project-desc {
 		font-size: 0.92rem;
 		line-height: 1.55;
@@ -267,9 +335,8 @@
 
 	.project-footer {
 		display: flex;
-		justify-content: space-between;
-		align-items: flex-end;
-		gap: 1rem;
+		flex-direction: column;
+		gap: 0.85rem;
 		padding-top: 1rem;
 		border-top: 1px solid #18181b;
 	}
@@ -290,6 +357,33 @@
 		border: 1px solid #27272a;
 	}
 
+	.project-links-group {
+		display: flex;
+		flex-wrap: wrap;
+		gap: 0.4rem;
+	}
+
+	.link-pill {
+		font-family: ui-monospace, monospace;
+		font-size: 0.72rem;
+		background: rgba(56, 189, 248, 0.08);
+		color: #38bdf8;
+		border: 1px solid rgba(56, 189, 248, 0.25);
+		padding: 0.22rem 0.55rem;
+		border-radius: 4px;
+		text-decoration: none;
+		transition: all 0.2s ease;
+		display: inline-flex;
+		align-items: center;
+		gap: 0.2rem;
+	}
+
+	.link-pill:hover {
+		background: rgba(56, 189, 248, 0.2);
+		color: #7dd3fc;
+		border-color: rgba(56, 189, 248, 0.5);
+	}
+
 	.card-arrow {
 		font-size: 1.1rem;
 		color: #64748b;
@@ -298,8 +392,8 @@
 			transform 0.2s ease;
 	}
 
-	.project-card:hover .card-arrow {
-		color: #ffffff;
+	.title-link:hover .card-arrow {
+		color: #38bdf8;
 		transform: translate(2px, -2px);
 	}
 
