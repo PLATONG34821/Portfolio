@@ -78,14 +78,6 @@ export interface FigletParticle {
 	radiusY: number;
 }
 
-function getCharType(char: string): CharType {
-	if (char === '$') return 'shadow';
-	if (char === '_' || char === '|' || char === '/' || char === '\\' || char === '-') {
-		return 'outline';
-	}
-	return 'normal';
-}
-
 export function extractFigletPoints(lines: string[], cols: number, rows: number): FigletPoint[] {
 	const lineCount = lines.length;
 	const globalStartY = (rows - lineCount) >> 1;
@@ -120,6 +112,7 @@ export function extractFigletPoints(lines: string[], cols: number, rows: number)
 
 	for (const block of blocks) {
 		const blockStartX = (cols - block.width) >> 1;
+		const is3dBlock = block.lines.some((l) => l.includes('$'));
 
 		for (let r = 0; r < block.lines.length; r++) {
 			const line = block.lines[r];
@@ -129,11 +122,12 @@ export function extractFigletPoints(lines: string[], cols: number, rows: number)
 			for (let c = 0; c < len; c++) {
 				const ch = line[c];
 				if (ch !== ' ') {
+					const type: CharType = is3dBlock ? (ch === '$' ? 'shadow' : 'outline') : 'shadow';
 					points.push({
 						x: blockStartX + c,
 						y: py,
 						char: ch,
-						type: getCharType(ch)
+						type
 					});
 				}
 			}
@@ -240,6 +234,7 @@ export interface MultiStageTarget {
 	y: number;
 	char: string;
 	type: CharType;
+	alpha: number;
 }
 
 export interface MultiStageFigletParticle {
@@ -282,8 +277,13 @@ export function createMultiStageFigletParticles(
 
 		for (let i = 0; i < count; i++) {
 			if (k === 0) {
-				const pt = pts[i % ptsLen];
-				particles[i].targets.push({ x: pt.x, y: pt.y, char: pt.char, type: pt.type });
+				if (i < ptsLen) {
+					const pt = pts[i];
+					particles[i].targets.push({ x: pt.x, y: pt.y, char: pt.char, type: pt.type, alpha: 1.0 });
+				} else {
+					const pt = pts[i % ptsLen];
+					particles[i].targets.push({ x: pt.x, y: pt.y, char: pt.char, type: pt.type, alpha: 0.0 });
+				}
 			} else {
 				const prevTarget = particles[i].targets[k - 1];
 				let bestIdx = -1;
@@ -304,22 +304,16 @@ export function createMultiStageFigletParticles(
 				if (bestIdx !== -1) {
 					used[bestIdx] = 1;
 					const pt = pts[bestIdx];
-					particles[i].targets.push({ x: pt.x, y: pt.y, char: pt.char, type: pt.type });
+					particles[i].targets.push({ x: pt.x, y: pt.y, char: pt.char, type: pt.type, alpha: 1.0 });
 				} else {
-					// Fallback: map to nearest point in this stage
-					let nearestIdx = 0;
-					let nearestDist = Infinity;
-					for (let j = 0; j < ptsLen; j++) {
-						const dx = prevTarget.x - pts[j].x;
-						const dy = prevTarget.y - pts[j].y;
-						const dist = dx * dx + dy * dy;
-						if (dist < nearestDist) {
-							nearestDist = dist;
-							nearestIdx = j;
-						}
-					}
-					const pt = pts[nearestIdx];
-					particles[i].targets.push({ x: pt.x, y: pt.y, char: pt.char, type: pt.type });
+					// Surplus particle: disperse gently with alpha = 0 to prevent stacking
+					particles[i].targets.push({
+						x: prevTarget.x + Math.sin(i * 2.3) * 2,
+						y: prevTarget.y + Math.cos(i * 2.3) * 2,
+						char: prevTarget.char,
+						type: prevTarget.type,
+						alpha: 0.0
+					});
 				}
 			}
 		}

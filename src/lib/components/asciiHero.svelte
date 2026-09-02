@@ -203,20 +203,18 @@
 
 				const char = t < 0.5 ? targetA.char : targetB.char;
 				const type = t < 0.5 ? targetA.type : targetB.type;
+				const alpha = targetA.alpha + (targetB.alpha - targetA.alpha) * t;
 
-				// Swapped color mapping:
-				// - Body fill ($) in crisp pure white
-				// - Outlines/edges in sleek slate gray
+				if (alpha <= 0.01) continue;
+
+				context.globalAlpha = Math.max(0, Math.min(1, alpha));
+
 				if (type === 'shadow') {
 					context.fillStyle = '#ffffff';
-					context.shadowColor = 'rgba(255, 255, 255, 0.6)';
+					context.shadowColor = 'rgba(255, 255, 255, 0.65)';
 					context.shadowBlur = 6;
-				} else if (type === 'outline') {
-					context.fillStyle = '#393939ff';
-					context.shadowColor = 'rgba(100, 116, 139, 0.4)';
-					context.shadowBlur = 4;
 				} else {
-					context.fillStyle = '#64748b';
+					context.fillStyle = '#393939';
 					context.shadowColor = 'transparent';
 					context.shadowBlur = 0;
 				}
@@ -224,6 +222,7 @@
 				context.fillText(char, pixelX, pixelY);
 			}
 
+			context.globalAlpha = 1.0;
 			context.restore();
 			animationFrameId = requestAnimationFrame(render);
 		};
