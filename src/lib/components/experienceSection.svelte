@@ -2,19 +2,20 @@
 	interface ProjectLink {
 		label: string;
 		url: string;
+		iconClass?: string;
 	}
 
 	interface ProjectMetric {
 		label: string;
 		value: string;
-		icon?: string;
+		pixelIcon?: string;
 	}
 
 	interface Project {
 		id: string;
 		title: string;
 		summary: string;
-		typeGlyph: string;
+		pixelIcon: string;
 		category: string;
 		year: string;
 		metrics: ProjectMetric[];
@@ -38,7 +39,7 @@
 		{
 			id: '01',
 			title: 'HLLC 2026 Platform',
-			typeGlyph: '📱',
+			pixelIcon: 'pixelart-icons-font-apple',
 			category: 'CAMPUS // PRODUCTION',
 			year: '2026',
 			status: 'PROD',
@@ -46,27 +47,33 @@
 			summary:
 				'High-concurrency freshmen orientation & event ecosystem engineered for Mae Fah Luang University.',
 			metrics: [
-				{ label: 'SCALE', value: '4.4k+ Users', icon: '⚡' },
-				{ label: 'STACK', value: 'iOS • Web • Android', icon: '🌐' }
+				{ label: 'SCALE', value: '4.4k+ Users', pixelIcon: 'pixelart-icons-font-zap' },
+				{ label: 'STACK', value: 'iOS • Web • Android', pixelIcon: 'pixelart-icons-font-code' }
 			],
 			tags: ['SvelteKit', 'TypeScript', 'High Concurrency', 'REST API'],
 			githubUrl: 'https://apps.apple.com/th/app/hllc/id6748238190',
 			links: [
-				{ label: 'App Store', url: 'https://apps.apple.com/th/app/hllc/id6748238190' },
+				{
+					label: 'App Store',
+					url: 'https://apps.apple.com/th/app/hllc/id6748238190',
+					iconClass: 'pixelart-icons-font-apple'
+				},
 				{
 					label: 'Google Play',
-					url: 'https://play.google.com/store/apps/details?id=com.hllc.mfuactivity&hl=en'
+					url: 'https://play.google.com/store/apps/details?id=com.hllc.mfuactivity&hl=en',
+					iconClass: 'pixelart-icons-font-android'
 				},
 				{
 					label: 'Instagram',
-					url: 'https://www.instagram.com/mfu_activities/p/Da1msGcCV8-/'
+					url: 'https://www.instagram.com/mfu_activities/p/Da1msGcCV8-/',
+					iconClass: 'pixelart-icons-font-camera'
 				}
 			]
 		},
 		{
 			id: '02',
 			title: 'TJ-SIF 2022 Innovation',
-			typeGlyph: '🔬',
+			pixelIcon: 'pixelart-icons-font-file-text',
 			category: 'RESEARCH // INTL_FAIR',
 			year: '2022',
 			status: 'RESEARCH',
@@ -74,22 +81,23 @@
 			summary:
 				'Selected student research & embedded ICT hardware exhibition presented at Thailand-Japan ICT Fair.',
 			metrics: [
-				{ label: 'FORUM', value: 'Thailand × Japan', icon: '🏛' },
-				{ label: 'DOMAIN', value: 'IoT & Sensors', icon: '⚙' }
+				{ label: 'FORUM', value: 'Thailand × Japan', pixelIcon: 'pixelart-icons-font-users' },
+				{ label: 'DOMAIN', value: 'IoT & Sensors', pixelIcon: 'pixelart-icons-font-sliders' }
 			],
 			tags: ['Embedded Systems', 'IoT Hardware', 'Research Paper', 'Sensors'],
 			githubUrl: 'https://online.anyflip.com/zpkny/qiwq/mobile/index.html#p=125',
 			links: [
 				{
 					label: 'Report (Page 125)',
-					url: 'https://online.anyflip.com/zpkny/qiwq/mobile/index.html#page=137'
+					url: 'https://online.anyflip.com/zpkny/qiwq/mobile/index.html#page=137',
+					iconClass: 'pixelart-icons-font-file-text'
 				}
 			]
 		},
 		{
 			id: '03',
 			title: 'Portable Hybrid Swarm Cluster',
-			typeGlyph: '🖥',
+			pixelIcon: 'pixelart-icons-font-server',
 			category: 'DEVOPS // CLUSTER',
 			year: '2024',
 			status: 'FEAT',
@@ -97,22 +105,23 @@
 			summary:
 				'Resilient multi-node hybrid x86/ARM Docker Swarm edge cluster with automated failover & proxying.',
 			metrics: [
-				{ label: 'NODES', value: 'x86_64 + ARM64', icon: '◈' },
-				{ label: 'TARGET', value: 'Edge Homelab', icon: '🔒' }
+				{ label: 'NODES', value: 'x86_64 + ARM64', pixelIcon: 'pixelart-icons-font-cloud' },
+				{ label: 'TARGET', value: 'Edge Homelab', pixelIcon: 'pixelart-icons-font-server' }
 			],
 			tags: ['Docker Swarm', 'Homelab', 'Reverse Proxy', 'Linux'],
 			githubUrl: 'https://github.com/PLATONG34821/Portable-Hybrid-Arch-Docker-Swarm-Cluster',
 			links: [
 				{
-					label: 'GitHub Documentation',
-					url: 'https://github.com/PLATONG34821/Portable-Hybrid-Arch-Docker-Swarm-Cluster'
+					label: 'GitHub Repo',
+					url: 'https://github.com/PLATONG34821/Portable-Hybrid-Arch-Docker-Swarm-Cluster',
+					iconClass: 'pixelart-icons-font-github'
 				}
 			]
 		},
 		{
 			id: '04',
 			title: 'Study-Schedule',
-			typeGlyph: '🎨',
+			pixelIcon: 'pixelart-icons-font-sliders',
 			category: 'TOOLING // WEB',
 			year: '2024',
 			status: 'OSS',
@@ -120,22 +129,23 @@
 			summary:
 				'Interactive schedule timetable designer with high-resolution 4K wallpaper rendering engine.',
 			metrics: [
-				{ label: 'EXPORT', value: 'Phone & Desktop 4K', icon: '🖼' },
-				{ label: 'ENGINE', value: 'HTML5 Canvas', icon: '⚡' }
+				{ label: 'EXPORT', value: 'Phone & Desktop 4K', pixelIcon: 'pixelart-icons-font-zap' },
+				{ label: 'ENGINE', value: 'HTML5 Canvas', pixelIcon: 'pixelart-icons-font-code' }
 			],
 			tags: ['Svelte', 'TypeScript', 'Web Canvas', 'Responsive UI'],
 			githubUrl: 'https://github.com/PLATONG34821/Study-Schedule',
 			links: [
 				{
 					label: 'GitHub Repo',
-					url: 'https://github.com/PLATONG34821/Study-Schedule'
+					url: 'https://github.com/PLATONG34821/Study-Schedule',
+					iconClass: 'pixelart-icons-font-github'
 				}
 			]
 		},
 		{
 			id: '05',
 			title: 'pt-chord',
-			typeGlyph: '🎸',
+			pixelIcon: 'pixelart-icons-font-music',
 			category: 'AUDIO // MUSIC',
 			year: '2024',
 			status: 'OSS',
@@ -143,22 +153,23 @@
 			summary:
 				'Real-time guitar chord voicing visualizer with music theory transposition and dynamic SVG fretboards.',
 			metrics: [
-				{ label: 'VOICING', value: 'Real-time Theory', icon: '♩' },
-				{ label: 'RENDER', value: 'Reactive SVG', icon: '⚡' }
+				{ label: 'VOICING', value: 'Real-time Theory', pixelIcon: 'pixelart-icons-font-music' },
+				{ label: 'RENDER', value: 'Reactive SVG', pixelIcon: 'pixelart-icons-font-code' }
 			],
 			tags: ['Svelte', 'Music Theory', 'SVG Engine', 'Web Audio'],
 			githubUrl: 'https://github.com/PLATONG34821/pt-chord',
 			links: [
 				{
 					label: 'GitHub Repo',
-					url: 'https://github.com/PLATONG34821/pt-chord'
+					url: 'https://github.com/PLATONG34821/pt-chord',
+					iconClass: 'pixelart-icons-font-github'
 				}
 			]
 		},
 		{
 			id: '06',
 			title: 'Project-DSM',
-			typeGlyph: '🚗',
+			pixelIcon: 'pixelart-icons-font-chart-bar-big',
 			category: 'IOT // TELEMETRY',
 			year: '2024',
 			status: 'FEAT',
@@ -166,22 +177,27 @@
 			summary:
 				'Vehicle telemetry & driver behavior analytics application engineered for smart passenger safety.',
 			metrics: [
-				{ label: 'SENSORS', value: 'Real-time GPS', icon: '📡' },
-				{ label: 'PURPOSE', value: 'Road Safety', icon: '🛡' }
+				{
+					label: 'SENSORS',
+					value: 'Real-time GPS',
+					pixelIcon: 'pixelart-icons-font-chart-bar-big'
+				},
+				{ label: 'PURPOSE', value: 'Road Safety', pixelIcon: 'pixelart-icons-font-shield' }
 			],
 			tags: ['JavaScript', 'IoT Telemetry', 'Sensors', 'Fullstack'],
 			githubUrl: 'https://github.com/PLATONG34821/Project-DSM',
 			links: [
 				{
 					label: 'GitHub Repo',
-					url: 'https://github.com/PLATONG34821/Project-DSM'
+					url: 'https://github.com/PLATONG34821/Project-DSM',
+					iconClass: 'pixelart-icons-font-github'
 				}
 			]
 		},
 		{
 			id: '07',
 			title: 'Damrong Student Council Web',
-			typeGlyph: '🏛',
+			pixelIcon: 'pixelart-icons-font-users',
 			category: 'PORTAL // WEB',
 			year: '2023',
 			status: 'PROD',
@@ -189,22 +205,23 @@
 			summary:
 				'Official web portal and activity system developed for Damrongratsongkroh School student council.',
 			metrics: [
-				{ label: 'ORG', value: 'Damrong School', icon: '🏫' },
-				{ label: 'ROLE', value: 'Lead Webmaster', icon: '👨‍💻' }
+				{ label: 'ORG', value: 'Damrong School', pixelIcon: 'pixelart-icons-font-users' },
+				{ label: 'ROLE', value: 'Lead Webmaster', pixelIcon: 'pixelart-icons-font-code' }
 			],
 			tags: ['Svelte', 'School Portal', 'UI/UX', 'Frontend'],
 			githubUrl: 'https://github.com/PLATONG34821/damrong_pitakphong',
 			links: [
 				{
 					label: 'GitHub Repo',
-					url: 'https://github.com/PLATONG34821/damrong_pitakphong'
+					url: 'https://github.com/PLATONG34821/damrong_pitakphong',
+					iconClass: 'pixelart-icons-font-github'
 				}
 			]
 		},
 		{
 			id: '08',
 			title: 'PT-Story & Server Ecosystem',
-			typeGlyph: '🎮',
+			pixelIcon: 'pixelart-icons-font-gamepad',
 			category: 'SYSTEMS // SERVER',
 			year: '2024',
 			status: 'OSS',
@@ -212,27 +229,58 @@
 			summary:
 				'High-concurrency Minecraft server quest, warp, and automated security plugin suite for community play.',
 			metrics: [
-				{ label: 'RUNTIME', value: 'PaperMC 1.20.4', icon: '☕' },
-				{ label: 'PIPELINE', value: 'Async Concurrency', icon: '⚡' }
+				{ label: 'RUNTIME', value: 'PaperMC 1.20.4', pixelIcon: 'pixelart-icons-font-gamepad' },
+				{ label: 'PIPELINE', value: 'Async Concurrency', pixelIcon: 'pixelart-icons-font-zap' }
 			],
 			tags: ['Java', 'PaperMC API', 'Async Concurrency', 'Multiplayer'],
 			githubUrl: 'https://github.com/PLATONG34821/PT-Story',
 			links: [
 				{
 					label: 'GitHub Repo',
-					url: 'https://github.com/PLATONG34821/PT-Story'
+					url: 'https://github.com/PLATONG34821/PT-Story',
+					iconClass: 'pixelart-icons-font-github'
 				}
 			]
 		}
 	];
 
 	const skills = [
-		{ name: 'Svelte 5 / SvelteKit', category: 'Frontend & UI Frameworks', status: 'SYS_OK' },
-		{ name: 'TypeScript / JavaScript', category: 'Fullstack Web Architecture', status: 'SYS_OK' },
-		{ name: 'Docker / Docker Swarm', category: 'DevOps & Homelab Clusters', status: 'SYS_OK' },
-		{ name: 'Astro / Static Sites', category: 'Modern Web Architecture', status: 'SYS_OK' },
-		{ name: 'Java / PaperMC API', category: 'Game Server Engineering', status: 'SYS_OK' },
-		{ name: 'Python / Scripting', category: 'Automation & Hardware Tools', status: 'SYS_OK' }
+		{
+			name: 'Svelte 5 / SvelteKit',
+			category: 'Frontend & UI Frameworks',
+			status: 'SYS_OK',
+			pixelIcon: 'pixelart-icons-font-code'
+		},
+		{
+			name: 'TypeScript / JavaScript',
+			category: 'Fullstack Web Architecture',
+			status: 'SYS_OK',
+			pixelIcon: 'pixelart-icons-font-code'
+		},
+		{
+			name: 'Docker / Docker Swarm',
+			category: 'DevOps & Homelab Clusters',
+			status: 'SYS_OK',
+			pixelIcon: 'pixelart-icons-font-server'
+		},
+		{
+			name: 'Astro / Static Sites',
+			category: 'Modern Web Architecture',
+			status: 'SYS_OK',
+			pixelIcon: 'pixelart-icons-font-sliders'
+		},
+		{
+			name: 'Java / PaperMC API',
+			category: 'Game Server Engineering',
+			status: 'SYS_OK',
+			pixelIcon: 'pixelart-icons-font-gamepad'
+		},
+		{
+			name: 'Python / Scripting',
+			category: 'Automation & Hardware Tools',
+			status: 'SYS_OK',
+			pixelIcon: 'pixelart-icons-font-chart-bar-big'
+		}
 	];
 </script>
 
@@ -245,21 +293,12 @@
 		<div class="projects-grid">
 			{#each projects as project (project.id)}
 				<div class="tui-card">
-					<!-- Card Header: ID + Category & Status LED -->
+					<!-- Card Header: ID + Category -->
 					<div class="tui-card-topbar">
 						<div class="tui-card-id">
-							<span class="tui-glyph">{project.typeGlyph}</span>
+							<i class="{project.pixelIcon} tui-pixel-icon" aria-hidden="true"></i>
 							<span class="tui-id-num">#{project.id}</span>
 							<span class="tui-category">{project.category}</span>
-						</div>
-						<div
-							class="tui-card-status"
-							class:prod={project.status === 'PROD'}
-							class:research={project.status === 'RESEARCH'}
-							class:feat={project.status === 'FEAT'}
-						>
-							<span class="tui-status-dot">●</span>
-							<span class="tui-status-label">{project.year} • {project.statusLabel}</span>
 						</div>
 					</div>
 
@@ -283,7 +322,12 @@
 					<div class="tui-metric-grid">
 						{#each project.metrics as metric (metric.label)}
 							<div class="tui-metric-box">
-								<span class="tui-m-label">{metric.icon || '◈'} {metric.label}</span>
+								<span class="tui-m-label">
+									{#if metric.pixelIcon}
+										<i class="{metric.pixelIcon} tui-metric-pixel-icon" aria-hidden="true"></i>
+									{/if}
+									{metric.label}
+								</span>
 								<span class="tui-m-val">{metric.value}</span>
 							</div>
 						{/each}
@@ -307,7 +351,11 @@
 								{#each project.links as link (link.url)}
 									<!-- eslint-disable-next-line svelte/no-navigation-without-resolve -->
 									<a href={link.url} target="_blank" rel="external noreferrer" class="tui-btn">
-										<span class="tui-btn-prefix">&gt;</span>
+										{#if link.iconClass}
+											<i class="{link.iconClass} tui-btn-pixel-icon" aria-hidden="true"></i>
+										{:else}
+											<span class="tui-btn-prefix">&gt;</span>
+										{/if}
 										<span class="tui-btn-text">{link.label}</span>
 										<span class="tui-btn-arrow">↗</span>
 									</a>
@@ -325,7 +373,7 @@
 				{#each skills as skill (skill.name)}
 					<div class="tui-skill-box">
 						<div class="tui-skill-top">
-							<span class="tui-skill-prefix">&gt;</span>
+							<i class="{skill.pixelIcon} tui-skill-pixel-icon" aria-hidden="true"></i>
 							<span class="tui-skill-name">{skill.name}</span>
 							<span class="tui-skill-status">[{skill.status}]</span>
 						</div>
@@ -352,7 +400,8 @@
 						rel="external noreferrer"
 						class="tui-footer-btn"
 					>
-						[&gt; GITHUB.COM/PLATONG34821 ↗]
+						<i class="pixelart-icons-font-github tui-foot-icon" aria-hidden="true"></i>
+						<span>GITHUB.COM/PLATONG34821 ↗</span>
 					</a>
 				</div>
 			</div>
@@ -456,12 +505,16 @@
 	.tui-card-id {
 		display: flex;
 		align-items: center;
-		gap: 0.4rem;
+		gap: 0.45rem;
 		font-size: 0.74rem;
 	}
 
-	.tui-glyph {
-		font-size: 0.9rem;
+	.tui-pixel-icon {
+		font-size: 1.15rem !important;
+		line-height: 1;
+		color: #38bdf8;
+		display: inline-block;
+		vertical-align: middle;
 	}
 
 	.tui-id-num {
@@ -473,56 +526,6 @@
 		color: #94a3b8;
 		font-weight: 600;
 		letter-spacing: 0.04em;
-	}
-
-	.tui-card-status {
-		display: flex;
-		align-items: center;
-		gap: 0.35rem;
-		font-size: 0.7rem;
-		color: #94a3b8;
-		background: rgba(255, 255, 255, 0.03);
-		padding: 0.15rem 0.5rem;
-		border-radius: 9999px;
-		border: 1px solid rgba(255, 255, 255, 0.08);
-	}
-
-	.tui-status-dot {
-		font-size: 0.65rem;
-		color: #64748b;
-	}
-
-	.tui-card-status.prod {
-		color: #34d399;
-		border-color: rgba(16, 185, 129, 0.25);
-		background: rgba(16, 185, 129, 0.08);
-	}
-
-	.tui-card-status.prod .tui-status-dot {
-		color: #10b981;
-		text-shadow: 0 0 8px rgba(16, 185, 129, 0.8);
-	}
-
-	.tui-card-status.research {
-		color: #c084fc;
-		border-color: rgba(168, 85, 247, 0.25);
-		background: rgba(168, 85, 247, 0.08);
-	}
-
-	.tui-card-status.research .tui-status-dot {
-		color: #a855f7;
-		text-shadow: 0 0 8px rgba(168, 85, 247, 0.8);
-	}
-
-	.tui-card-status.feat {
-		color: #60a5fa;
-		border-color: rgba(59, 130, 246, 0.25);
-		background: rgba(59, 130, 246, 0.08);
-	}
-
-	.tui-card-status.feat .tui-status-dot {
-		color: #3b82f6;
-		text-shadow: 0 0 8px rgba(59, 130, 246, 0.8);
 	}
 
 	/* Title */
@@ -585,6 +588,17 @@
 		color: #64748b;
 		letter-spacing: 0.06em;
 		font-weight: 600;
+		display: inline-flex;
+		align-items: center;
+		gap: 0.35rem;
+	}
+
+	.tui-metric-pixel-icon {
+		font-size: 0.85rem !important;
+		line-height: 1;
+		color: #38bdf8;
+		display: inline-block;
+		vertical-align: middle;
 	}
 
 	.tui-m-val {
@@ -643,11 +657,11 @@
 	.tui-btn {
 		display: inline-flex;
 		align-items: center;
-		gap: 0.3rem;
+		gap: 0.35rem;
 		background: #091424;
 		border: 1px solid #1e3a5f;
 		color: #38bdf8;
-		padding: 0.22rem 0.6rem;
+		padding: 0.22rem 0.65rem;
 		border-radius: 3px;
 		text-decoration: none;
 		font-size: 0.74rem;
@@ -659,6 +673,13 @@
 		background: #1e3a5f;
 		color: #ffffff;
 		border-color: #38bdf8;
+	}
+
+	.tui-btn-pixel-icon {
+		font-size: 0.95rem !important;
+		line-height: 1;
+		display: inline-block;
+		vertical-align: middle;
 	}
 
 	.tui-btn-prefix {
@@ -702,12 +723,15 @@
 	.tui-skill-top {
 		display: flex;
 		align-items: center;
-		gap: 0.5rem;
+		gap: 0.55rem;
 	}
 
-	.tui-skill-prefix {
+	.tui-skill-pixel-icon {
 		color: #22c55e;
-		font-weight: 700;
+		font-size: 1.05rem !important;
+		line-height: 1;
+		display: inline-block;
+		vertical-align: middle;
 	}
 
 	.tui-skill-name {
@@ -724,7 +748,7 @@
 	}
 
 	.tui-skill-meta {
-		padding-left: 1.1rem;
+		padding-left: 1.6rem;
 		font-size: 0.75rem;
 		color: #64748b;
 	}
@@ -755,10 +779,20 @@
 	}
 
 	.tui-footer-btn {
+		display: inline-flex;
+		align-items: center;
+		gap: 0.45rem;
 		color: #38bdf8;
 		text-decoration: none;
 		font-weight: 600;
 		transition: color 0.2s ease;
+	}
+
+	.tui-foot-icon {
+		font-size: 1.1rem !important;
+		line-height: 1;
+		display: inline-block;
+		vertical-align: middle;
 	}
 
 	.tui-footer-btn:hover {
