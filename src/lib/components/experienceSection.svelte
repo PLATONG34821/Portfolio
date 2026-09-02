@@ -4,18 +4,24 @@
 		url: string;
 	}
 
+	interface ProjectMetric {
+		label: string;
+		value: string;
+		icon?: string;
+	}
+
 	interface Project {
 		id: string;
 		title: string;
-		description: string;
-		role: string;
+		summary: string;
+		typeGlyph: string;
+		category: string;
 		year: string;
-		highlight?: string;
+		metrics: ProjectMetric[];
 		status: 'PROD' | 'FEAT' | 'RESEARCH' | 'OSS';
+		statusLabel: string;
 		tags: string[];
 		githubUrl: string;
-		stars?: number;
-		category: string;
 		links?: ProjectLink[];
 	}
 
@@ -32,14 +38,18 @@
 		{
 			id: '01',
 			title: 'HLLC 2026 Platform',
-			category: 'CAMPUS_APP // PRODUCTION',
+			typeGlyph: '📱',
+			category: 'CAMPUS // PRODUCTION',
 			year: '2026',
-			role: 'Core Developer // Mae Fah Luang University',
-			highlight: '4,400+ Active Freshmen Users',
 			status: 'PROD',
-			description:
-				'Architected and developed the official orientation and activity management ecosystem for Mae Fah Luang University (HLLC 2026), handling high-concurrency event check-ins, live scheduling, and campus onboarding.',
-			tags: ['SvelteKit', 'TypeScript', 'High Concurrency', 'iOS / Android', 'REST API'],
+			statusLabel: 'LIVE_PROD',
+			summary:
+				'High-concurrency freshmen orientation & event ecosystem engineered for Mae Fah Luang University.',
+			metrics: [
+				{ label: 'SCALE', value: '4.4k+ Users', icon: '⚡' },
+				{ label: 'STACK', value: 'iOS • Web • Android', icon: '🌐' }
+			],
+			tags: ['SvelteKit', 'TypeScript', 'High Concurrency', 'REST API'],
 			githubUrl: 'https://apps.apple.com/th/app/hllc/id6748238190',
 			links: [
 				{ label: 'App Store', url: 'https://apps.apple.com/th/app/hllc/id6748238190' },
@@ -56,14 +66,18 @@
 		{
 			id: '02',
 			title: 'TJ-SIF 2022 Innovation',
-			category: 'RESEARCH // ICT_FAIR',
+			typeGlyph: '🔬',
+			category: 'RESEARCH // INTL_FAIR',
 			year: '2022',
-			role: 'ICT Researcher & Presenter // Damrongratsongkroh',
-			highlight: 'Thailand-Japan ICT Fair Presentation',
 			status: 'RESEARCH',
-			description:
-				'Selected student researcher representing Damrongratsongkroh School to present ICT innovation and embedded hardware systems at the international Thailand-Japan Student ICT Fair 2022.',
-			tags: ['Embedded Systems', 'Hardware / IoT', 'Research Paper', 'Sensors'],
+			statusLabel: 'PEER_REVIEW',
+			summary:
+				'Selected student research & embedded ICT hardware exhibition presented at Thailand-Japan ICT Fair.',
+			metrics: [
+				{ label: 'FORUM', value: 'Thailand × Japan', icon: '🏛' },
+				{ label: 'DOMAIN', value: 'IoT & Sensors', icon: '⚙' }
+			],
+			tags: ['Embedded Systems', 'IoT Hardware', 'Research Paper', 'Sensors'],
 			githubUrl: 'https://online.anyflip.com/zpkny/qiwq/mobile/index.html#p=125',
 			links: [
 				{
@@ -75,14 +89,18 @@
 		{
 			id: '03',
 			title: 'Portable Hybrid Swarm Cluster',
-			category: 'DEVOPS // INFRASTRUCTURE',
+			typeGlyph: '🖥',
+			category: 'DEVOPS // CLUSTER',
 			year: '2024',
-			role: 'Homelab & Infrastructure Engineer',
-			highlight: 'Multi-Arch x86/ARM Edge Cluster',
 			status: 'FEAT',
-			description:
-				'Complete architectural blueprint and deployment documentation for a portable hybrid-architecture Docker Swarm cluster engineered for resilient edge computing and distributed services.',
-			tags: ['Docker Swarm', 'Homelab', 'Networking', 'Reverse Proxy', 'Linux'],
+			statusLabel: 'ARCHITECTURE',
+			summary:
+				'Resilient multi-node hybrid x86/ARM Docker Swarm edge cluster with automated failover & proxying.',
+			metrics: [
+				{ label: 'NODES', value: 'x86_64 + ARM64', icon: '◈' },
+				{ label: 'TARGET', value: 'Edge Homelab', icon: '🔒' }
+			],
+			tags: ['Docker Swarm', 'Homelab', 'Reverse Proxy', 'Linux'],
 			githubUrl: 'https://github.com/PLATONG34821/Portable-Hybrid-Arch-Docker-Swarm-Cluster',
 			links: [
 				{
@@ -94,14 +112,18 @@
 		{
 			id: '04',
 			title: 'Study-Schedule',
-			category: 'WEB_APP // PRODUCTIVITY',
+			typeGlyph: '🎨',
+			category: 'TOOLING // WEB',
 			year: '2024',
-			role: 'Fullstack Web Developer',
-			highlight: 'Dynamic Canvas Wallpaper Engine',
 			status: 'OSS',
-			description:
-				'Interactive study timetable designer and responsive wallpaper generator allowing students to customize schedules and export high-resolution phone and desktop lockscreen backgrounds.',
-			tags: ['Svelte', 'TypeScript', 'Web Canvas', 'Responsive UI', 'Tooling'],
+			statusLabel: 'RELEASED',
+			summary:
+				'Interactive schedule timetable designer with high-resolution 4K wallpaper rendering engine.',
+			metrics: [
+				{ label: 'EXPORT', value: 'Phone & Desktop 4K', icon: '🖼' },
+				{ label: 'ENGINE', value: 'HTML5 Canvas', icon: '⚡' }
+			],
+			tags: ['Svelte', 'TypeScript', 'Web Canvas', 'Responsive UI'],
 			githubUrl: 'https://github.com/PLATONG34821/Study-Schedule',
 			links: [
 				{
@@ -113,14 +135,18 @@
 		{
 			id: '05',
 			title: 'pt-chord',
-			category: 'AUDIO // MUSIC_THEORY',
+			typeGlyph: '🎸',
+			category: 'AUDIO // MUSIC',
 			year: '2024',
-			role: 'Frontend Creator',
-			highlight: 'Interactive Fretboard Engine',
 			status: 'OSS',
-			description:
-				'Fast and intuitive web application designed for interactive guitar chord fingering lookups, musical voicings, and real-time fretboard diagram generation.',
-			tags: ['Svelte', 'Music Theory', 'SVG Rendering', 'Web Audio', 'Frontend'],
+			statusLabel: 'RELEASED',
+			summary:
+				'Real-time guitar chord voicing visualizer with music theory transposition and dynamic SVG fretboards.',
+			metrics: [
+				{ label: 'VOICING', value: 'Real-time Theory', icon: '♩' },
+				{ label: 'RENDER', value: 'Reactive SVG', icon: '⚡' }
+			],
+			tags: ['Svelte', 'Music Theory', 'SVG Engine', 'Web Audio'],
 			githubUrl: 'https://github.com/PLATONG34821/pt-chord',
 			links: [
 				{
@@ -132,14 +158,18 @@
 		{
 			id: '06',
 			title: 'Project-DSM',
-			category: 'IOT // ROAD_SAFETY',
+			typeGlyph: '🚗',
+			category: 'IOT // TELEMETRY',
 			year: '2024',
-			role: 'IoT & Web Developer',
-			highlight: 'Driver Telemetry & Safety Metrics',
 			status: 'FEAT',
-			description:
-				'Smart road safety web application engineered to monitor vehicle metrics, analyze driving behavior in real-time, and ensure passenger security across every journey.',
-			tags: ['JavaScript', 'IoT Telemetry', 'Sensors', 'Fullstack', 'Safety'],
+			statusLabel: 'TELEMETRY',
+			summary:
+				'Vehicle telemetry & driver behavior analytics application engineered for smart passenger safety.',
+			metrics: [
+				{ label: 'SENSORS', value: 'Real-time GPS', icon: '📡' },
+				{ label: 'PURPOSE', value: 'Road Safety', icon: '🛡' }
+			],
+			tags: ['JavaScript', 'IoT Telemetry', 'Sensors', 'Fullstack'],
 			githubUrl: 'https://github.com/PLATONG34821/Project-DSM',
 			links: [
 				{
@@ -151,14 +181,18 @@
 		{
 			id: '07',
 			title: 'Damrong Student Council Web',
-			category: 'PORTAL // WEB_PLATFORM',
+			typeGlyph: '🏛',
+			category: 'PORTAL // WEB',
 			year: '2023',
-			role: 'Lead Web Developer // Student Council',
-			highlight: 'Official Council Platform',
 			status: 'PROD',
-			description:
-				'Official web portal and activity platform developed for Damrongratsongkroh School student council, facilitating announcements, election info, and school event coverage.',
-			tags: ['Svelte', 'School Portal', 'UI/UX', 'Content Delivery', 'Frontend'],
+			statusLabel: 'OFFICIAL',
+			summary:
+				'Official web portal and activity system developed for Damrongratsongkroh School student council.',
+			metrics: [
+				{ label: 'ORG', value: 'Damrong School', icon: '🏫' },
+				{ label: 'ROLE', value: 'Lead Webmaster', icon: '👨‍💻' }
+			],
+			tags: ['Svelte', 'School Portal', 'UI/UX', 'Frontend'],
 			githubUrl: 'https://github.com/PLATONG34821/damrong_pitakphong',
 			links: [
 				{
@@ -170,14 +204,18 @@
 		{
 			id: '08',
 			title: 'PT-Story & Server Ecosystem',
-			category: 'GAME_SERVER // SYSTEMS',
+			typeGlyph: '🎮',
+			category: 'SYSTEMS // SERVER',
 			year: '2024',
-			role: 'Plugin Architect & Developer',
-			highlight: 'PaperMC 1.20.4 High Concurrency',
 			status: 'OSS',
-			description:
-				'Core story quest progression, teleportation routing, and server management plugin suite engineered for high-concurrency PaperMC Minecraft multiplayer infrastructure.',
-			tags: ['Java', 'PaperMC API', 'Async Concurrency', 'Server Infrastructure'],
+			statusLabel: 'PRODUCTION',
+			summary:
+				'High-concurrency Minecraft server quest, warp, and automated security plugin suite for community play.',
+			metrics: [
+				{ label: 'RUNTIME', value: 'PaperMC 1.20.4', icon: '☕' },
+				{ label: 'PIPELINE', value: 'Async Concurrency', icon: '⚡' }
+			],
+			tags: ['Java', 'PaperMC API', 'Async Concurrency', 'Multiplayer'],
 			githubUrl: 'https://github.com/PLATONG34821/PT-Story',
 			links: [
 				{
@@ -207,13 +245,12 @@
 		<div class="projects-grid">
 			{#each projects as project (project.id)}
 				<div class="tui-card">
-					<!-- Card Header Box -->
+					<!-- Card Header: ID + Category & Status LED -->
 					<div class="tui-card-topbar">
 						<div class="tui-card-id">
-							<span class="tui-bracket">[</span>
-							<span class="tui-id-num">{project.id}</span>
+							<span class="tui-glyph">{project.typeGlyph}</span>
+							<span class="tui-id-num">#{project.id}</span>
 							<span class="tui-category">{project.category}</span>
-							<span class="tui-bracket">]</span>
 						</div>
 						<div
 							class="tui-card-status"
@@ -222,11 +259,11 @@
 							class:feat={project.status === 'FEAT'}
 						>
 							<span class="tui-status-dot">●</span>
-							<span class="tui-status-label">{project.year} • {project.status}</span>
+							<span class="tui-status-label">{project.year} • {project.statusLabel}</span>
 						</div>
 					</div>
 
-					<!-- Title Bar -->
+					<!-- Title -->
 					<div class="tui-title-row">
 						<h3 class="tui-project-title">
 							<!-- eslint-disable-next-line svelte/no-navigation-without-resolve -->
@@ -242,54 +279,39 @@
 						</h3>
 					</div>
 
-					<!-- Meta Fields Table -->
-					<div class="tui-meta-table">
-						<div class="tui-meta-row">
-							<span class="tui-meta-key">ROLE</span>
-							<span class="tui-meta-sep">:</span>
-							<span class="tui-meta-val">{project.role}</span>
-						</div>
-						{#if project.highlight}
-							<div class="tui-meta-row highlight">
-								<span class="tui-meta-key">METRIC</span>
-								<span class="tui-meta-sep">:</span>
-								<span class="tui-meta-val highlight-val">✦ {project.highlight}</span>
+					<!-- Visual Telemetry / Metric Readout Boxes -->
+					<div class="tui-metric-grid">
+						{#each project.metrics as metric (metric.label)}
+							<div class="tui-metric-box">
+								<span class="tui-m-label">{metric.icon || '◈'} {metric.label}</span>
+								<span class="tui-m-val">{metric.value}</span>
 							</div>
-						{/if}
+						{/each}
 					</div>
 
-					<!-- TUI Divider -->
-					<div class="tui-card-divider">
-						<span class="tui-div-line"></span>
-					</div>
+					<!-- Concise Summary Pitch -->
+					<p class="tui-desc">{project.summary}</p>
 
-					<!-- Description -->
-					<p class="tui-desc">{project.description}</p>
-
-					<!-- Footer: Tech Tags & Execution Commands -->
+					<!-- Footer: Tech Stack Chips & Action Command Buttons -->
 					<div class="tui-card-footer">
-						<div class="tui-tech-row">
-							<span class="tui-tech-label">TECH:</span>
-							<div class="tui-tags-list">
-								{#each project.tags as tag (tag)}
-									<span class="tui-tag">[{tag}]</span>
-								{/each}
-							</div>
+						<div class="tui-tags-list">
+							{#each project.tags as tag (tag)}
+								<span class="tui-tag">
+									<span class="tui-tag-dot">·</span>{tag}
+								</span>
+							{/each}
 						</div>
 
 						{#if project.links && project.links.length > 0}
-							<div class="tui-exec-row">
-								<span class="tui-exec-label">EXEC:</span>
-								<div class="tui-links-list">
-									{#each project.links as link (link.url)}
-										<!-- eslint-disable-next-line svelte/no-navigation-without-resolve -->
-										<a href={link.url} target="_blank" rel="external noreferrer" class="tui-btn">
-											<span class="tui-btn-prefix">&gt;</span>
-											<span class="tui-btn-text">{link.label}</span>
-											<span class="tui-btn-arrow">↗</span>
-										</a>
-									{/each}
-								</div>
+							<div class="tui-links-list">
+								{#each project.links as link (link.url)}
+									<!-- eslint-disable-next-line svelte/no-navigation-without-resolve -->
+									<a href={link.url} target="_blank" rel="external noreferrer" class="tui-btn">
+										<span class="tui-btn-prefix">&gt;</span>
+										<span class="tui-btn-text">{link.label}</span>
+										<span class="tui-btn-arrow">↗</span>
+									</a>
+								{/each}
 							</div>
 						{/if}
 					</div>
@@ -379,18 +401,18 @@
 	}
 
 	.content-container {
-		max-width: 1140px;
+		max-width: 1160px;
 		margin: 0 auto;
 		display: flex;
 		flex-direction: column;
-		gap: 4.5rem;
+		gap: 5rem;
 	}
 
 	/* TUI Project Grid */
 	.projects-grid {
 		display: grid;
 		grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
-		gap: 1.75rem;
+		gap: 1.5rem;
 	}
 
 	/* TUI Card Box */
@@ -398,11 +420,11 @@
 		display: flex;
 		flex-direction: column;
 		justify-content: space-between;
-		background: #080a0f;
-		border: 1px solid #1e293b;
+		background: #090b10;
+		border: 1px solid #1a2333;
 		border-radius: 6px;
-		padding: 1.4rem 1.5rem;
-		gap: 0.9rem;
+		padding: 1.35rem 1.45rem;
+		gap: 0.85rem;
 		position: relative;
 		box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.02);
 		transition:
@@ -414,7 +436,7 @@
 
 	.tui-card:hover {
 		border-color: #38bdf8;
-		background: #0c1018;
+		background: #0d121c;
 		transform: translateY(-2px);
 		box-shadow:
 			0 8px 24px -8px rgba(56, 189, 248, 0.2),
@@ -427,19 +449,19 @@
 		justify-content: space-between;
 		align-items: center;
 		gap: 0.5rem;
-		border-bottom: 1px dashed #1e293b;
+		border-bottom: 1px dashed #1a2333;
 		padding-bottom: 0.65rem;
 	}
 
 	.tui-card-id {
 		display: flex;
 		align-items: center;
-		gap: 0.35rem;
+		gap: 0.4rem;
 		font-size: 0.74rem;
 	}
 
-	.tui-bracket {
-		color: #475569;
+	.tui-glyph {
+		font-size: 0.9rem;
 	}
 
 	.tui-id-num {
@@ -457,8 +479,12 @@
 		display: flex;
 		align-items: center;
 		gap: 0.35rem;
-		font-size: 0.72rem;
+		font-size: 0.7rem;
 		color: #94a3b8;
+		background: rgba(255, 255, 255, 0.03);
+		padding: 0.15rem 0.5rem;
+		border-radius: 9999px;
+		border: 1px solid rgba(255, 255, 255, 0.08);
 	}
 
 	.tui-status-dot {
@@ -468,6 +494,8 @@
 
 	.tui-card-status.prod {
 		color: #34d399;
+		border-color: rgba(16, 185, 129, 0.25);
+		background: rgba(16, 185, 129, 0.08);
 	}
 
 	.tui-card-status.prod .tui-status-dot {
@@ -477,6 +505,8 @@
 
 	.tui-card-status.research {
 		color: #c084fc;
+		border-color: rgba(168, 85, 247, 0.25);
+		background: rgba(168, 85, 247, 0.08);
 	}
 
 	.tui-card-status.research .tui-status-dot {
@@ -486,6 +516,8 @@
 
 	.tui-card-status.feat {
 		color: #60a5fa;
+		border-color: rgba(59, 130, 246, 0.25);
+		background: rgba(59, 130, 246, 0.08);
 	}
 
 	.tui-card-status.feat .tui-status-dot {
@@ -499,7 +531,7 @@
 	}
 
 	.tui-project-title {
-		font-size: 1.22rem;
+		font-size: 1.25rem;
 		font-weight: 700;
 		margin: 0;
 		letter-spacing: -0.01em;
@@ -531,58 +563,40 @@
 		transform: translate(2px, -2px);
 	}
 
-	/* Meta Fields */
-	.tui-meta-table {
-		display: flex;
-		flex-direction: column;
-		gap: 0.35rem;
-		font-size: 0.78rem;
-		background: #04060a;
-		border: 1px solid #141b2a;
-		border-radius: 4px;
-		padding: 0.55rem 0.75rem;
-	}
-
-	.tui-meta-row {
-		display: flex;
-		align-items: baseline;
+	/* Visual Telemetry Metric Grid */
+	.tui-metric-grid {
+		display: grid;
+		grid-template-columns: 1fr 1fr;
 		gap: 0.5rem;
 	}
 
-	.tui-meta-key {
+	.tui-metric-box {
+		display: flex;
+		flex-direction: column;
+		gap: 0.15rem;
+		background: #05070a;
+		border: 1px solid #141c2b;
+		border-radius: 4px;
+		padding: 0.45rem 0.65rem;
+	}
+
+	.tui-m-label {
+		font-size: 0.68rem;
 		color: #64748b;
+		letter-spacing: 0.06em;
 		font-weight: 600;
-		min-width: 58px;
-		letter-spacing: 0.05em;
 	}
 
-	.tui-meta-sep {
-		color: #334155;
-	}
-
-	.tui-meta-val {
-		color: #cbd5e1;
-		line-height: 1.4;
-	}
-
-	.tui-meta-row.highlight .tui-meta-key {
-		color: #38bdf8;
-	}
-
-	.highlight-val {
-		color: #38bdf8;
+	.tui-m-val {
+		font-size: 0.82rem;
+		color: #e2e8f0;
 		font-weight: 600;
 	}
 
 	/* Description */
-	.tui-card-divider {
-		height: 1px;
-		border-top: 1px dashed #141b2a;
-	}
-
 	.tui-desc {
-		font-size: 0.88rem;
-		line-height: 1.6;
+		font-size: 0.87rem;
+		line-height: 1.55;
 		color: #94a3b8;
 		margin: 0;
 		flex-grow: 1;
@@ -594,24 +608,7 @@
 		flex-direction: column;
 		gap: 0.75rem;
 		padding-top: 0.85rem;
-		border-top: 1px solid #141b2a;
-	}
-
-	.tui-tech-row,
-	.tui-exec-row {
-		display: flex;
-		align-items: flex-start;
-		gap: 0.6rem;
-		font-size: 0.75rem;
-	}
-
-	.tui-tech-label,
-	.tui-exec-label {
-		color: #64748b;
-		font-weight: 700;
-		min-width: 44px;
-		letter-spacing: 0.05em;
-		padding-top: 0.15rem;
+		border-top: 1px solid #141c2b;
 	}
 
 	.tui-tags-list {
@@ -622,11 +619,19 @@
 
 	.tui-tag {
 		color: #94a3b8;
-		background: #0f1422;
-		border: 1px solid #1e293b;
-		padding: 0.12rem 0.45rem;
+		background: #0d121c;
+		border: 1px solid #1a2333;
+		padding: 0.15rem 0.45rem;
 		border-radius: 3px;
 		font-size: 0.72rem;
+		display: inline-flex;
+		align-items: center;
+		gap: 0.2rem;
+	}
+
+	.tui-tag-dot {
+		color: #38bdf8;
+		font-weight: 700;
 	}
 
 	.tui-links-list {
@@ -639,7 +644,7 @@
 		display: inline-flex;
 		align-items: center;
 		gap: 0.3rem;
-		background: #0b1526;
+		background: #091424;
 		border: 1px solid #1e3a5f;
 		color: #38bdf8;
 		padding: 0.22rem 0.6rem;
@@ -668,7 +673,7 @@
 	.skills-wrapper {
 		display: flex;
 		flex-direction: column;
-		gap: 1.75rem;
+		gap: 1.5rem;
 		padding-top: 1rem;
 	}
 
