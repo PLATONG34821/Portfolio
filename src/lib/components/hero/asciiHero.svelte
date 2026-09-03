@@ -2,6 +2,11 @@
 	import { onMount } from 'svelte';
 	import { gsap } from 'gsap';
 	import { ScrollTrigger } from 'gsap/ScrollTrigger';
+	import type { Pathname } from '$app/types';
+	import { resolve } from '$app/paths';
+	import { page } from '$app/state';
+	import * as m from '$lib/paraglide/messages';
+	import { localizeHref, getLocale, setLocale, type Locale } from '$lib/paraglide/runtime';
 	import {
 		generateFigletArt,
 		extractFigletPoints,
@@ -28,8 +33,14 @@
 	let canvasElement = $state<HTMLCanvasElement | null>(null);
 	let overlayElement = $state<HTMLPreElement | null>(null);
 	let footerHintElement = $state<HTMLElement | null>(null);
+	let langSwitcherElement = $state<HTMLElement | null>(null);
 
 	let activeGridText = $state('');
+
+	function switchLocale(e: MouseEvent, targetLocale: Locale) {
+		e.preventDefault();
+		setLocale(targetLocale);
+	}
 
 	// Theme color palette per stage:
 	// Stage 0: Pure Silver / White
@@ -98,6 +109,11 @@
 		let isDirty = true;
 		let overlayVisible = true;
 		let lastSlideT = -1;
+		let heroSwitcherY = 0;
+		let stickySwitcherY = 0;
+		let lastSwitcherY = -1;
+		let slideT = 0;
+		let lastFaceFill = '';
 
 		const buildGridString = (points: FigletPoint[], cols: number, rows: number): string => {
 			const grid: string[][] = Array.from({ length: rows }, () =>
@@ -181,6 +197,24 @@
 				overlayElement.style.fontSize = `${fontSize}px`;
 				overlayElement.style.lineHeight = `${cellHeight}px`;
 				overlayElement.style.transform = 'translateY(0px)';
+			}
+
+			const startLinesCount = artLinesList[0].length;
+			const startArtTopRow = (currentRows - startLinesCount) >> 1;
+			const heroArtBottom = centerY + (startArtTopRow + startLinesCount) * cellHeight;
+			const heroSwitcherGap = viewportWidth < 640 ? 14 : 22;
+			heroSwitcherY = heroArtBottom + heroSwitcherGap;
+
+			const stickyArtBottom = targetLetterTop + endTextLinesCount * cellHeight;
+			const stickySwitcherGap = viewportWidth < 640 ? 8 : 12;
+			stickySwitcherY = stickyArtBottom + stickySwitcherGap;
+
+			if (langSwitcherElement) {
+				const currentSwitcherY = heroSwitcherY + (stickySwitcherY - heroSwitcherY) * slideT;
+				lastSwitcherY = Math.round(currentSwitcherY);
+				langSwitcherElement.style.transform = `translate(-50%, ${lastSwitcherY}px)`;
+				langSwitcherElement.style.setProperty('--lang-active-color', 'rgb(255, 255, 255)');
+				lastFaceFill = 'rgb(255, 255, 255)';
 			}
 
 			isDirty = true;
@@ -338,6 +372,16 @@
 
 			const originY = centerY + (stickyOriginY - centerY) * slideT;
 
+			if (langSwitcherElement) {
+				const currentSwitcherY = Math.round(
+					heroSwitcherY + (stickySwitcherY - heroSwitcherY) * slideT
+				);
+				if (currentSwitcherY !== lastSwitcherY || isDirty) {
+					lastSwitcherY = currentSwitcherY;
+					langSwitcherElement.style.transform = `translate(-50%, ${currentSwitcherY}px)`;
+				}
+			}
+
 			if (overlayElement) {
 				const isVisible = currentProgress < 0.4;
 				if (isVisible !== overlayVisible) {
@@ -365,6 +409,11 @@
 				nextTheme.outlineColor,
 				t
 			);
+
+			if (langSwitcherElement && activeFaceFill !== lastFaceFill) {
+				lastFaceFill = activeFaceFill;
+				langSwitcherElement.style.setProperty('--lang-active-color', activeFaceFill);
+			}
 
 			context.save();
 			context.scale(dpr, dpr);
@@ -438,9 +487,31 @@
 			class="ascii-selectable-overlay"
 			aria-label="Figlet ASCII Header">{activeGridText}</pre>
 
+		<div bind:this={langSwitcherElement} class="hero-lang-switcher" aria-label="Language selector">
+			<a
+				href={resolve(localizeHref(page.url.pathname, { locale: 'en' }) as Pathname)}
+				class="hero-lang-link"
+				class:active={getLocale() === 'en'}
+				aria-current={getLocale() === 'en' ? 'page' : undefined}
+				onclick={(e) => switchLocale(e, 'en')}
+			>
+				EN
+			</a>
+			<span class="hero-lang-divider" aria-hidden="true">:</span>
+			<a
+				href={resolve(localizeHref(page.url.pathname, { locale: 'th' }) as Pathname)}
+				class="hero-lang-link"
+				class:active={getLocale() === 'th'}
+				aria-current={getLocale() === 'th' ? 'page' : undefined}
+				onclick={(e) => switchLocale(e, 'th')}
+			>
+				TH
+			</a>
+		</div>
+
 		<div bind:this={footerHintElement} class="ascii-footer-hint">
 			<span class="scroll-arrow">↓</span>
-			<span class="scroll-text">Scroll down</span>
+			<span class="scroll-text">{m.heroScrollDown()}</span>
 		</div>
 	</div>
 </div>
@@ -507,6 +578,66 @@
 
 	.ascii-footer-hint {
 		position: absolute;
+		bottom: clamp(1.75rem, 5vh, 3.5rem);
+		left: 50%;
+		transform: translateX(-50%);
+		z-index: 65;
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		gap: 0.75rem;
+		color: rgba(255, 255, 255, 0.45);
+		font-size: 0.8rem;
+		font-family: ui-monospace, 'SF Mono', Menlo, Monaco, Consolas, monospace;
+		transition: opacity 0.2s ease-out;
+		pointer-events: none;
+	}
+
+	.hero-lang-switcher {
+		position: absolute;
+		top: 0;
+		left: 50%;
+		transform: translate(-50%, 65vh);
+		display: inline-flex;
+		align-items: center;
+		gap: 0.5rem;
+		pointer-events: auto;
+		z-index: 70;
+		font-family: ui-monospace, 'SF Mono', Menlo, Monaco, Consolas, monospace;
+		font-size: 0.85rem;
+		letter-spacing: 0.08em;
+		user-select: none;
+		will-change: transform;
+		--lang-active-color: #ffffff;
+	}
+
+	.hero-lang-link {
+		color: #71717a;
+		text-decoration: none;
+		font-weight: 500;
+		padding: 0.2rem 0.4rem;
+		transition: color 0.15s ease;
+		cursor: pointer;
+	}
+
+	.hero-lang-link:hover {
+		color: #e4e4e7;
+	}
+
+	.hero-lang-link.active {
+		color: var(--lang-active-color, #ffffff);
+		font-weight: 700;
+	}
+
+	.hero-lang-divider {
+		color: var(--lang-active-color, #ffffff);
+		opacity: 0.35;
+		font-weight: 400;
+		user-select: none;
+	}
+
+	.ascii-footer-hint {
+		position: absolute;
 		bottom: 2.5rem;
 		left: 50%;
 		transform: translateX(-50%);
@@ -523,6 +654,15 @@
 	}
 
 	@media (max-width: 640px) {
+		.hero-lang-switcher {
+			font-size: 0.78rem;
+			gap: 0.35rem;
+		}
+
+		.hero-lang-link {
+			padding: 0.15rem 0.3rem;
+		}
+
 		.ascii-footer-hint {
 			bottom: 1.25rem;
 			font-size: 0.72rem;

@@ -1,4 +1,5 @@
 <script lang="ts">
+	import * as m from '$lib/paraglide/messages';
 	import TuiBox from '$lib/components/tui/tuiBox.svelte';
 	import TuiModal from '$lib/components/tui/tuiModal.svelte';
 	import SectionHeader from '$lib/components/tui/sectionHeader.svelte';
@@ -18,12 +19,21 @@
 	<div class="content-container">
 		<!-- SECTION 01: SELECTED PROJECTS & RECOGNITION (GOLD THEME) -->
 		<div class="section-block" id="projects">
-			<SectionHeader tag="SECTION 01" title="EXPERIENCE & AWARDS" theme="amber" />
+			<SectionHeader
+				tag={m.sectionExperienceTag()}
+				title={m.sectionExperienceTitle()}
+				theme="amber"
+			/>
 
 			<!-- TOP ROW: Symmetrical 2-Column Grid (Selected Projects & Awards) -->
 			<div class="experience-symmetric-grid">
 				<!-- COL 1: Selected Projects -->
-				<TuiBox title="Selected Projects" theme="amber" class="grid-box" bodyClass="grid-box-body">
+				<TuiBox
+					title={m.selectedProjectsTitle()}
+					theme="amber"
+					class="grid-box"
+					bodyClass="grid-box-body"
+				>
 					<div class="projects-list">
 						{#each coreProjects as project (project.id)}
 							<ProjectEntry {project} onOpenCert={openCert} />
@@ -33,7 +43,7 @@
 
 				<!-- COL 2: Awards & Honors -->
 				<TuiBox
-					title="Awards & Honors"
+					title={m.awardsAndHonorsTitle()}
 					theme="amber"
 					id="awards"
 					class="grid-box"
@@ -49,7 +59,7 @@
 
 			<!-- BOTTOM ROW: Open Source & Systems (Full Frame) -->
 			<TuiBox
-				title="Open Source & Systems"
+				title={m.openSourceAndSystemsTitle()}
 				theme="amber"
 				class="full-frame-box"
 				bodyClass="oss-full-body"

@@ -1,4 +1,5 @@
 <script lang="ts">
+	import * as m from '$lib/paraglide/messages';
 	import AsciiHero from '$lib/components/hero/asciiHero.svelte';
 	import ExperienceSection from '$lib/components/experience/experienceSection.svelte';
 	import SkillsSection from '$lib/components/skills/skillsSection.svelte';
@@ -6,8 +7,8 @@
 </script>
 
 <svelte:head>
-	<title>Thanaphum — Portfolio</title>
-	<meta name="description" content="Portfolio of Thanaphum — Developer & Open Source Creator" />
+	<title>{m.pageTitle()}</title>
+	<meta name="description" content={m.pageDescription()} />
 </svelte:head>
 
 <main class="page-container">

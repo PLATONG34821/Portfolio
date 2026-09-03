@@ -1,4 +1,5 @@
 <script lang="ts">
+	import * as m from '$lib/paraglide/messages';
 	import TuiBox from '$lib/components/tui/tuiBox.svelte';
 	import { Link } from 'phosphor-svelte';
 	import { contactProfile, getContactChannels } from '$lib/data/contactData';
@@ -21,7 +22,12 @@
 	}
 </script>
 
-<TuiBox title="GET IN TOUCH" theme="emerald" class="contact-card-box" bodyClass="contact-card-body">
+<TuiBox
+	title={m.contactGetInTouch()}
+	theme="emerald"
+	class="contact-card-box"
+	bodyClass="contact-card-body"
+>
 	<div class="contact-card-content">
 		<div class="contact-intro">
 			<p class="intro-summary">{contactProfile.summary}</p>
@@ -50,11 +56,11 @@
 							</a>
 						</div>
 						<div class="entry-meta">
-							<span class="meta-label">Details:</span>
+							<span class="meta-label">{m.detailsLabel()}</span>
 							<span class="meta-text">{channel.details}</span>
 						</div>
 						<div class="entry-links">
-							<span class="links-label" title="Links" aria-label="Links">
+							<span class="links-label" title={m.linksLabel()} aria-label={m.linksLabel()}>
 								<Link size={13} weight="bold" />
 							</span>
 							<div class="links-list">
@@ -63,11 +69,11 @@
 										type="button"
 										class="text-link"
 										onclick={copyEmail}
-										aria-label="Copy email address"
+										aria-label={m.copyEmailAria()}
 									>
-										{copied ? 'Copied!' : 'Copy Address ↗'}
+										{copied ? m.copied() : m.copyAddress()}
 									</button>
-									<a href={channel.href} class="text-link">Open Mail ↗</a>
+									<a href={channel.href} class="text-link">{m.openMail()}</a>
 								{:else}
 									<a
 										href={channel.href}
@@ -75,7 +81,7 @@
 										rel="external noreferrer"
 										class="text-link"
 									>
-										GitHub Profile ↗
+										{m.gitHubProfile()}
 									</a>
 								{/if}
 							</div>

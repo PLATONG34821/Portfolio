@@ -1,3 +1,5 @@
+import * as m from '$lib/paraglide/messages';
+
 export interface CapabilityItem {
 	skill: string;
 	evidence: string;
@@ -31,155 +33,209 @@ export const quickScanTools = [
 export const capabilityCategories: CapabilityCategory[] = [
 	{
 		id: '01',
-		title: 'Languages & Core Runtimes',
+		get title() {
+			return m.skillCategoryLanguages();
+		},
 		items: [
 			{
 				skill: 'TypeScript',
 				evidence: 'HLLC 2026 (4.4k users), polyTone, 9+ repositories',
-				focus: 'Strict compile-time verification, generics, runes state typing',
+				get focus() {
+					return m.skillFocusTypeScript();
+				},
 				isHighlighted: true
 			},
 			{
 				skill: 'SQL (PostgreSQL / MySQL)',
 				evidence: 'Relational database schemas, query optimization',
-				focus: 'Complex joins, indexing strategies, transactions, constraints',
+				get focus() {
+					return m.skillFocusSql();
+				},
 				isHighlighted: true
 			},
 			{
 				skill: 'Java',
 				evidence: 'OOP architecture, server event handling, backend services',
-				focus: 'Object-oriented design patterns, concurrency, robust services'
+				get focus() {
+					return m.skillFocusJava();
+				}
 			},
 			{
 				skill: 'Python',
 				evidence: 'Data processing pipelines, automation tooling',
-				focus: 'Automation scripting, data transformation, backend utilities'
+				get focus() {
+					return m.skillFocusPython();
+				}
 			},
 			{
 				skill: 'Bash / Shell',
 				evidence: 'Linux cluster orchestration, container entrypoints',
-				focus: 'Deployment automation, server management, CLI workflows'
+				get focus() {
+					return m.skillFocusBash();
+				}
 			}
 		]
 	},
 	{
 		id: '02',
-		title: 'Frameworks & Web Architecture',
+		get title() {
+			return m.skillCategoryFrameworks();
+		},
 		items: [
 			{
 				skill: 'Svelte 5 / SvelteKit',
 				evidence: 'HLLC 2026 (4.4k concurrent users), polyTone',
-				focus: 'Runes state engine, SSR/CSR hydration, dynamic endpoints',
+				get focus() {
+					return m.skillFocusSvelte();
+				},
 				isHighlighted: true
 			},
 			{
 				skill: 'React & Next.js',
 				evidence: 'Modern component architecture, SSR/CSR, ecosystem tooling',
-				focus: 'Component lifecycle, hooks, state management, SPA routing',
+				get focus() {
+					return m.skillFocusReact();
+				},
 				isHighlighted: true
 			},
 			{
 				skill: 'Node.js & Express / Web APIs',
 				evidence: 'HLLC 2026 backend endpoints, Bun/Vite tooling',
-				focus: 'RESTful API handlers, middleware, request validation',
+				get focus() {
+					return m.skillFocusNode();
+				},
 				isHighlighted: true
 			},
 			{
 				skill: 'Tailwind CSS & UI Systems',
 				evidence: 'Production web apps, design system architecture',
-				focus: 'Responsive utility-first layouts, dark mode, design tokens',
+				get focus() {
+					return m.skillFocusTailwind();
+				},
 				isHighlighted: true
 			},
 			{
 				skill: 'Astro & Jamstack',
 				evidence: 'pt-blog content collections, asset optimizer pipeline',
-				focus: 'Zero-JS static generation, edge distribution, fast delivery'
+				get focus() {
+					return m.skillFocusAstro();
+				}
 			}
 		]
 	},
 	{
 		id: '03',
-		title: 'Databases, APIs & Cloud',
+		get title() {
+			return m.skillCategoryDatabases();
+		},
 		items: [
 			{
 				skill: 'PostgreSQL',
 				evidence: 'polyTone relational database schemas',
-				focus: 'Relational modeling, indexing, foreign keys, transaction safety',
+				get focus() {
+					return m.skillFocusPostgres();
+				},
 				isHighlighted: true
 			},
 			{
 				skill: 'MySQL / MariaDB',
 				evidence: 'Relational data modeling, schema migrations',
-				focus: 'ACID transactions, relational joins, query optimization',
+				get focus() {
+					return m.skillFocusMysql();
+				},
 				isHighlighted: true
 			},
 			{
 				skill: 'Redis',
 				evidence: 'In-memory caching and session state management',
-				focus: 'Cache-aside patterns, key-value stores, session handling, rate limits',
+				get focus() {
+					return m.skillFocusRedis();
+				},
 				isHighlighted: true
 			},
 			{
 				skill: 'MongoDB',
 				evidence: 'NoSQL document storage, JSON data modeling',
-				focus: 'Document schemas, aggregation pipelines, flexible data structures'
+				get focus() {
+					return m.skillFocusMongo();
+				}
 			},
 			{
 				skill: 'Supabase Cloud',
 				evidence: 'polyTone live user platform',
-				focus: 'PostgreSQL BaaS, Auth, Realtime engine, Row Level Security (RLS)',
+				get focus() {
+					return m.skillFocusSupabase();
+				},
 				isHighlighted: true
 			},
 			{
 				skill: 'RESTful API Design & ORMs',
 				evidence: 'HLLC 2026 serving 4,400+ simultaneous students',
-				focus: 'High-concurrency endpoints, request validation, ORM mapping (Prisma/Drizzle)',
+				get focus() {
+					return m.skillFocusRest();
+				},
 				isHighlighted: true
 			}
 		]
 	},
 	{
 		id: '04',
-		title: 'DevOps, Cloud & Systems Infrastructure',
+		get title() {
+			return m.skillCategoryDevops();
+		},
 		items: [
 			{
 				skill: 'Docker & Docker Swarm',
 				evidence: 'Portable Hybrid-Arch Swarm Cluster (x86_64 + ARM64)',
-				focus: 'Multi-node service composition, overlays, automated restart policies',
+				get focus() {
+					return m.skillFocusDocker();
+				},
 				isHighlighted: true
 			},
 			{
 				skill: 'CI/CD & GitHub Actions',
 				evidence: 'Automated test pipelines, Docker image builds & deployments',
-				focus: 'Continuous integration, branch protection, automated releases',
+				get focus() {
+					return m.skillFocusCicd();
+				},
 				isHighlighted: true
 			},
 			{
 				skill: 'Linux Administration',
 				evidence: 'Debian/Alpine dedicated server homelab cluster',
-				focus: 'Systemd management, SSH hardening, automated backups, shell scripts',
+				get focus() {
+					return m.skillFocusLinux();
+				},
 				isHighlighted: true
 			},
 			{
 				skill: 'Nginx & Reverse Proxy',
 				evidence: 'Automated SSL termination, failover routing stacks',
-				focus: 'TLS certificates, dynamic reverse proxying, load balancing, rate limiting',
+				get focus() {
+					return m.skillFocusNginx();
+				},
 				isHighlighted: true
 			},
 			{
 				skill: 'Cloudflare & Edge CDN',
 				evidence: 'Cloudflare Pages & DNS production deployments',
-				focus: 'Edge caching, DNS management, DDoS mitigation, asset optimization'
+				get focus() {
+					return m.skillFocusCloudflare();
+				}
 			},
 			{
 				skill: 'Kubernetes (K8s)',
 				evidence: 'Container workload orchestration and pod management',
-				focus: 'Deployments, services, ingress routing, container scheduling'
+				get focus() {
+					return m.skillFocusKubernetes();
+				}
 			},
 			{
 				skill: 'Git & GitHub Workflows',
 				evidence: 'Version control across 12+ public and private repositories',
-				focus: 'Atomic commits, PR reviews, CI verification pipelines',
+				get focus() {
+					return m.skillFocusGit();
+				},
 				isHighlighted: true
 			}
 		]

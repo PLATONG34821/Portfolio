@@ -1,4 +1,5 @@
 <script lang="ts">
+	import * as m from '$lib/paraglide/messages';
 	import SectionHeader from '$lib/components/tui/sectionHeader.svelte';
 	import ContactCard from './contactCard.svelte';
 </script>
@@ -6,7 +7,7 @@
 <section class="contact-section" id="contact">
 	<div class="content-container">
 		<div class="section-block">
-			<SectionHeader tag="SECTION 03" title="CONTACT INFORMATION" theme="emerald" />
+			<SectionHeader tag={m.sectionContactTag()} title={m.sectionContactTitle()} theme="emerald" />
 
 			<ContactCard />
 		</div>

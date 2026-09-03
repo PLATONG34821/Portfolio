@@ -1,4 +1,5 @@
 <script lang="ts">
+	import * as m from '$lib/paraglide/messages';
 	import type { Award } from '$lib/data/experienceData';
 	import TuiBox from '$lib/components/tui/tuiBox.svelte';
 
@@ -24,7 +25,7 @@
 			type="button"
 			class="award-img-btn"
 			onclick={openImage}
-			title="Click to view full resolution"
+			title={m.clickToViewResolution()}
 		>
 			<img src={award.certImage} alt={award.title} class="award-img" loading="lazy" />
 			<span class="img-badge-overlay" aria-hidden="true">⤢</span>
@@ -82,14 +83,11 @@
 		overflow: hidden;
 		padding: 0;
 		cursor: pointer;
-		transition:
-			border-color 0.2s ease,
-			box-shadow 0.2s ease;
+		transition: border-color 0.2s ease;
 	}
 
 	.award-img-btn:hover {
 		border-color: #fbbf24;
-		box-shadow: 0 0 10px rgba(251, 191, 36, 0.2);
 	}
 
 	.award-img {

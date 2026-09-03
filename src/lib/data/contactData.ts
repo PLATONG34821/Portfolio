@@ -1,3 +1,5 @@
+import * as m from '$lib/paraglide/messages';
+
 export interface ContactChannel {
 	title: string;
 	href: string;
@@ -15,8 +17,9 @@ export interface ContactProfile {
 export const contactProfile: ContactProfile = {
 	email: 'platong34821@gmail.com',
 	githubUrl: 'https://github.com/PLATONG34821',
-	summary:
-		'Available for full-stack engineering, performance systems, and collaborative software architecture.'
+	get summary() {
+		return m.contactSummary();
+	}
 };
 
 export const getContactChannels = (
@@ -24,17 +27,25 @@ export const getContactChannels = (
 	githubUrl = contactProfile.githubUrl
 ): ContactChannel[] => [
 	{
-		title: 'EMAIL ADDRESS',
+		get title() {
+			return m.contactEmailTitle();
+		},
 		href: `mailto:${email}`,
 		display: email,
-		details: 'Direct inbox for technical roles, inquiries & collaboration',
+		get details() {
+			return m.contactEmailDetails();
+		},
 		isExternal: false
 	},
 	{
-		title: 'GITHUB PROFILE',
+		get title() {
+			return m.contactGitHubTitle();
+		},
 		href: githubUrl,
 		display: 'github.com/PLATONG34821',
-		details: 'Open source repositories, system infrastructure & active codebases',
+		get details() {
+			return m.contactGitHubDetails();
+		},
 		isExternal: true
 	}
 ];

@@ -1,4 +1,5 @@
 <script lang="ts">
+	import * as m from '$lib/paraglide/messages';
 	import type { Project } from '$lib/data/experienceData';
 	import TuiBox from '$lib/components/tui/tuiBox.svelte';
 	import { Link } from 'phosphor-svelte';
@@ -25,13 +26,13 @@
 			<p class="entry-summary">{project.summary}</p>
 
 			<div class="entry-meta">
-				<span class="meta-label">Details:</span>
+				<span class="meta-label">{m.detailsLabel()}</span>
 				<span class="meta-text">{project.metrics}</span>
 			</div>
 
 			{#if project.links?.length}
 				<div class="entry-links">
-					<span class="links-label" title="Links" aria-label="Links">
+					<span class="links-label" title={m.linksLabel()} aria-label={m.linksLabel()}>
 						<Link size={13} weight="bold" />
 					</span>
 					<div class="links-list">
@@ -58,7 +59,7 @@
 					type="button"
 					class="entry-media-btn"
 					onclick={() => openImage(project.certImage!)}
-					title="Click to expand full resolution"
+					title={m.clickToExpand()}
 				>
 					<img src={project.certImage} alt={project.title} class="entry-media-img" loading="lazy" />
 					<span class="media-overlay-badge" aria-hidden="true">⤢</span>
@@ -206,14 +207,11 @@
 		overflow: hidden;
 		padding: 0;
 		cursor: pointer;
-		transition:
-			border-color 0.2s ease,
-			box-shadow 0.2s ease;
+		transition: border-color 0.2s ease;
 	}
 
 	.entry-media-btn:hover {
 		border-color: #fbbf24;
-		box-shadow: 0 0 10px rgba(251, 191, 36, 0.15);
 	}
 
 	.entry-media-img {

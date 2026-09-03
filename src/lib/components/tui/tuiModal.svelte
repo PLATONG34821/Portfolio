@@ -1,4 +1,5 @@
 <script lang="ts">
+	import * as m from '$lib/paraglide/messages';
 	import TuiBox, { type TuiTheme } from './tuiBox.svelte';
 
 	interface Props {
@@ -58,8 +59,8 @@
 					type="button"
 					class="tui-modal-close-btn"
 					onclick={onClose}
-					title="Close (ESC)"
-					aria-label="Close modal"
+					title={m.closeModal()}
+					aria-label={m.closeModal()}
 				>
 					[x]
 				</button>
@@ -103,7 +104,6 @@
 
 	.tui-modal-dialog {
 		width: 100%;
-		box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.95);
 		animation: modalPopIn 0.2s cubic-bezier(0.16, 1, 0.3, 1);
 	}
 
@@ -157,7 +157,6 @@
 
 	.tui-modal-close-btn:hover {
 		color: #ef4444;
-		text-shadow: 0 0 8px rgba(239, 68, 68, 0.4);
 	}
 
 	@media (max-width: 640px) {

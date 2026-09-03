@@ -1,3 +1,5 @@
+import * as m from '$lib/paraglide/messages';
+
 export interface ProjectLink {
 	label: string;
 	url: string;
@@ -26,188 +28,275 @@ export interface Award {
 export const coreProjects: Project[] = [
 	{
 		id: '01',
-		title: 'HLLC 2026 Platform',
-		summary:
-			'High-concurrency orientation and live activity management platform engineered for Mae Fah Luang University.',
-		metrics: 'Scale: 4,400+ Active Users • Stack: SvelteKit, TypeScript, iOS, Android',
+		get title() {
+			return m.projectHllcTitle();
+		},
+		get summary() {
+			return m.projectHllcSummary();
+		},
+		get metrics() {
+			return m.projectHllcMetrics();
+		},
 		certImage: '/certs/hllcHomepage.webp',
-		links: [
-			{
-				label: 'App UI Preview',
-				url: '/certs/hllcHomepage.webp',
-				isCertModal: true,
-				certImage: '/certs/hllcHomepage.webp'
-			},
-			{ label: 'App Store', url: 'https://apps.apple.com/th/app/hllc/id6748238190' },
-			{
-				label: 'Google Play',
-				url: 'https://play.google.com/store/apps/details?id=com.hllc.mfuactivity&hl=en'
-			},
-			{ label: 'Instagram', url: 'https://www.instagram.com/mfu_activities/p/Da1msGcCV8-/' }
-		]
+		get links() {
+			return [
+				{
+					label: m.projectHllcLinkPreview(),
+					url: '/certs/hllcHomepage.webp',
+					isCertModal: true,
+					certImage: '/certs/hllcHomepage.webp'
+				},
+				{ label: 'App Store', url: 'https://apps.apple.com/th/app/hllc/id6748238190' },
+				{
+					label: 'Google Play',
+					url: 'https://play.google.com/store/apps/details?id=com.hllc.mfuactivity&hl=en'
+				},
+				{ label: 'Instagram', url: 'https://www.instagram.com/mfu_activities/p/Da1msGcCV8-/' }
+			];
+		}
 	},
 	{
 		id: '02',
-		title: 'TJ-SIF 2022 Innovation',
-		summary:
-			'Selected student research & embedded "IV Stand" smart infusion hardware presented in English at Thailand-Japan Student ICT Fair.',
-		metrics: 'Forum: Thailand 🇹🇭 × Japan 🇯🇵 Student ICT Fair • Embedded IoT & Flow Sensors',
+		get title() {
+			return m.projectTjsifTitle();
+		},
+		get summary() {
+			return m.projectTjsifSummary();
+		},
+		get metrics() {
+			return m.projectTjsifMetrics();
+		},
 		certImage: '/certs/tjsif_booth.webp',
-		links: [
-			{
-				label: 'Certificate',
-				url: '/certs/tjsif_cert.webp',
-				isCertModal: true,
-				certImage: '/certs/tjsif_cert.webp'
-			},
-			{
-				label: 'Stage Trophy',
-				url: '/certs/tjsif_stage.webp',
-				isCertModal: true,
-				certImage: '/certs/tjsif_stage.webp'
-			},
-			{
-				label: 'Live Booth',
-				url: '/certs/tjsif_booth.webp',
-				isCertModal: true,
-				certImage: '/certs/tjsif_booth.webp'
-			},
-			{
-				label: 'Report (p.125)',
-				url: 'https://online.anyflip.com/zpkny/qiwq/mobile/index.html#page=137'
-			}
-		]
+		get links() {
+			return [
+				{
+					label: m.projectTjsifLinkCert(),
+					url: '/certs/tjsif_cert.webp',
+					isCertModal: true,
+					certImage: '/certs/tjsif_cert.webp'
+				},
+				{
+					label: m.projectTjsifLinkTrophy(),
+					url: '/certs/tjsif_stage.webp',
+					isCertModal: true,
+					certImage: '/certs/tjsif_stage.webp'
+				},
+				{
+					label: m.projectTjsifLinkBooth(),
+					url: '/certs/tjsif_booth.webp',
+					isCertModal: true,
+					certImage: '/certs/tjsif_booth.webp'
+				},
+				{
+					label: m.projectTjsifLinkReport(),
+					url: 'https://online.anyflip.com/zpkny/qiwq/mobile/index.html#page=137'
+				}
+			];
+		}
 	},
 	{
 		id: '03',
-		title:
-			'NSC 25 — Automated Silkworm Silk Spinning Frame for Uniform Sheet Production via Gravitropic Response',
-		summary:
-			'Automated frame system engineered to control the uniformity of silkworm silk spinning for silk sheet production by applying biological gravitropic behavioral response. Funded grantee in the 25th National Software Contest (NSC 25 @ CMU).',
-		metrics: 'Contest: 25th National Software Contest (NSC 25 Grantee @ CMU)',
+		get title() {
+			return m.projectNsc25Title();
+		},
+		get summary() {
+			return m.projectNsc25Summary();
+		},
+		get metrics() {
+			return m.projectNsc25Metrics();
+		},
 		certImage: '/certs/nsc25_booth.webp',
-		links: [
-			{
-				label: 'NSC 25 Certificate',
-				url: '/certs/nsc25_cert.webp',
-				isCertModal: true,
-				certImage: '/certs/nsc25_cert.webp'
-			},
-			{
-				label: 'Exhibition Photo',
-				url: '/certs/nsc25_booth.webp',
-				isCertModal: true,
-				certImage: '/certs/nsc25_booth.webp'
-			}
-		]
+		get links() {
+			return [
+				{
+					label: m.projectNsc25LinkCert(),
+					url: '/certs/nsc25_cert.webp',
+					isCertModal: true,
+					certImage: '/certs/nsc25_cert.webp'
+				},
+				{
+					label: m.projectNsc25LinkPhoto(),
+					url: '/certs/nsc25_booth.webp',
+					isCertModal: true,
+					certImage: '/certs/nsc25_booth.webp'
+				}
+			];
+		}
 	},
 	{
 		id: '04',
-		title: 'polyTone',
-		summary:
-			'Community audio platform for discovering and sharing digital guitar amplifier presets and Impulse Responses (IRs).',
-		metrics: 'Stack: SvelteKit + Supabase Cloud + Web Audio DSP',
+		get title() {
+			return m.projectPolytoneTitle();
+		},
+		get summary() {
+			return m.projectPolytoneSummary();
+		},
+		get metrics() {
+			return m.projectPolytoneMetrics();
+		},
 		certImage: '/certs/polyTonePreview.webp',
-		links: [
-			{
-				label: 'UI Preview',
-				url: '/certs/polyTonePreview.webp',
-				isCertModal: true,
-				certImage: '/certs/polyTonePreview.webp'
-			},
-			{ label: 'Live App', url: 'https://polytone.pages.dev/' }
-		]
+		get links() {
+			return [
+				{
+					label: m.projectPolytoneLinkPreview(),
+					url: '/certs/polyTonePreview.webp',
+					isCertModal: true,
+					certImage: '/certs/polyTonePreview.webp'
+				},
+				{ label: m.projectPolytoneLinkLive(), url: 'https://polytone.pages.dev/' }
+			];
+		}
 	}
 ];
 
 export const ossProjects: Project[] = [
 	{
 		id: '01',
-		title: 'Study-Schedule',
-		summary:
-			'Interactive study timetable designer with high-resolution 4K wallpaper rendering engine.',
-		metrics: 'Stack: HTML5 Canvas 2D + Svelte State Management',
-		links: [
-			{ label: 'Live App', url: 'https://schedule-wallpapers.pages.dev/' },
-			{ label: 'GitHub Repo', url: 'https://github.com/PLATONG34821/Study-Schedule' }
-		]
+		get title() {
+			return m.ossStudyScheduleTitle();
+		},
+		get summary() {
+			return m.ossStudyScheduleSummary();
+		},
+		get metrics() {
+			return m.ossStudyScheduleMetrics();
+		},
+		get links() {
+			return [
+				{ label: m.ossStudyScheduleLinkLive(), url: 'https://schedule-wallpapers.pages.dev/' },
+				{
+					label: m.ossStudyScheduleLinkRepo(),
+					url: 'https://github.com/PLATONG34821/Study-Schedule'
+				}
+			];
+		}
 	},
 	{
 		id: '02',
-		title: 'Portable Hybrid Swarm Cluster',
-		summary:
-			'Resilient multi-node hybrid x86/ARM Docker Swarm edge cluster with automated failover & proxy routing.',
-		metrics: 'Nodes: Hybrid Multi-Arch (x86_64 + ARM64) • Reverse Proxy Routing',
-		links: [
-			{
-				label: 'GitHub Repo',
-				url: 'https://github.com/PLATONG34821/Portable-Hybrid-Arch-Docker-Swarm-Cluster'
-			}
-		]
+		get title() {
+			return m.ossSwarmClusterTitle();
+		},
+		get summary() {
+			return m.ossSwarmClusterSummary();
+		},
+		get metrics() {
+			return m.ossSwarmClusterMetrics();
+		},
+		get links() {
+			return [
+				{
+					label: m.ossSwarmClusterLinkRepo(),
+					url: 'https://github.com/PLATONG34821/Portable-Hybrid-Arch-Docker-Swarm-Cluster'
+				}
+			];
+		}
 	},
 	{
 		id: '03',
-		title: 'Project-DSM',
-		summary:
-			'Vehicle telemetry & driver behavior analytics application engineered for smart passenger safety.',
-		metrics: 'Sensors: GPS Real-Time Telemetry + Accelerometer Tracking',
-		links: [
-			{ label: 'Live App', url: 'https://project-dsm.pages.dev/' },
-			{ label: 'GitHub Repo', url: 'https://github.com/PLATONG34821/Project-DSM' }
-		]
+		get title() {
+			return m.ossProjectDsmTitle();
+		},
+		get summary() {
+			return m.ossProjectDsmSummary();
+		},
+		get metrics() {
+			return m.ossProjectDsmMetrics();
+		},
+		get links() {
+			return [
+				{ label: m.ossProjectDsmLinkLive(), url: 'https://project-dsm.pages.dev/' },
+				{ label: m.ossProjectDsmLinkRepo(), url: 'https://github.com/PLATONG34821/Project-DSM' }
+			];
+		}
 	},
 	{
 		id: '04',
-		title: 'GroupPlan',
-		summary:
-			'Modern team schedule coordination and collaborative group planning web application built with Svelte.',
-		metrics: 'Stack: Svelte 5 Runes + TypeScript State Engine',
-		links: [{ label: 'GitHub Repo', url: 'https://github.com/PLATONG34821/GroupPlan' }]
+		get title() {
+			return m.ossGroupPlanTitle();
+		},
+		get summary() {
+			return m.ossGroupPlanSummary();
+		},
+		get metrics() {
+			return m.ossGroupPlanMetrics();
+		},
+		get links() {
+			return [
+				{
+					label: m.ossGroupPlanLinkRepo(),
+					url: 'https://github.com/PLATONG34821/GroupPlan'
+				}
+			];
+		}
 	}
 ];
 
 export const awards: Award[] = [
 	{
 		id: '01',
-		title: 'Web Applications Development (ม.ปลาย)',
-		subtitle: '71st National Student Arts & Crafts Fair (งานศิลปหัตถกรรมนักเรียน ครั้งที่ 71)',
+		get title() {
+			return m.award1Title();
+		},
+		get subtitle() {
+			return m.award1Subtitle();
+		},
 		year: '2023',
 		isHighlighted: true,
 		certImage: '/certs/gold_cert.webp'
 	},
 	{
 		id: '02',
-		title: 'Web Applications Development (ม.ปลาย)',
-		subtitle: '70th National Student Arts & Crafts Fair (งานศิลปหัตถกรรมนักเรียน ครั้งที่ 70)',
+		get title() {
+			return m.award2Title();
+		},
+		get subtitle() {
+			return m.award2Subtitle();
+		},
 		year: '2022',
 		certImage: '/certs/silver_cert.webp'
 	},
 	{
 		id: '03',
-		title: '25th National Software Contest (NSC 25)',
-		subtitle: 'Funded Grant Winner & Finalist for Automated Silkworm Silk Spinning Frame (CMU)',
+		get title() {
+			return m.award3Title();
+		},
+		get subtitle() {
+			return m.award3Subtitle();
+		},
 		year: '2023',
 		isHighlighted: true,
 		certImage: '/certs/nsc25_cert.webp'
 	},
 	{
 		id: '04',
-		title: 'Samsung Solve for Tomorrow 2024',
-		subtitle: 'Innovation Shortlist & Design Thinking / Entrepreneurship Workshop',
+		get title() {
+			return m.award4Title();
+		},
+		get subtitle() {
+			return m.award4Subtitle();
+		},
 		year: '2024',
 		certImage: '/certs/samsung_cert.webp'
 	},
 	{
 		id: '05',
-		title: 'BornToDev DevLab 3 Nationwide Contest',
-		subtitle: 'Rank #1,152 out of 31,905 developers nationwide (Top 3.6%)',
+		get title() {
+			return m.award5Title();
+		},
+		get subtitle() {
+			return m.award5Subtitle();
+		},
 		year: '2024',
 		certImage: '/certs/borntodev_cert.webp'
 	},
 	{
 		id: '06',
-		title: 'Thailand-Japan Student ICT Fair (TJ-SIF 2022)',
-		subtitle: 'International ICT Innovation Presentation Trophy & Award (เชียงราย)',
+		get title() {
+			return m.award6Title();
+		},
+		get subtitle() {
+			return m.award6Subtitle();
+		},
 		year: '2022',
 		isHighlighted: true,
 		certImage: '/certs/tjsif_stage.webp'

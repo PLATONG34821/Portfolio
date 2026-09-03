@@ -1,4 +1,5 @@
 <script lang="ts">
+	import * as m from '$lib/paraglide/messages';
 	import type { CapabilityItem } from '$lib/data/skillsData';
 	import TuiBox from '$lib/components/tui/tuiBox.svelte';
 
@@ -24,7 +25,7 @@
 
 	{#if item.evidence}
 		<div class="tui-item-evidence">
-			<span class="evidence-tag">USED IN:</span>
+			<span class="evidence-tag">{m.usedInLabel()}</span>
 			<span class="evidence-val">{item.evidence}</span>
 		</div>
 	{/if}

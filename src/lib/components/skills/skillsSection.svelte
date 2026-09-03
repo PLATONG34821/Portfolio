@@ -1,4 +1,5 @@
 <script lang="ts">
+	import * as m from '$lib/paraglide/messages';
 	import TuiBox from '$lib/components/tui/tuiBox.svelte';
 	import SectionHeader from '$lib/components/tui/sectionHeader.svelte';
 	import SkillItem from './skillItem.svelte';
@@ -8,9 +9,14 @@
 <section class="skills-section" id="skills">
 	<div class="content-container">
 		<div class="section-block">
-			<SectionHeader tag="SECTION 02" title="CAPABILITIES" theme="cyan" />
+			<SectionHeader tag={m.sectionSkillsTag()} title={m.sectionSkillsTitle()} theme="cyan" />
 
-			<TuiBox title="Tools" theme="cyan" class="quick-scan-box" bodyClass="quick-scan-body">
+			<TuiBox
+				title={m.toolsTitle()}
+				theme="cyan"
+				class="quick-scan-box"
+				bodyClass="quick-scan-body"
+			>
 				<div class="quick-scan-items">
 					{#each quickScanTools as tool, i (tool)}
 						{#if i > 0}
