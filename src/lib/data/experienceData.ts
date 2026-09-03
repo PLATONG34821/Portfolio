@@ -63,7 +63,14 @@ export const coreProjects: Project[] = [
 		metrics: 'Scale: 4,400+ Active Users • Stack: SvelteKit, TypeScript, iOS, Android',
 		tags: ['SvelteKit', 'TypeScript', 'High Concurrency', 'REST API'],
 		githubUrl: 'https://apps.apple.com/th/app/hllc/id6748238190',
+		certImage: '/certs/hllcHomepage.jpg',
 		links: [
+			{
+				label: 'App UI Preview',
+				url: '/certs/hllcHomepage.jpg',
+				isCertModal: true,
+				certImage: '/certs/hllcHomepage.jpg'
+			},
 			{ label: 'App Store', url: 'https://apps.apple.com/th/app/hllc/id6748238190' },
 			{
 				label: 'Google Play',
@@ -152,7 +159,16 @@ export const coreProjects: Project[] = [
 		metrics: 'Stack: SvelteKit + Supabase Cloud + Web Audio DSP',
 		tags: ['SvelteKit', 'TypeScript', 'Supabase', 'Web Audio', 'Community'],
 		githubUrl: 'https://polytone.pages.dev/',
-		links: [{ label: 'Live App', url: 'https://polytone.pages.dev/' }]
+		certImage: '/certs/polyTonePreview.png',
+		links: [
+			{
+				label: 'UI Preview',
+				url: '/certs/polyTonePreview.png',
+				isCertModal: true,
+				certImage: '/certs/polyTonePreview.png'
+			},
+			{ label: 'Live App', url: 'https://polytone.pages.dev/' }
+		]
 	}
 ];
 
