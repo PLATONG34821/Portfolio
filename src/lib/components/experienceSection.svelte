@@ -116,19 +116,33 @@
 		top: 0;
 		left: 0;
 		width: 100vw;
-		height: 220px;
+		height: 200px;
 		background: linear-gradient(
 			to bottom,
 			rgba(0, 0, 0, 1) 0%,
-			rgba(0, 0, 1) 180px,
-			rgba(0, 0, 0, 0.85) 200px,
-			rgba(0, 0, 0, 0.35) 220px,
-			transparent 220px
+			rgba(0, 0, 1) 150px,
+			rgba(0, 0, 0, 0.85) 175px,
+			rgba(0, 0, 0, 0.35) 200px,
+			transparent 200px
 		);
 		pointer-events: none;
 		user-select: none;
 		-webkit-user-select: none;
 		z-index: 40;
+	}
+
+	@media (max-width: 768px) {
+		.top-fade-curtain {
+			height: 125px;
+			background: linear-gradient(
+				to bottom,
+				rgba(0, 0, 0, 1) 0%,
+				rgba(0, 0, 1) 85px,
+				rgba(0, 0, 0, 0.85) 105px,
+				rgba(0, 0, 0, 0.35) 125px,
+				transparent 125px
+			);
+		}
 	}
 
 	.experience-section {
@@ -146,6 +160,18 @@
 			ui-monospace, 'SF Mono', 'Cascadia Code', 'Fira Code', Menlo, Monaco, Consolas, monospace;
 	}
 
+	@media (max-width: 960px) {
+		.experience-section {
+			padding: 6rem 1.25rem 2.5rem;
+		}
+	}
+
+	@media (max-width: 640px) {
+		.experience-section {
+			padding: 5rem 0.75rem 2rem;
+		}
+	}
+
 	.experience-section.is-revealed {
 		opacity: 1;
 		pointer-events: auto;
@@ -153,10 +179,17 @@
 
 	.content-container {
 		max-width: 1180px;
+		width: 100%;
 		margin: 0 auto;
 		display: flex;
 		flex-direction: column;
 		gap: 2rem;
+	}
+
+	@media (max-width: 640px) {
+		.content-container {
+			gap: 1.25rem;
+		}
 	}
 
 	.section-block {
@@ -180,6 +213,7 @@
 		gap: 0.5rem;
 		font-size: 0.8rem;
 		font-weight: 600;
+		flex-wrap: wrap;
 	}
 
 	.section-tag-prefix {
@@ -197,6 +231,17 @@
 		font-weight: 400;
 	}
 
+	@media (max-width: 640px) {
+		.section-tag-wrap {
+			font-size: 0.72rem;
+			gap: 0.35rem;
+		}
+
+		.section-tag-sub {
+			font-size: 0.66rem;
+		}
+	}
+
 	/* Symmetrical 2-Column Desktop Grid for Projects and Awards */
 	.experience-symmetric-grid {
 		display: grid;
@@ -208,6 +253,7 @@
 	@media (max-width: 960px) {
 		.experience-symmetric-grid {
 			grid-template-columns: 1fr;
+			gap: 1.25rem;
 		}
 	}
 
@@ -255,6 +301,12 @@
 		padding: 1.25rem 1.4rem;
 	}
 
+	@media (max-width: 640px) {
+		:global(.oss-full-body) {
+			padding: 0.85rem 0.75rem;
+		}
+	}
+
 	/* OSS Subgrid: Full Frame 2-Column Responsive Grid */
 	.oss-subgrid {
 		display: grid;
@@ -265,6 +317,7 @@
 	@media (max-width: 768px) {
 		.oss-subgrid {
 			grid-template-columns: 1fr;
+			gap: 1rem;
 		}
 	}
 </style>

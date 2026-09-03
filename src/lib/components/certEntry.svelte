@@ -56,4 +56,18 @@
 		color: #71717a;
 		font-size: 0.78rem;
 	}
+
+	@media (max-width: 640px) {
+		.cert-code {
+			font-size: 0.72rem;
+		}
+
+		.cert-name {
+			font-size: 0.76rem;
+		}
+
+		.cert-meta {
+			font-size: 0.7rem;
+		}
+	}
 </style>

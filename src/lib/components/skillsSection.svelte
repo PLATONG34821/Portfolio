@@ -76,13 +76,25 @@
 		width: 100%;
 		background: #000000;
 		color: #e5e7eb;
-		padding: 0 1.5rem 12rem;
+		padding: 5rem 1.5rem 12rem;
 		z-index: 10;
 		opacity: 0;
 		pointer-events: none;
 		transition: opacity 0.5s cubic-bezier(0.16, 1, 0.3, 1);
 		font-family:
 			ui-monospace, 'SF Mono', 'Cascadia Code', 'Fira Code', Menlo, Monaco, Consolas, monospace;
+	}
+
+	@media (max-width: 1024px) {
+		.skills-section {
+			padding: 4.5rem 1.25rem 8rem;
+		}
+	}
+
+	@media (max-width: 640px) {
+		.skills-section {
+			padding: 3.5rem 0.75rem 6rem;
+		}
 	}
 
 	.skills-section.is-revealed {
@@ -92,10 +104,17 @@
 
 	.content-container {
 		max-width: 1160px;
+		width: 100%;
 		margin: 0 auto;
 		display: flex;
 		flex-direction: column;
 		gap: 2rem;
+	}
+
+	@media (max-width: 640px) {
+		.content-container {
+			gap: 1.25rem;
+		}
 	}
 
 	.section-block {
@@ -119,6 +138,7 @@
 		gap: 0.5rem;
 		font-size: 0.8rem;
 		font-weight: 600;
+		flex-wrap: wrap;
 	}
 
 	.section-tag-prefix {
@@ -136,11 +156,36 @@
 		font-weight: 400;
 	}
 
+	@media (max-width: 640px) {
+		.section-tag-wrap {
+			font-size: 0.72rem;
+			gap: 0.35rem;
+		}
+
+		.section-tag-sub {
+			font-size: 0.66rem;
+		}
+	}
+
 	.tui-grid-3col {
 		display: grid;
-		grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+		grid-template-columns: repeat(3, minmax(0, 1fr));
 		gap: 1.5rem;
 		align-items: start;
+	}
+
+	@media (max-width: 1024px) {
+		.tui-grid-3col {
+			grid-template-columns: repeat(2, minmax(0, 1fr));
+			gap: 1.25rem;
+		}
+	}
+
+	@media (max-width: 680px) {
+		.tui-grid-3col {
+			grid-template-columns: 1fr;
+			gap: 1rem;
+		}
 	}
 
 	:global(.cap-body) {
@@ -158,6 +203,7 @@
 		align-items: baseline;
 		gap: 0.45rem;
 		line-height: 1.4;
+		flex-wrap: wrap;
 	}
 
 	.tui-item-line2 {
@@ -174,6 +220,8 @@
 		color: #e2e8f0;
 		font-size: 0.88rem;
 		font-weight: 500;
+		word-break: break-word;
+		overflow-wrap: break-word;
 	}
 
 	.tui-title-static.highlighted {
@@ -184,9 +232,22 @@
 		color: #22d3ee; /* Electric Cyan checkmark */
 		margin-left: 0.35rem;
 		font-weight: 700;
+		flex-shrink: 0;
 	}
 
 	.tui-desc {
 		color: #94a3b8;
+		word-break: break-word;
+		overflow-wrap: break-word;
+	}
+
+	@media (max-width: 640px) {
+		.tui-title-static {
+			font-size: 0.78rem;
+		}
+
+		.tui-item-line2 {
+			font-size: 0.7rem;
+		}
 	}
 </style>

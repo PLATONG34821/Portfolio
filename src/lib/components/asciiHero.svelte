@@ -131,7 +131,14 @@
 			maxArtHeight = Math.max(linesA.length, linesB.length, linesC.length);
 			endTextLinesCount = linesB.length;
 
-			currentCols = Math.max(maxArtWidth + 14, 120);
+			// Responsive column calculation:
+			// On desktop (>=1024px), use generous padding (at least 120 cols).
+			// On tablet/mobile, fit tightly around the art width so font size stays as large and legible as possible without overflowing viewport.
+			const colPadding = width < 480 ? 0 : width < 768 ? 4 : 14;
+			currentCols = Math.max(
+				maxArtWidth + colPadding,
+				width < 768 ? maxArtWidth + colPadding : 120
+			);
 			currentRows = Math.max(maxArtHeight + 8, 32);
 
 			const pointsA = extractFigletPoints(linesA, currentCols, currentRows);
@@ -257,23 +264,30 @@
 			context.scale(dpr, dpr);
 			context.clearRect(0, 0, width, height);
 
-			// Calculate original crisp font sizing
+			// Calculate responsive crisp font sizing with optimized cell ratio for larger scale on mobile
+			const cellRatio = width < 768 ? 0.52 : 0.6;
+			const cellHeightRatio = width < 768 ? 1.08 : 1.15;
+			const widthCoverage = width < 480 ? 0.98 : width < 768 ? 0.96 : 0.94;
+
 			const baseFontSize = Math.min(
-				Math.floor((width * 0.94) / (currentCols * 0.6)),
-				Math.floor((height * 0.8) / (currentRows * 1.15))
+				(width * widthCoverage) / (currentCols * cellRatio),
+				(height * 0.8) / (currentRows * cellHeightRatio)
 			);
-			const fontSize = Math.max(6.5, Math.min(14, baseFontSize));
-			const cellWidth = fontSize * 0.6;
-			const cellHeight = fontSize * 1.15;
+			const minFontSize = width < 400 ? 6.5 : width < 600 ? 7.2 : 8.5;
+			const maxFontSize = 14;
+			const fontSize = Math.max(minFontSize, Math.min(maxFontSize, baseFontSize));
+			const cellWidth = fontSize * cellRatio;
+			const cellHeight = fontSize * cellHeightRatio;
 
 			const gridPixelWidth = currentCols * cellWidth;
 			const gridPixelHeight = currentRows * cellHeight;
 			const originX = (width - gridPixelWidth) / 2;
 
-			// Center Y transitioning smoothly to top sticky position (60px from top)
+			// Center Y transitioning smoothly to top sticky position:
+			// 38px on mobile (<640px), 60px on tablet/desktop
+			const targetLetterTop = width < 640 ? 38 : 60;
 			const endArtTopRow = (currentRows - endTextLinesCount) >> 1;
 			const centerY = (height - gridPixelHeight) / 2;
-			const targetLetterTop = 60;
 			const stickyOriginY = targetLetterTop - endArtTopRow * cellHeight;
 			const originY = centerY + (stickyOriginY - centerY) * slideT;
 
@@ -330,7 +344,7 @@
 				if (type === 'shadow') {
 					context.fillStyle = activeFaceFill;
 					context.shadowColor = activeShadowGlow;
-					context.shadowBlur = 6;
+					context.shadowBlur = width < 640 ? 3 : 6;
 				} else {
 					context.fillStyle = activeOutlineFill;
 					context.shadowColor = 'transparent';
@@ -450,6 +464,13 @@
 		font-family: ui-monospace, monospace;
 		transition: opacity 0.2s ease-out;
 		pointer-events: none;
+	}
+
+	@media (max-width: 640px) {
+		.ascii-footer-hint {
+			bottom: 1.25rem;
+			font-size: 0.72rem;
+		}
 	}
 
 	.scroll-arrow {

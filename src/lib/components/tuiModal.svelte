@@ -137,4 +137,18 @@
 		color: #ef4444;
 		text-shadow: 0 0 8px rgba(239, 68, 68, 0.4);
 	}
+
+	@media (max-width: 640px) {
+		.tui-modal-backdrop {
+			padding: 0.75rem;
+		}
+
+		.tui-modal-body {
+			max-height: 80vh;
+		}
+
+		.tui-cert-img {
+			max-height: 75vh;
+		}
+	}
 </style>

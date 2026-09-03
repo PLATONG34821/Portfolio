@@ -60,6 +60,8 @@
 		border: 1px solid #292524;
 		border-radius: 4px;
 		height: 100%;
+		width: 100%;
+		min-width: 0;
 		transition:
 			border-color 0.2s ease,
 			box-shadow 0.2s ease;
@@ -75,7 +77,9 @@
 	.award-img-btn {
 		position: relative;
 		width: 100%;
-		height: 135px;
+		aspect-ratio: 16 / 10;
+		height: auto;
+		max-height: 180px;
 		display: block;
 		background: #09090b;
 		border: 1px solid #382f1d;
@@ -120,6 +124,8 @@
 		border: 1px solid #785e2f;
 		backdrop-filter: blur(4px);
 		-webkit-backdrop-filter: blur(4px);
+		user-select: none;
+		pointer-events: none;
 	}
 
 	.award-body {
@@ -127,12 +133,13 @@
 		flex-direction: column;
 		gap: 0.25rem;
 		flex-grow: 1;
+		min-width: 0;
 	}
 
 	.award-meta-row {
 		display: flex;
 		align-items: baseline;
-		gap: 0.45rem;
+		gap: 0.35rem 0.5rem;
 		flex-wrap: wrap;
 	}
 
@@ -140,18 +147,21 @@
 		color: #a1a1aa;
 		font-size: 0.8rem;
 		font-weight: 600;
+		flex-shrink: 0;
 	}
 
 	.award-badge {
 		color: #facc15; /* Bright Gold badge */
 		font-weight: 600;
 		font-size: 0.8rem;
+		flex-shrink: 0;
 	}
 
 	.check-mark {
 		color: #fbbf24;
 		font-weight: 700;
 		margin-left: 0.2rem;
+		flex-shrink: 0;
 	}
 
 	.award-title-btn,
@@ -169,6 +179,8 @@
 		display: inline-block;
 		transition: color 0.15s ease;
 		line-height: 1.35;
+		word-break: break-word;
+		overflow-wrap: break-word;
 	}
 
 	.award-title-btn:hover {
@@ -187,5 +199,23 @@
 		color: #78716c;
 		font-size: 0.76rem;
 		line-height: 1.4;
+		word-break: break-word;
+		overflow-wrap: break-word;
+	}
+
+	@media (max-width: 640px) {
+		.award-year,
+		.award-badge {
+			font-size: 0.72rem;
+		}
+
+		.award-title-btn,
+		.award-title {
+			font-size: 0.8rem;
+		}
+
+		.award-sub {
+			font-size: 0.7rem;
+		}
 	}
 </style>

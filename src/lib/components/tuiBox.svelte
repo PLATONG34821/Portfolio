@@ -152,6 +152,9 @@
 		display: flex;
 		flex-direction: column;
 		height: 100%;
+		width: 100%;
+		max-width: 100%;
+		min-width: 0;
 		background: var(--tui-bg-color, transparent);
 		border: none;
 		outline: none;
@@ -171,6 +174,8 @@
 		color: var(--tui-border-color, #27272a);
 		white-space: nowrap;
 		overflow: hidden;
+		width: 100%;
+		min-width: 0;
 		border: none;
 		outline: none;
 		user-select: text;
@@ -183,16 +188,18 @@
 		user-select: text;
 		-webkit-user-select: text;
 		white-space: nowrap;
+		flex-shrink: 0;
 	}
 
 	.tui-fill {
-		flex-grow: 1;
+		flex: 1 1 0;
 		overflow: hidden;
 		white-space: nowrap;
 		letter-spacing: 0;
 		color: var(--tui-border-color, #27272a);
 		user-select: text;
 		-webkit-user-select: text;
+		min-width: 0;
 	}
 
 	.tui-title {
@@ -204,6 +211,10 @@
 		user-select: text;
 		-webkit-user-select: text;
 		white-space: nowrap;
+		flex-shrink: 0;
+		max-width: calc(100% - 4ch);
+		overflow: hidden;
+		text-overflow: ellipsis;
 	}
 
 	.tui-middle-row {
@@ -212,6 +223,8 @@
 		position: relative;
 		flex-grow: 1;
 		width: 100%;
+		max-width: 100%;
+		min-width: 0;
 		overflow: hidden;
 		border: none;
 		outline: none;
@@ -234,6 +247,7 @@
 		-webkit-user-select: text;
 		pointer-events: auto;
 		z-index: 2;
+		flex-shrink: 0;
 	}
 
 	.tui-side-left {
@@ -254,11 +268,34 @@
 		flex-grow: 1;
 		margin: 0 1ch;
 		width: calc(100% - 2ch);
+		max-width: calc(100% - 2ch);
+		min-width: 0;
 		box-sizing: border-box;
 		gap: 1.5rem;
 		border: none;
 		outline: none;
 		user-select: text;
 		-webkit-user-select: text;
+	}
+
+	@media (max-width: 640px) {
+		.tui-line-top,
+		.tui-line-bot {
+			font-size: 0.74rem;
+		}
+
+		.tui-title {
+			font-size: 0.74rem;
+			padding: 0 0.35rem;
+		}
+
+		.tui-side-col {
+			font-size: 0.74rem;
+		}
+
+		.tui-body {
+			padding: var(--tui-body-padding, 0.75rem 0.65rem);
+			gap: 0.85rem;
+		}
 	}
 </style>

@@ -102,6 +102,8 @@
 		border-bottom: 1px dashed #27272a;
 		font-family:
 			ui-monospace, 'SF Mono', 'Cascadia Code', 'Fira Code', Menlo, Monaco, Consolas, monospace;
+		width: 100%;
+		min-width: 0;
 	}
 
 	.project-entry:last-child {
@@ -135,12 +137,15 @@
 		display: flex;
 		align-items: baseline;
 		gap: 0.45rem;
+		flex-wrap: wrap;
+		min-width: 0;
 	}
 
 	.entry-number {
 		color: #71717a;
 		font-size: 0.88rem;
 		font-weight: 600;
+		flex-shrink: 0;
 	}
 
 	.entry-title-btn,
@@ -160,6 +165,8 @@
 		align-items: baseline;
 		transition: color 0.15s ease;
 		line-height: 1.35;
+		word-break: break-word;
+		overflow-wrap: break-word;
 	}
 
 	.entry-title-btn:hover,
@@ -178,12 +185,14 @@
 		color: #fbbf24; /* Warm Gold checkmark */
 		margin-left: 0.35rem;
 		font-weight: 700;
+		flex-shrink: 0;
 	}
 
 	.entry-badge {
 		color: #a1a1aa;
 		font-size: 0.74rem;
 		font-weight: 500;
+		flex-shrink: 0;
 	}
 
 	.entry-summary {
@@ -191,6 +200,8 @@
 		color: #d4d4d8;
 		font-size: 0.82rem;
 		line-height: 1.5;
+		word-break: break-word;
+		overflow-wrap: break-word;
 	}
 
 	.entry-meta {
@@ -198,6 +209,7 @@
 		gap: 0.45rem;
 		font-size: 0.76rem;
 		line-height: 1.4;
+		flex-wrap: wrap;
 	}
 
 	.meta-label {
@@ -208,6 +220,8 @@
 
 	.meta-text {
 		color: #a1a1aa;
+		word-break: break-word;
+		overflow-wrap: break-word;
 	}
 
 	.entry-links {
@@ -311,14 +325,48 @@
 		-webkit-backdrop-filter: blur(4px);
 	}
 
-	@media (max-width: 540px) {
+	@media (max-width: 600px) {
 		.project-entry.has-media {
 			display: flex;
 			flex-direction: column;
+			align-items: stretch;
+			gap: 0.75rem;
 		}
+
 		.entry-media-wrap {
 			width: 100%;
-			height: 160px;
+			height: auto;
+			aspect-ratio: 16 / 9;
+			max-height: 200px;
+		}
+
+		.entry-number {
+			font-size: 0.78rem;
+		}
+
+		.entry-title-btn,
+		.entry-title-link {
+			font-size: 0.84rem;
+		}
+
+		.entry-badge {
+			font-size: 0.68rem;
+		}
+
+		.entry-summary {
+			font-size: 0.76rem;
+		}
+
+		.entry-meta {
+			font-size: 0.72rem;
+		}
+
+		.entry-links {
+			font-size: 0.72rem;
+		}
+
+		.text-link {
+			font-size: 0.72rem !important;
 		}
 	}
 </style>
