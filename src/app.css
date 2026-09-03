@@ -59,6 +59,13 @@ body {
 	color: #09090b !important;
 }
 
+/* Section 03 (Contact & Transmission): Terminal Emerald */
+#contact::selection,
+#contact *::selection {
+	background: #34d399 !important;
+	color: #021a12 !important;
+}
+
 /* Modals: Radiant Gold */
 .tui-modal-backdrop::selection,
 .tui-modal-backdrop *::selection {

@@ -2,6 +2,7 @@
 	import AsciiHero from '$lib/components/asciiHero.svelte';
 	import ExperienceSection from '$lib/components/experienceSection.svelte';
 	import SkillsSection from '$lib/components/skillsSection.svelte';
+	import ContactSection from '$lib/components/contactSection.svelte';
 </script>
 
 <svelte:head>
@@ -13,6 +14,7 @@
 	<AsciiHero startText="THANAPHUM\nPORTFOLIO" endText="EXPERIENCE" />
 	<ExperienceSection />
 	<SkillsSection />
+	<ContactSection />
 </main>
 
 <style>

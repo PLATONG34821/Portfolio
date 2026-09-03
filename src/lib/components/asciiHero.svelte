@@ -14,6 +14,7 @@
 		startText?: string;
 		endText?: string;
 		skillsText?: string;
+		contactText?: string;
 		scrollProgress?: number;
 	}
 
@@ -21,6 +22,7 @@
 		startText = 'THANAPHUM\nPORTFOLIO',
 		endText = 'EXPERIENCE',
 		skillsText = 'SKILLS',
+		contactText = 'CONTACT',
 		scrollProgress = $bindable(0)
 	}: Props = $props();
 
@@ -55,6 +57,11 @@
 			faceColor: [56, 189, 248], // #38bdf8 (Cyber Cyan)
 			outlineColor: [30, 58, 95], // #1e3a5f (Midnight Cyber Slate)
 			shadowColor: [56, 189, 248, 0.9] // #38bdf8 glow
+		},
+		{
+			faceColor: [52, 211, 153], // #34d399 (Terminal Emerald)
+			outlineColor: [6, 78, 59], // #064e3b (Deep Emerald Slate)
+			shadowColor: [52, 211, 153, 0.9] // #34d399 glow
 		}
 	];
 
@@ -98,6 +105,7 @@
 		let gridTextA = '';
 		let gridTextB = '';
 		let gridTextC = '';
+		let gridTextD = '';
 
 		const buildGridString = (points: FigletPoint[], cols: number, rows: number): string => {
 			const grid: string[][] = Array.from({ length: rows }, () =>
@@ -126,13 +134,15 @@
 			const linesA = generateFigletArt(startText);
 			const linesB = generateFigletArt(endText);
 			const linesC = generateFigletArt(skillsText);
+			const linesD = generateFigletArt(contactText);
 
 			const maxArtWidth = Math.max(
 				...linesA.map((l) => l.length),
 				...linesB.map((l) => l.length),
-				...linesC.map((l) => l.length)
+				...linesC.map((l) => l.length),
+				...linesD.map((l) => l.length)
 			);
-			maxArtHeight = Math.max(linesA.length, linesB.length, linesC.length);
+			maxArtHeight = Math.max(linesA.length, linesB.length, linesC.length, linesD.length);
 			endTextLinesCount = linesB.length;
 
 			// Responsive column calculation:
@@ -148,12 +158,14 @@
 			const pointsA = extractFigletPoints(linesA, currentCols, currentRows);
 			const pointsB = extractFigletPoints(linesB, currentCols, currentRows);
 			const pointsC = extractFigletPoints(linesC, currentCols, currentRows);
+			const pointsD = extractFigletPoints(linesD, currentCols, currentRows);
 
-			particles = createMultiStageFigletParticles([pointsA, pointsB, pointsC]);
+			particles = createMultiStageFigletParticles([pointsA, pointsB, pointsC, pointsD]);
 
 			gridTextA = buildGridString(pointsA, currentCols, currentRows);
 			gridTextB = buildGridString(pointsB, currentCols, currentRows);
 			gridTextC = buildGridString(pointsC, currentCols, currentRows);
+			gridTextD = buildGridString(pointsD, currentCols, currentRows);
 
 			activeGridText = gridTextA;
 		};
@@ -164,9 +176,16 @@
 		let targetProgress = 0;
 		let heroProgress = 0;
 		let skillsProgress = 0;
+		let contactProgress = 0;
 
 		const updateTargetProgress = () => {
-			targetProgress = heroProgress < 1 ? heroProgress : 1 + skillsProgress;
+			if (heroProgress < 1) {
+				targetProgress = heroProgress;
+			} else if (skillsProgress < 1) {
+				targetProgress = 1 + skillsProgress;
+			} else {
+				targetProgress = 2 + contactProgress;
+			}
 		};
 
 		const heroTrigger = ScrollTrigger.create({
@@ -191,6 +210,20 @@
 			scrub: 0.2,
 			onUpdate: (self) => {
 				skillsProgress = self.progress;
+				updateTargetProgress();
+			}
+		});
+
+		const contactTrigger = ScrollTrigger.create({
+			trigger: '#contact',
+			start: 'top 75%',
+			end: () => {
+				const dockedHeaderBottom = window.innerWidth < 640 ? 125 : 200;
+				return `top ${dockedHeaderBottom + (window.innerWidth < 640 ? 20 : 40)}px`;
+			},
+			scrub: 0.2,
+			onUpdate: (self) => {
+				contactProgress = self.progress;
 				updateTargetProgress();
 			}
 		});
@@ -245,13 +278,16 @@
 				if (activeGridText !== gridTextA) activeGridText = gridTextA;
 			} else if (currentProgress < 1.5) {
 				if (activeGridText !== gridTextB) activeGridText = gridTextB;
-			} else {
+			} else if (currentProgress < 2.5) {
 				if (activeGridText !== gridTextC) activeGridText = gridTextC;
+			} else {
+				if (activeGridText !== gridTextD) activeGridText = gridTextD;
 			}
 
 			// Multi-stage progression:
 			// Stage 0 -> 1 (0.0 to 1.0): THANAPHUM -> EXPERIENCE (finishes right as experience section arrives)
 			// Stage 1 -> 2 (1.0 to 2.0): EXPERIENCE -> SKILLS (docked at sticky top)
+			// Stage 2 -> 3 (2.0 to 3.0): SKILLS -> CONTACT (docked at sticky top)
 			let stageIdx: number;
 			let morphPhase: number;
 			let slideT: number;
@@ -261,9 +297,13 @@
 				morphPhase = Math.min(1, currentProgress / 0.96);
 				const slidePhase = Math.max(0, Math.min(1, (currentProgress - 0.05) / 0.92));
 				slideT = easeInOutCubic(slidePhase);
-			} else {
+			} else if (currentProgress <= 2.0) {
 				stageIdx = 1;
 				morphPhase = Math.min(1, currentProgress - 1.0);
+				slideT = 1.0;
+			} else {
+				stageIdx = 2;
+				morphPhase = Math.min(1, currentProgress - 2.0);
 				slideT = 1.0;
 			}
 
@@ -392,6 +432,7 @@
 			arrowTween.kill();
 			heroTrigger.kill();
 			skillsTrigger.kill();
+			contactTrigger.kill();
 		};
 	});
 </script>
