@@ -1,85 +1,11 @@
 <script lang="ts">
-	import { onMount } from 'svelte';
-	import { gsap } from 'gsap';
-	import { ScrollTrigger } from 'gsap/ScrollTrigger';
 	import SectionHeader from '$lib/components/tui/sectionHeader.svelte';
 	import TransmissionChannels from './transmissionChannels.svelte';
 	import StationArchitecture from './stationArchitecture.svelte';
 	import TerminalFooter from './terminalFooter.svelte';
-
-	let sectionElement = $state<HTMLElement | null>(null);
-
-	onMount(() => {
-		if (!sectionElement) return;
-		gsap.registerPlugin(ScrollTrigger);
-
-		const triggers: ScrollTrigger[] = [];
-		const tweens: gsap.core.Tween[] = [];
-
-		gsap.set(sectionElement, { autoAlpha: 0 });
-
-		const mainTween = gsap.to(sectionElement, {
-			autoAlpha: 1,
-			duration: 0.4,
-			ease: 'power2.out',
-			scrollTrigger: {
-				trigger: sectionElement,
-				start: 'top 85%',
-				once: true
-			}
-		});
-		tweens.push(mainTween);
-		if (mainTween.scrollTrigger) triggers.push(mainTween.scrollTrigger);
-
-		// Header row animation
-		const headerRow = sectionElement.querySelector('.section-header-row');
-		if (headerRow) {
-			const headerTween = gsap.from(headerRow, {
-				y: -12,
-				opacity: 0,
-				duration: 0.4,
-				ease: 'power2.out',
-				force3D: true,
-				clearProps: 'transform,opacity',
-				scrollTrigger: {
-					trigger: headerRow,
-					start: 'top 88%',
-					once: true
-				}
-			});
-			tweens.push(headerTween);
-			if (headerTween.scrollTrigger) triggers.push(headerTween.scrollTrigger);
-		}
-
-		// Grid boxes stagger
-		const boxes = sectionElement.querySelectorAll('.contact-grid > *');
-		if (boxes.length > 0) {
-			const boxTween = gsap.from(boxes, {
-				y: 28,
-				opacity: 0,
-				duration: 0.5,
-				stagger: 0.1,
-				ease: 'power3.out',
-				force3D: true,
-				clearProps: 'transform,opacity',
-				scrollTrigger: {
-					trigger: '.contact-grid',
-					start: 'top 85%',
-					once: true
-				}
-			});
-			tweens.push(boxTween);
-			if (boxTween.scrollTrigger) triggers.push(boxTween.scrollTrigger);
-		}
-
-		return () => {
-			triggers.forEach((st) => st.kill());
-			tweens.forEach((tw) => tw.kill());
-		};
-	});
 </script>
 
-<section bind:this={sectionElement} class="contact-section" id="contact">
+<section class="contact-section" id="contact">
 	<div class="content-container">
 		<div class="section-block">
 			<SectionHeader
@@ -109,8 +35,6 @@
 		color: #e5e7eb;
 		padding: 5rem 1.5rem 10rem;
 		z-index: 10;
-		visibility: hidden;
-		opacity: 0;
 		pointer-events: auto;
 		font-family:
 			ui-monospace, 'SF Mono', 'Cascadia Code', 'Fira Code', Menlo, Monaco, Consolas, monospace;

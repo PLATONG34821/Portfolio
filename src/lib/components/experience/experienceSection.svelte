@@ -1,15 +1,10 @@
 <script lang="ts">
-	import { onMount } from 'svelte';
-	import { gsap } from 'gsap';
-	import { ScrollTrigger } from 'gsap/ScrollTrigger';
 	import TuiBox from '$lib/components/tui/tuiBox.svelte';
 	import TuiModal from '$lib/components/tui/tuiModal.svelte';
 	import SectionHeader from '$lib/components/tui/sectionHeader.svelte';
 	import ProjectEntry from './projectEntry.svelte';
 	import AwardEntry from './awardEntry.svelte';
 	import { coreProjects, ossProjects, awards } from '$lib/data/experienceData';
-
-	let sectionElement = $state<HTMLElement | null>(null);
 
 	// Modal State for viewing high-res certificates and exhibition photos
 	let activeCertModal: { title: string; image: string } | null = $state(null);
@@ -21,101 +16,12 @@
 	function closeCert() {
 		activeCertModal = null;
 	}
-
-	onMount(() => {
-		if (!sectionElement) return;
-		gsap.registerPlugin(ScrollTrigger);
-
-		const triggers: ScrollTrigger[] = [];
-		const tweens: gsap.core.Tween[] = [];
-
-		gsap.set(sectionElement, { autoAlpha: 0 });
-
-		const mainTween = gsap.to(sectionElement, {
-			autoAlpha: 1,
-			duration: 0.4,
-			ease: 'power2.out',
-			scrollTrigger: {
-				trigger: sectionElement,
-				start: 'top 50%',
-				once: true
-			}
-		});
-		tweens.push(mainTween);
-		if (mainTween.scrollTrigger) triggers.push(mainTween.scrollTrigger);
-
-		// 1. Section Header Row (smooth slide down)
-		const headerRow = sectionElement.querySelector('.section-header-row');
-		if (headerRow) {
-			const headerTween = gsap.from(headerRow, {
-				y: -12,
-				opacity: 0,
-				duration: 0.4,
-				ease: 'power2.out',
-				force3D: true,
-				clearProps: 'transform,opacity',
-				scrollTrigger: {
-					trigger: headerRow,
-					start: 'top 88%',
-					once: true
-				}
-			});
-			tweens.push(headerTween);
-			if (headerTween.scrollTrigger) triggers.push(headerTween.scrollTrigger);
-		}
-
-		// 2. Symmetrical Grid Cards (Selected Projects & Awards)
-		const gridBoxes = sectionElement.querySelectorAll('.experience-symmetric-grid > .grid-box');
-		if (gridBoxes.length > 0) {
-			const gridTween = gsap.from(gridBoxes, {
-				y: 28,
-				opacity: 0,
-				duration: 0.5,
-				stagger: 0.1,
-				ease: 'power3.out',
-				force3D: true,
-				clearProps: 'transform,opacity',
-				scrollTrigger: {
-					trigger: '.experience-symmetric-grid',
-					start: 'top 85%',
-					once: true
-				}
-			});
-			tweens.push(gridTween);
-			if (gridTween.scrollTrigger) triggers.push(gridTween.scrollTrigger);
-		}
-
-		// 3. Open Source & Systems Full Frame Box
-		const ossBox = sectionElement.querySelector('.full-frame-box');
-		if (ossBox) {
-			const ossTween = gsap.from(ossBox, {
-				y: 24,
-				opacity: 0,
-				duration: 0.5,
-				ease: 'power3.out',
-				force3D: true,
-				clearProps: 'transform,opacity',
-				scrollTrigger: {
-					trigger: ossBox,
-					start: 'top 88%',
-					once: true
-				}
-			});
-			tweens.push(ossTween);
-			if (ossTween.scrollTrigger) triggers.push(ossTween.scrollTrigger);
-		}
-
-		return () => {
-			triggers.forEach((st) => st.kill());
-			tweens.forEach((tw) => tw.kill());
-		};
-	});
 </script>
 
 <!-- Fixed top gradient curtain that progressively masks text as it scrolls up under EXP -->
 <div class="top-fade-curtain" aria-hidden="true"></div>
 
-<section bind:this={sectionElement} class="experience-section" id="experience">
+<section class="experience-section" id="experience">
 	<div class="content-container">
 		<!-- SECTION 01: SELECTED PROJECTS & RECOGNITION (GOLD THEME) -->
 		<div class="section-block" id="projects">
@@ -251,8 +157,6 @@
 		color: #e5e7eb;
 		padding: 21rem 1.5rem 3rem;
 		z-index: 10;
-		visibility: hidden;
-		opacity: 0;
 		pointer-events: auto;
 		font-family:
 			ui-monospace, 'SF Mono', 'Cascadia Code', 'Fira Code', Menlo, Monaco, Consolas, monospace;

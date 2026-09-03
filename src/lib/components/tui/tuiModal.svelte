@@ -1,6 +1,4 @@
 <script lang="ts">
-	import { onMount } from 'svelte';
-	import { gsap } from 'gsap';
 	import TuiBox from './tuiBox.svelte';
 
 	interface Props {
@@ -25,40 +23,12 @@
 		onClose
 	}: Props = $props();
 
-	let backdropEl = $state<HTMLElement | null>(null);
-	let dialogEl = $state<HTMLElement | null>(null);
-	let isClosing = $state(false);
-
-	onMount(() => {
-		if (backdropEl && dialogEl) {
-			gsap.fromTo(backdropEl, { opacity: 0 }, { opacity: 1, duration: 0.2, ease: 'power2.out' });
-			gsap.fromTo(
-				dialogEl,
-				{ scale: 0.92, y: 16, opacity: 0 },
-				{ scale: 1, y: 0, opacity: 1, duration: 0.28, ease: 'back.out(1.4)' }
-			);
-		}
-	});
-
 	const handleClose = () => {
-		if (isClosing) return;
-		isClosing = true;
-		if (backdropEl && dialogEl) {
-			gsap.to(dialogEl, { scale: 0.95, y: 10, opacity: 0, duration: 0.16, ease: 'power2.in' });
-			gsap.to(backdropEl, {
-				opacity: 0,
-				duration: 0.18,
-				ease: 'power2.in',
-				onComplete: onClose
-			});
-		} else {
-			onClose();
-		}
+		onClose();
 	};
 </script>
 
 <div
-	bind:this={backdropEl}
 	class="tui-modal-backdrop"
 	role="dialog"
 	aria-modal="true"
@@ -69,7 +39,6 @@
 	<!-- svelte-ignore a11y_click_events_have_key_events -->
 	<!-- svelte-ignore a11y_no_noninteractive_element_interactions -->
 	<div
-		bind:this={dialogEl}
 		class="tui-modal-dialog"
 		style="max-width: {maxWidth};"
 		onclick={(e) => e.stopPropagation()}
@@ -121,11 +90,33 @@
 		padding: 1.5rem;
 		font-family:
 			ui-monospace, 'SF Mono', 'Cascadia Code', 'Fira Code', Menlo, Monaco, Consolas, monospace;
+		animation: modalFadeIn 0.15s ease-out;
+	}
+
+	@keyframes modalFadeIn {
+		from {
+			opacity: 0;
+		}
+		to {
+			opacity: 1;
+		}
 	}
 
 	.tui-modal-dialog {
 		width: 100%;
 		box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.95);
+		animation: modalPopIn 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+	}
+
+	@keyframes modalPopIn {
+		from {
+			opacity: 0;
+			transform: scale(0.95) translateY(10px);
+		}
+		to {
+			opacity: 1;
+			transform: scale(1) translateY(0);
+		}
 	}
 
 	:global(.modal-body-pad) {
