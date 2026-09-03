@@ -22,8 +22,8 @@
 		activeCertModal = null;
 	}
 
-	// In-place fade in as EXP finishes assembling and docks at top (scrollProgress >= 0.85)
-	let isRevealed = $derived(scrollProgress >= 0.85);
+	// Fade in early while scrolling (scrollProgress >= 0.45)
+	let isRevealed = $derived(scrollProgress >= 0.45);
 </script>
 
 <!-- Fixed top gradient curtain that progressively masks text as it scrolls up under EXP -->
@@ -151,7 +151,7 @@
 		min-height: 100vh;
 		background: #000000;
 		color: #e5e7eb;
-		padding: 7rem 1.5rem 3rem;
+		padding: 17rem 1.5rem 3rem;
 		z-index: 10;
 		opacity: 0;
 		pointer-events: none;
@@ -162,13 +162,13 @@
 
 	@media (max-width: 960px) {
 		.experience-section {
-			padding: 6rem 1.25rem 2.5rem;
+			padding: 13rem 1.25rem 2.5rem;
 		}
 	}
 
 	@media (max-width: 640px) {
 		.experience-section {
-			padding: 5rem 0.75rem 2rem;
+			padding: 10rem 0.75rem 2rem;
 		}
 	}
 

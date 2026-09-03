@@ -20,8 +20,8 @@
 		bgColor = '#030712'
 	}: Props = $props();
 
-	// In-place fade-in matching experience section (scrollProgress >= 0.6)
-	let isRevealed = $derived(scrollProgress >= 0.6);
+	// In-place fade-in matching experience section (scrollProgress >= 0.45)
+	let isRevealed = $derived(scrollProgress >= 0.45);
 </script>
 
 <section class="skills-section" class:is-revealed={isRevealed} id="skills">
