@@ -24,7 +24,7 @@
 		<div class="section-block">
 			<SectionHeader
 				tag="SECTION 02"
-				title="CAPABILITIES MATRIX"
+				title="CAPABILITIES"
 				prefixColor="#0284c7"
 				titleColor="#38bdf8"
 				subColor="#64748b"
