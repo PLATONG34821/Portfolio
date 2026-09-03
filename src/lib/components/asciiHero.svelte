@@ -104,7 +104,7 @@
 					grid[pt.y][pt.x] = pt.char;
 				}
 			}
-			return grid.map((r) => r.join('')).join('\n');
+			return grid.map((r) => r.join('').trimEnd()).join('\n');
 		};
 
 		const initSimulation = () => {
@@ -279,12 +279,21 @@
 
 			// Position selectable transparent text overlay precisely over the canvas grid
 			if (overlayElement) {
-				overlayElement.style.left = `${originX}px`;
-				overlayElement.style.top = `${originY}px`;
-				overlayElement.style.width = `${gridPixelWidth}px`;
-				overlayElement.style.height = `${gridPixelHeight}px`;
-				overlayElement.style.fontSize = `${fontSize}px`;
-				overlayElement.style.lineHeight = `${cellHeight}px`;
+				if (currentProgress >= 0.4) {
+					overlayElement.style.display = 'none';
+					overlayElement.style.pointerEvents = 'none';
+					overlayElement.style.userSelect = 'none';
+				} else {
+					overlayElement.style.display = 'block';
+					overlayElement.style.pointerEvents = 'auto';
+					overlayElement.style.userSelect = 'text';
+					overlayElement.style.left = `${originX}px`;
+					overlayElement.style.top = `${originY}px`;
+					overlayElement.style.width = `${gridPixelWidth}px`;
+					overlayElement.style.height = `${gridPixelHeight}px`;
+					overlayElement.style.fontSize = `${fontSize}px`;
+					overlayElement.style.lineHeight = `${cellHeight}px`;
+				}
 			}
 
 			context.font = `600 ${fontSize}px ui-monospace, "SF Mono", Menlo, Monaco, Consolas, monospace`;
@@ -371,6 +380,8 @@
 		width: 100%;
 		height: 65vh;
 		background: #000000;
+		user-select: none;
+		-webkit-user-select: none;
 	}
 
 	.ascii-fixed-viewport {
@@ -385,6 +396,8 @@
 		overflow: hidden;
 		background: transparent;
 		pointer-events: none;
+		user-select: none;
+		-webkit-user-select: none;
 		z-index: 50;
 	}
 
@@ -393,6 +406,9 @@
 		width: 100vw;
 		height: 100vh;
 		background: transparent;
+		user-select: none;
+		-webkit-user-select: none;
+		pointer-events: none;
 	}
 
 	.ascii-selectable-overlay {
@@ -415,7 +431,8 @@
 
 	.ascii-selectable-overlay::selection {
 		background: rgba(251, 191, 36, 0.45);
-		color: #ffffff;
+		color: transparent;
+		-webkit-text-fill-color: transparent;
 	}
 
 	.ascii-footer-hint {

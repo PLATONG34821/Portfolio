@@ -126,6 +126,8 @@
 			transparent 220px
 		);
 		pointer-events: none;
+		user-select: none;
+		-webkit-user-select: none;
 		z-index: 40;
 	}
 

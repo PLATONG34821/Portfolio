@@ -4,8 +4,14 @@
 	box-sizing: border-box;
 	margin: 0;
 	padding: 0;
-	user-select: text;
-	-webkit-user-select: text;
+}
+
+img,
+svg,
+canvas {
+	user-select: none;
+	-webkit-user-select: none;
+	-webkit-user-drag: none;
 }
 
 html,
@@ -27,11 +33,11 @@ body {
 }
 
 ::selection {
-	background: rgba(251, 191, 36, 0.4);
-	color: #ffffff;
+	background: #fbbf24;
+	color: #09090b;
 }
 
 ::-moz-selection {
-	background: rgba(251, 191, 36, 0.4);
-	color: #ffffff;
+	background: #fbbf24;
+	color: #09090b;
 }

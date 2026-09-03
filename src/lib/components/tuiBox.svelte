@@ -135,11 +135,15 @@
 		line-height: 1;
 		color: var(--tui-border-color, #27272a);
 		white-space: nowrap;
+		user-select: text;
+		-webkit-user-select: text;
 	}
 
 	.tui-corner {
 		color: var(--tui-corner-color, #3f3f46);
 		font-weight: 400;
+		user-select: text;
+		-webkit-user-select: text;
 	}
 
 	.tui-fill {
@@ -147,6 +151,8 @@
 		overflow: hidden;
 		letter-spacing: -0.05em;
 		color: var(--tui-border-color, #27272a);
+		user-select: text;
+		-webkit-user-select: text;
 	}
 
 	.tui-title {
@@ -155,6 +161,8 @@
 		font-size: 0.88rem;
 		padding: 0 0.5rem;
 		letter-spacing: 0.02em;
+		user-select: text;
+		-webkit-user-select: text;
 	}
 
 	.tui-body {
