@@ -412,8 +412,6 @@
 		width: 100%;
 		height: 65vh;
 		background: #000000;
-		user-select: none;
-		-webkit-user-select: none;
 	}
 
 	.ascii-fixed-viewport {
@@ -428,8 +426,6 @@
 		overflow: hidden;
 		background: transparent;
 		pointer-events: none;
-		user-select: none;
-		-webkit-user-select: none;
 		z-index: 50;
 	}
 
@@ -449,7 +445,7 @@
 		margin: 0;
 		padding: 0;
 		color: transparent;
-		caret-color: #fbbf24;
+		caret-color: #e4e4e7;
 		font-family: ui-monospace, 'SF Mono', Menlo, Monaco, Consolas, monospace;
 		font-weight: 600;
 		white-space: pre;
@@ -463,9 +459,9 @@
 	}
 
 	.ascii-selectable-overlay::selection {
-		background: rgba(251, 191, 36, 0.45);
-		color: transparent;
-		-webkit-text-fill-color: transparent;
+		background: rgba(255, 255, 255, 0.4) !important;
+		color: #ffffff !important;
+		-webkit-text-fill-color: #ffffff !important;
 	}
 
 	.ascii-footer-hint {

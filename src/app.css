@@ -32,12 +32,36 @@ body {
 	overflow-x: hidden;
 }
 
+/* Default Fallback Selection */
 ::selection {
-	background: #fbbf24;
-	color: #09090b;
+	background: #71717a;
+	color: #ffffff;
 }
 
-::-moz-selection {
-	background: #fbbf24;
-	color: #09090b;
+/* Hero Section: Silver / White */
+.ascii-scroll-container::selection,
+.ascii-scroll-container *::selection {
+	background: rgba(255, 255, 255, 0.35) !important;
+	color: #ffffff !important;
+}
+
+/* Section 01 (Experience & Awards): Radiant Gold */
+#experience::selection,
+#experience *::selection {
+	background: #fbbf24 !important;
+	color: #09090b !important;
+}
+
+/* Section 02 (Capabilities / Skills): Cyber Cyan */
+#skills::selection,
+#skills *::selection {
+	background: #38bdf8 !important;
+	color: #09090b !important;
+}
+
+/* Modals: Radiant Gold */
+.tui-modal-backdrop::selection,
+.tui-modal-backdrop *::selection {
+	background: #fbbf24 !important;
+	color: #09090b !important;
 }
