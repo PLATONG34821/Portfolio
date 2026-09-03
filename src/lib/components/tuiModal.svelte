@@ -1,4 +1,6 @@
 <script lang="ts">
+	import { onMount } from 'svelte';
+	import { gsap } from 'gsap';
 	import TuiBox, { type BoxStyleType } from './tuiBox.svelte';
 
 	interface Props {
@@ -24,19 +26,52 @@
 		maxWidth = '860px',
 		onClose
 	}: Props = $props();
+
+	let backdropEl = $state<HTMLElement | null>(null);
+	let dialogEl = $state<HTMLElement | null>(null);
+	let isClosing = $state(false);
+
+	onMount(() => {
+		if (backdropEl && dialogEl) {
+			gsap.fromTo(backdropEl, { opacity: 0 }, { opacity: 1, duration: 0.2, ease: 'power2.out' });
+			gsap.fromTo(
+				dialogEl,
+				{ scale: 0.92, y: 16, opacity: 0 },
+				{ scale: 1, y: 0, opacity: 1, duration: 0.28, ease: 'back.out(1.4)' }
+			);
+		}
+	});
+
+	const handleClose = () => {
+		if (isClosing) return;
+		isClosing = true;
+		if (backdropEl && dialogEl) {
+			gsap.to(dialogEl, { scale: 0.95, y: 10, opacity: 0, duration: 0.16, ease: 'power2.in' });
+			gsap.to(backdropEl, {
+				opacity: 0,
+				duration: 0.18,
+				ease: 'power2.in',
+				onComplete: onClose
+			});
+		} else {
+			onClose();
+		}
+	};
 </script>
 
 <div
+	bind:this={backdropEl}
 	class="tui-modal-backdrop"
 	role="dialog"
 	aria-modal="true"
 	tabindex="-1"
-	onclick={onClose}
-	onkeydown={(e) => e.key === 'Escape' && onClose()}
+	onclick={handleClose}
+	onkeydown={(e) => e.key === 'Escape' && handleClose()}
 >
 	<!-- svelte-ignore a11y_click_events_have_key_events -->
 	<!-- svelte-ignore a11y_no_noninteractive_element_interactions -->
 	<div
+		bind:this={dialogEl}
 		class="tui-modal-dialog"
 		style="max-width: {maxWidth};"
 		onclick={(e) => e.stopPropagation()}
@@ -57,7 +92,7 @@
 				<button
 					type="button"
 					class="tui-modal-close-btn"
-					onclick={onClose}
+					onclick={handleClose}
 					title="Close (ESC)"
 					aria-label="Close modal"
 				>

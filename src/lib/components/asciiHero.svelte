@@ -195,6 +195,14 @@
 			}
 		});
 
+		const arrowTween = gsap.to('.scroll-arrow', {
+			y: 5,
+			repeat: -1,
+			yoyo: true,
+			duration: 0.85,
+			ease: 'power1.inOut'
+		});
+
 		ScrollTrigger.refresh();
 
 		const handleResize = () => {
@@ -381,6 +389,7 @@
 		return () => {
 			cancelAnimationFrame(animationFrameId);
 			window.removeEventListener('resize', handleResize);
+			arrowTween.kill();
 			heroTrigger.kill();
 			skillsTrigger.kill();
 		};

@@ -25,9 +25,12 @@
 		if (!sectionElement) return;
 		gsap.registerPlugin(ScrollTrigger);
 
+		const triggers: ScrollTrigger[] = [];
+		const tweens: gsap.core.Tween[] = [];
+
 		gsap.set(sectionElement, { autoAlpha: 0 });
 
-		const tween = gsap.to(sectionElement, {
+		const mainTween = gsap.to(sectionElement, {
 			autoAlpha: 1,
 			duration: 0.5,
 			ease: 'power2.out',
@@ -37,10 +40,124 @@
 				toggleActions: 'play none none reverse'
 			}
 		});
+		tweens.push(mainTween);
+		if (mainTween.scrollTrigger) triggers.push(mainTween.scrollTrigger);
+
+		// 1. Section Header Row (smooth slide down)
+		const headerRow = sectionElement.querySelector('.section-header-row');
+		if (headerRow) {
+			const headerTween = gsap.from(headerRow, {
+				y: -12,
+				opacity: 0,
+				duration: 0.5,
+				ease: 'power2.out',
+				scrollTrigger: {
+					trigger: headerRow,
+					start: 'top 85%',
+					toggleActions: 'play none none reverse'
+				}
+			});
+			tweens.push(headerTween);
+			if (headerTween.scrollTrigger) triggers.push(headerTween.scrollTrigger);
+		}
+
+		// 2. Symmetrical Grid Cards (Selected Projects & Awards)
+		const gridBoxes = sectionElement.querySelectorAll('.experience-symmetric-grid > .grid-box');
+		if (gridBoxes.length > 0) {
+			const gridTween = gsap.from(gridBoxes, {
+				y: 32,
+				opacity: 0,
+				duration: 0.6,
+				stagger: 0.15,
+				ease: 'power3.out',
+				scrollTrigger: {
+					trigger: '.experience-symmetric-grid',
+					start: 'top 82%',
+					toggleActions: 'play none none reverse'
+				}
+			});
+			tweens.push(gridTween);
+			if (gridTween.scrollTrigger) triggers.push(gridTween.scrollTrigger);
+		}
+
+		// 3. Project entries inside Selected Projects (cascading list)
+		const projectEntries = sectionElement.querySelectorAll('.projects-list > *');
+		if (projectEntries.length > 0) {
+			const pTween = gsap.from(projectEntries, {
+				y: 16,
+				opacity: 0,
+				duration: 0.45,
+				stagger: 0.08,
+				ease: 'power2.out',
+				scrollTrigger: {
+					trigger: '.projects-list',
+					start: 'top 85%',
+					toggleActions: 'play none none reverse'
+				}
+			});
+			tweens.push(pTween);
+			if (pTween.scrollTrigger) triggers.push(pTween.scrollTrigger);
+		}
+
+		// 4. Award entries inside Awards & Honors
+		const awardEntries = sectionElement.querySelectorAll('.awards-subgrid > *');
+		if (awardEntries.length > 0) {
+			const aTween = gsap.from(awardEntries, {
+				y: 14,
+				opacity: 0,
+				duration: 0.4,
+				stagger: 0.05,
+				ease: 'power2.out',
+				scrollTrigger: {
+					trigger: '.awards-subgrid',
+					start: 'top 85%',
+					toggleActions: 'play none none reverse'
+				}
+			});
+			tweens.push(aTween);
+			if (aTween.scrollTrigger) triggers.push(aTween.scrollTrigger);
+		}
+
+		// 5. Open Source & Systems Full Frame Box
+		const ossBox = sectionElement.querySelector('.full-frame-box');
+		if (ossBox) {
+			const ossTween = gsap.from(ossBox, {
+				y: 30,
+				opacity: 0,
+				duration: 0.6,
+				ease: 'power3.out',
+				scrollTrigger: {
+					trigger: ossBox,
+					start: 'top 88%',
+					toggleActions: 'play none none reverse'
+				}
+			});
+			tweens.push(ossTween);
+			if (ossTween.scrollTrigger) triggers.push(ossTween.scrollTrigger);
+		}
+
+		// 6. OSS subgrid items
+		const ossEntries = sectionElement.querySelectorAll('.oss-subgrid > *');
+		if (ossEntries.length > 0) {
+			const ossListTween = gsap.from(ossEntries, {
+				y: 16,
+				opacity: 0,
+				duration: 0.45,
+				stagger: 0.08,
+				ease: 'power2.out',
+				scrollTrigger: {
+					trigger: '.oss-subgrid',
+					start: 'top 88%',
+					toggleActions: 'play none none reverse'
+				}
+			});
+			tweens.push(ossListTween);
+			if (ossListTween.scrollTrigger) triggers.push(ossListTween.scrollTrigger);
+		}
 
 		return () => {
-			tween.scrollTrigger?.kill();
-			tween.kill();
+			triggers.forEach((st) => st.kill());
+			tweens.forEach((tw) => tw.kill());
 		};
 	});
 </script>

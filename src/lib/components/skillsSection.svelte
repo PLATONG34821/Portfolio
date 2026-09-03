@@ -27,9 +27,12 @@
 		if (!sectionElement) return;
 		gsap.registerPlugin(ScrollTrigger);
 
+		const triggers: ScrollTrigger[] = [];
+		const tweens: gsap.core.Tween[] = [];
+
 		gsap.set(sectionElement, { autoAlpha: 0 });
 
-		const tween = gsap.to(sectionElement, {
+		const mainTween = gsap.to(sectionElement, {
 			autoAlpha: 1,
 			duration: 0.5,
 			ease: 'power2.out',
@@ -39,10 +42,68 @@
 				toggleActions: 'play none none reverse'
 			}
 		});
+		tweens.push(mainTween);
+		if (mainTween.scrollTrigger) triggers.push(mainTween.scrollTrigger);
+
+		// 1. Header row
+		const headerRow = sectionElement.querySelector('.section-header-row');
+		if (headerRow) {
+			const headerTween = gsap.from(headerRow, {
+				y: -12,
+				opacity: 0,
+				duration: 0.5,
+				ease: 'power2.out',
+				scrollTrigger: {
+					trigger: headerRow,
+					start: 'top 88%',
+					toggleActions: 'play none none reverse'
+				}
+			});
+			tweens.push(headerTween);
+			if (headerTween.scrollTrigger) triggers.push(headerTween.scrollTrigger);
+		}
+
+		// 2. Capability Boxes stagger
+		const capBoxes = sectionElement.querySelectorAll('.tui-grid-3col > .cap-box');
+		if (capBoxes.length > 0) {
+			const boxTween = gsap.from(capBoxes, {
+				y: 35,
+				opacity: 0,
+				duration: 0.6,
+				stagger: 0.1,
+				ease: 'power3.out',
+				scrollTrigger: {
+					trigger: '.tui-grid-3col',
+					start: 'top 85%',
+					toggleActions: 'play none none reverse'
+				}
+			});
+			tweens.push(boxTween);
+			if (boxTween.scrollTrigger) triggers.push(boxTween.scrollTrigger);
+		}
+
+		// 3. Skill Items terminal data-stream cascade
+		const skillItems = sectionElement.querySelectorAll('.tui-item');
+		if (skillItems.length > 0) {
+			const itemTween = gsap.from(skillItems, {
+				x: -8,
+				opacity: 0,
+				duration: 0.35,
+				stagger: 0.03,
+				ease: 'power2.out',
+				scrollTrigger: {
+					trigger: '.tui-grid-3col',
+					start: 'top 82%',
+					toggleActions: 'play none none reverse'
+				}
+			});
+			tweens.push(itemTween);
+			if (itemTween.scrollTrigger) triggers.push(itemTween.scrollTrigger);
+		}
 
 		return () => {
-			tween.scrollTrigger?.kill();
-			tween.kill();
+			triggers.forEach((st) => st.kill());
+			tweens.forEach((tw) => tw.kill());
 		};
 	});
 </script>
