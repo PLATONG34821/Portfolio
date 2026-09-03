@@ -12,22 +12,39 @@ canvas {
 	-webkit-user-drag: none;
 }
 
+:root {
+	--font-mono:
+		ui-monospace, 'SF Mono', 'Cascadia Code', 'Fira Code', Menlo, Monaco, Consolas, monospace;
+}
+
 html,
 body {
 	background-color: #000000;
 	color: #f3f3f3;
-	font-family:
-		system-ui,
-		-apple-system,
-		BlinkMacSystemFont,
-		'Segoe UI',
-		Roboto,
-		Oxygen,
-		Ubuntu,
-		Cantarell,
-		sans-serif;
+	font-family: var(--font-mono);
 	min-height: 100vh;
 	overflow-x: hidden;
+}
+
+.content-container {
+	max-width: 1180px;
+	width: 100%;
+	margin: 0 auto;
+	display: flex;
+	flex-direction: column;
+	gap: 2rem;
+}
+
+@media (max-width: 640px) {
+	.content-container {
+		gap: 1.25rem;
+	}
+}
+
+.section-block {
+	display: flex;
+	flex-direction: column;
+	gap: 1.25rem;
 }
 
 /* Default Fallback Selection */

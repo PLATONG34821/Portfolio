@@ -11,7 +11,7 @@
 </svelte:head>
 
 <main class="page-container">
-	<AsciiHero startText="THANAPHUM\nPORTFOLIO" endText="EXPERIENCE" />
+	<AsciiHero />
 	<ExperienceSection />
 	<SkillsSection />
 	<ContactSection />

@@ -1,7 +1,21 @@
+<script lang="ts" module>
+	export type HeaderTheme = 'amber' | 'cyan' | 'emerald';
+
+	export const headerThemes: Record<
+		HeaderTheme,
+		{ prefixColor: string; titleColor: string; subColor: string }
+	> = {
+		amber: { prefixColor: '#d97706', titleColor: '#f59e0b', subColor: '#fbbf24' },
+		cyan: { prefixColor: '#0284c7', titleColor: '#38bdf8', subColor: '#64748b' },
+		emerald: { prefixColor: '#059669', titleColor: '#10b981', subColor: '#6ee7b7' }
+	};
+</script>
+
 <script lang="ts">
 	interface Props {
-		tag: string; // e.g. "SECTION 01"
-		title: string; // e.g. "EXPERIENCE & AWARDS"
+		tag: string;
+		title: string;
+		theme?: HeaderTheme;
 		prefixColor?: string;
 		titleColor?: string;
 		subColor?: string;
@@ -10,9 +24,10 @@
 	let {
 		tag,
 		title,
-		prefixColor = '#785e2f',
-		titleColor = '#fbbf24',
-		subColor = '#a8a29e'
+		theme,
+		prefixColor = theme ? headerThemes[theme].prefixColor : '#785e2f',
+		titleColor = theme ? headerThemes[theme].titleColor : '#fbbf24',
+		subColor = theme ? headerThemes[theme].subColor : '#a8a29e'
 	}: Props = $props();
 </script>
 

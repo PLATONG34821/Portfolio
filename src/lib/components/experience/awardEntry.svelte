@@ -8,14 +8,13 @@
 	}
 
 	let { award, onOpenCert }: Props = $props();
+
+	const openImage = () => onOpenCert?.(award.title, award.certImage!);
 </script>
 
 <TuiBox
 	title={award.year}
-	titleColor="amber"
-	borderColor="#382f1d"
-	cornerColor="#785e2f"
-	bgColor="rgba(18, 14, 8, 0.45)"
+	theme="amber"
 	padding="0.65rem 0.75rem"
 	class="award-tui-box"
 	bodyClass="award-tui-body"
@@ -24,7 +23,7 @@
 		<button
 			type="button"
 			class="award-img-btn"
-			onclick={() => onOpenCert?.(award.title, award.certImage!)}
+			onclick={openImage}
 			title="Click to view full resolution"
 		>
 			<img src={award.certImage} alt={award.title} class="award-img" loading="lazy" />
@@ -36,7 +35,7 @@
 		{#if award.certImage && onOpenCert}
 			<button
 				type="button"
-				onclick={() => onOpenCert(award.title, award.certImage!)}
+				onclick={openImage}
 				class="award-title-btn"
 				class:highlighted={award.isHighlighted}
 			>

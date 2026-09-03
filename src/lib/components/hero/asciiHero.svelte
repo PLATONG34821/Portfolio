@@ -15,15 +15,13 @@
 		endText?: string;
 		skillsText?: string;
 		contactText?: string;
-		scrollProgress?: number;
 	}
 
 	let {
 		startText = 'THANAPHUM\nPORTFOLIO',
 		endText = 'EXPERIENCE',
 		skillsText = 'SKILLS',
-		contactText = 'CONTACT',
-		scrollProgress = $bindable(0)
+		contactText = 'CONTACT'
 	}: Props = $props();
 
 	let containerElement = $state<HTMLElement | null>(null);
@@ -67,12 +65,8 @@
 		c1: [number, number, number],
 		c2: [number, number, number],
 		t: number
-	): string => {
-		const r = Math.round(lerp(c1[0], c2[0], t));
-		const g = Math.round(lerp(c1[1], c2[1], t));
-		const b = Math.round(lerp(c1[2], c2[2], t));
-		return `rgb(${r}, ${g}, ${b})`;
-	};
+	): string =>
+		`rgb(${Math.round(lerp(c1[0], c2[0], t))}, ${Math.round(lerp(c1[1], c2[1], t))}, ${Math.round(lerp(c1[2], c2[2], t))})`;
 
 	onMount(() => {
 		if (!canvasElement) return;
@@ -90,11 +84,20 @@
 		let currentRows = 38;
 		let maxArtHeight = 19;
 		let endTextLinesCount = 9;
+		let gridTexts: string[] = [];
 
-		let gridTextA = '';
-		let gridTextB = '';
-		let gridTextC = '';
-		let gridTextD = '';
+		let dpr = 1;
+		let viewportWidth = 0;
+		let viewportHeight = 0;
+		let originX = 0;
+		let centerY = 0;
+		let stickyOriginY = 0;
+		let cellWidth = 0;
+		let cellHeight = 0;
+		let fontSize = 10;
+		let isDirty = true;
+		let overlayVisible = true;
+		let lastSlideT = -1;
 
 		const buildGridString = (points: FigletPoint[], cols: number, rows: number): string => {
 			const grid: string[][] = Array.from({ length: rows }, () =>
@@ -111,68 +114,51 @@
 		const initSimulation = () => {
 			if (!canvasElement) return;
 
-			const dpr = window.devicePixelRatio || 1;
-			const width = window.innerWidth;
-			const height = window.innerHeight;
+			dpr = window.devicePixelRatio || 1;
+			viewportWidth = window.innerWidth;
+			viewportHeight = window.innerHeight;
 
-			const targetW = Math.round(width * dpr);
-			const targetH = Math.round(height * dpr);
+			const targetW = Math.round(viewportWidth * dpr);
+			const targetH = Math.round(viewportHeight * dpr);
 
 			if (canvasElement.width !== targetW || canvasElement.height !== targetH) {
 				canvasElement.width = targetW;
 				canvasElement.height = targetH;
-				canvasElement.style.width = `${width}px`;
-				canvasElement.style.height = `${height}px`;
+				canvasElement.style.width = `${viewportWidth}px`;
+				canvasElement.style.height = `${viewportHeight}px`;
 			}
 
-			const linesA = generateFigletArt(startText);
-			const linesB = generateFigletArt(endText);
-			const linesC = generateFigletArt(skillsText);
-			const linesD = generateFigletArt(contactText);
+			const artTexts = [startText, endText, skillsText, contactText];
+			const artLinesList = artTexts.map(generateFigletArt);
 
-			const maxArtWidth = Math.max(
-				...linesA.map((l) => l.length),
-				...linesB.map((l) => l.length),
-				...linesC.map((l) => l.length),
-				...linesD.map((l) => l.length)
-			);
-			maxArtHeight = Math.max(linesA.length, linesB.length, linesC.length, linesD.length);
-			endTextLinesCount = linesB.length;
+			const maxArtWidth = Math.max(...artLinesList.flatMap((lines) => lines.map((l) => l.length)));
+			maxArtHeight = Math.max(...artLinesList.map((lines) => lines.length));
+			endTextLinesCount = artLinesList[1].length;
 
-			// Responsive column calculation:
-			// On desktop (>=1024px), use generous padding (at least 120 cols).
-			// On tablet/mobile, fit tightly around the art width so font size stays as large and legible as possible without overflowing viewport.
-			const colPadding = width < 480 ? 0 : width < 768 ? 4 : 14;
+			const colPadding = viewportWidth < 480 ? 0 : viewportWidth < 768 ? 4 : 14;
 			currentCols = Math.max(
 				maxArtWidth + colPadding,
-				width < 768 ? maxArtWidth + colPadding : 120
+				viewportWidth < 768 ? maxArtWidth + colPadding : 120
 			);
 			currentRows = Math.max(maxArtHeight + 8, 32);
 
-			const pointsA = extractFigletPoints(linesA, currentCols, currentRows);
-			const pointsB = extractFigletPoints(linesB, currentCols, currentRows);
-			const pointsC = extractFigletPoints(linesC, currentCols, currentRows);
-			const pointsD = extractFigletPoints(linesD, currentCols, currentRows);
+			const stagePoints = artLinesList.map((lines) =>
+				extractFigletPoints(lines, currentCols, currentRows)
+			);
+			particles = createMultiStageFigletParticles(stagePoints);
 
-			particles = createMultiStageFigletParticles([pointsA, pointsB, pointsC, pointsD]);
+			gridTexts = stagePoints.map((pts) => buildGridString(pts, currentCols, currentRows));
+			activeGridText = gridTexts[0] || '';
 
-			gridTextA = buildGridString(pointsA, currentCols, currentRows);
-			gridTextB = buildGridString(pointsB, currentCols, currentRows);
-			gridTextC = buildGridString(pointsC, currentCols, currentRows);
-			gridTextD = buildGridString(pointsD, currentCols, currentRows);
-
-			activeGridText = gridTextA;
-
-			// Calculate responsive crisp font sizing with optimized cell ratio
-			const cellRatio = width < 768 ? 0.52 : 0.6;
-			const cellHeightRatio = width < 768 ? 1.08 : 1.15;
-			const widthCoverage = width < 480 ? 0.98 : width < 768 ? 0.96 : 0.94;
+			const cellRatio = viewportWidth < 768 ? 0.52 : 0.6;
+			const cellHeightRatio = viewportWidth < 768 ? 1.08 : 1.15;
+			const widthCoverage = viewportWidth < 480 ? 0.98 : viewportWidth < 768 ? 0.96 : 0.94;
 
 			const baseFontSize = Math.min(
-				(width * widthCoverage) / (currentCols * cellRatio),
-				(height * 0.8) / (currentRows * cellHeightRatio)
+				(viewportWidth * widthCoverage) / (currentCols * cellRatio),
+				(viewportHeight * 0.8) / (currentRows * cellHeightRatio)
 			);
-			const minFontSize = width < 400 ? 6.5 : width < 600 ? 7.2 : 8.5;
+			const minFontSize = viewportWidth < 400 ? 6.5 : viewportWidth < 600 ? 7.2 : 8.5;
 			const maxFontSize = 14;
 			fontSize = Math.max(minFontSize, Math.min(maxFontSize, baseFontSize));
 			cellWidth = fontSize * cellRatio;
@@ -180,11 +166,11 @@
 
 			const gridPixelWidth = currentCols * cellWidth;
 			const gridPixelHeight = currentRows * cellHeight;
-			originX = (width - gridPixelWidth) / 2;
+			originX = (viewportWidth - gridPixelWidth) / 2;
 
-			const targetLetterTop = width < 640 ? 38 : 60;
+			const targetLetterTop = viewportWidth < 640 ? 38 : 60;
 			const endArtTopRow = (currentRows - endTextLinesCount) >> 1;
-			centerY = (height - gridPixelHeight) / 2;
+			centerY = (viewportHeight - gridPixelHeight) / 2;
 			stickyOriginY = targetLetterTop - endArtTopRow * cellHeight;
 
 			if (overlayElement) {
@@ -200,16 +186,6 @@
 			isDirty = true;
 		};
 
-		let originX = 0;
-		let centerY = 0;
-		let stickyOriginY = 0;
-		let cellWidth = 0;
-		let cellHeight = 0;
-		let fontSize = 10;
-		let isDirty = true;
-		let overlayVisible = true;
-		let lastSlideT = -1;
-
 		initSimulation();
 
 		let currentProgress = 0;
@@ -219,13 +195,27 @@
 		let contactProgress = 0;
 
 		const updateTargetProgress = () => {
-			if (contactProgress > 0.001) {
-				targetProgress = 2 + contactProgress;
-			} else if (skillsProgress > 0.001) {
-				targetProgress = 1 + skillsProgress;
-			} else {
-				targetProgress = Math.min(1, heroProgress);
-			}
+			targetProgress =
+				contactProgress > 0.001
+					? 2 + contactProgress
+					: skillsProgress > 0.001
+						? 1 + skillsProgress
+						: Math.min(1, heroProgress);
+		};
+
+		const updateFooterHint = (progress: number) => {
+			if (!footerHintElement) return;
+			const opacity = Math.max(0, 1 - progress * 2.5);
+			footerHintElement.style.opacity = `${opacity}`;
+			footerHintElement.style.pointerEvents = opacity <= 0.05 ? 'none' : 'auto';
+		};
+
+		const syncProgress = () => {
+			heroProgress = heroTrigger.progress;
+			skillsProgress = skillsTrigger.progress;
+			contactProgress = contactTrigger.progress;
+			updateTargetProgress();
+			currentProgress = targetProgress;
 		};
 
 		const heroTrigger = ScrollTrigger.create({
@@ -235,12 +225,7 @@
 			scrub: true,
 			onUpdate: (self) => {
 				heroProgress = self.progress;
-				scrollProgress = self.progress;
-				if (footerHintElement) {
-					const opacity = Math.max(0, 1 - self.progress * 2.5);
-					footerHintElement.style.opacity = `${opacity}`;
-					footerHintElement.style.pointerEvents = opacity <= 0.05 ? 'none' : 'auto';
-				}
+				updateFooterHint(self.progress);
 				updateTargetProgress();
 				isDirty = true;
 			}
@@ -275,18 +260,8 @@
 
 		ScrollTrigger.refresh();
 
-		// Sync initial scroll progress immediately so reload while scrolled doesn't fast-forward
-		heroProgress = heroTrigger.progress;
-		skillsProgress = skillsTrigger.progress;
-		contactProgress = contactTrigger.progress;
-		updateTargetProgress();
-		currentProgress = targetProgress;
-
-		if (footerHintElement) {
-			const opacity = Math.max(0, 1 - heroProgress * 2.5);
-			footerHintElement.style.opacity = `${opacity}`;
-			footerHintElement.style.pointerEvents = opacity <= 0.05 ? 'none' : 'auto';
-		}
+		syncProgress();
+		updateFooterHint(heroProgress);
 
 		let lastWindowWidth = window.innerWidth;
 		let lastWindowHeight = window.innerHeight;
@@ -309,9 +284,8 @@
 		window.addEventListener('resize', handleResize, { passive: true });
 		window.addEventListener('scroll', handleScroll, { passive: true });
 
-		const easeInOutCubic = (t: number): number => {
-			return t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2;
-		};
+		const easeInOutCubic = (t: number): number =>
+			t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2;
 
 		let lastTime = performance.now();
 		let initialSnapFrames = 3;
@@ -327,11 +301,7 @@
 
 			if (initialSnapFrames > 0) {
 				initialSnapFrames--;
-				heroProgress = heroTrigger.progress;
-				skillsProgress = skillsTrigger.progress;
-				contactProgress = contactTrigger.progress;
-				updateTargetProgress();
-				currentProgress = targetProgress;
+				syncProgress();
 			}
 
 			const progressDiff = Math.abs(targetProgress - currentProgress);
@@ -342,50 +312,32 @@
 				currentProgress = targetProgress;
 			}
 
-			// Multi-stage progression:
-			let stageIdx: number;
-			let morphPhase: number;
-			let slideT: number;
-
-			if (currentProgress <= 1.0) {
-				stageIdx = 0;
-				morphPhase = Math.min(1, currentProgress / 0.96);
-				const slidePhase = Math.max(0, Math.min(1, (currentProgress - 0.05) / 0.92));
-				slideT = easeInOutCubic(slidePhase);
-			} else if (currentProgress <= 2.0) {
-				stageIdx = 1;
-				morphPhase = Math.min(1, currentProgress - 1.0);
-				slideT = 1.0;
-			} else {
-				stageIdx = 2;
-				morphPhase = Math.min(1, currentProgress - 2.0);
-				slideT = 1.0;
-			}
+			const stageIdx = currentProgress <= 1.0 ? 0 : currentProgress <= 2.0 ? 1 : 2;
+			const morphPhase =
+				currentProgress <= 1.0
+					? Math.min(1, currentProgress / 0.96)
+					: Math.min(1, currentProgress - stageIdx);
+			const slideT =
+				currentProgress <= 1.0
+					? easeInOutCubic(Math.max(0, Math.min(1, (currentProgress - 0.05) / 0.92)))
+					: 1.0;
 
 			const t = easeInOutCubic(morphPhase);
 			const midDispersal = Math.sin(t * Math.PI);
 			const dispersionFactor = Math.pow(midDispersal, 1.8);
 
-			// Idle optimization: when settled and not morphing, skip redundant redraw
 			if (!isDirty && progressDiff <= 0.0001 && dispersionFactor <= 0.001) {
 				animationFrameId = requestAnimationFrame(render);
 				return;
 			}
 
-			// Update selectable text layer to match current stage
-			if (currentProgress < 0.5) {
-				if (activeGridText !== gridTextA) activeGridText = gridTextA;
-			} else if (currentProgress < 1.5) {
-				if (activeGridText !== gridTextB) activeGridText = gridTextB;
-			} else if (currentProgress < 2.5) {
-				if (activeGridText !== gridTextC) activeGridText = gridTextC;
-			} else {
-				if (activeGridText !== gridTextD) activeGridText = gridTextD;
+			const stageTextIndex = Math.min(3, Math.max(0, Math.floor(currentProgress + 0.5)));
+			if (activeGridText !== gridTexts[stageTextIndex]) {
+				activeGridText = gridTexts[stageTextIndex];
 			}
 
 			const originY = centerY + (stickyOriginY - centerY) * slideT;
 
-			// Position selectable transparent text overlay precisely without layout thrashing
 			if (overlayElement) {
 				const isVisible = currentProgress < 0.4;
 				if (isVisible !== overlayVisible) {
@@ -405,11 +357,6 @@
 				return;
 			}
 
-			const dpr = window.devicePixelRatio || 1;
-			const width = window.innerWidth;
-			const height = window.innerHeight;
-
-			// Interpolate theme colors smoothly across stages
 			const currentTheme = stageThemes[stageIdx];
 			const nextTheme = stageThemes[stageIdx + 1] || currentTheme;
 			const activeFaceFill = interpolateColor(currentTheme.faceColor, nextTheme.faceColor, t);
@@ -419,17 +366,18 @@
 				t
 			);
 
-			// Clear canvas transparently
 			context.save();
 			context.scale(dpr, dpr);
-			context.clearRect(0, 0, width, height);
+			context.clearRect(0, 0, viewportWidth, viewportHeight);
 
 			context.font = `600 ${fontSize}px ui-monospace, "SF Mono", Menlo, Monaco, Consolas, monospace`;
 			context.textAlign = 'center';
 			context.textBaseline = 'middle';
 
+			const halfCellW = cellWidth / 2;
+			const halfCellH = cellHeight / 2;
 			let lastFill = '';
-			// Render all particles with direct GPU accelerated text fill (zero shadowBlur overhead)
+
 			for (let i = 0; i < particles.length; i++) {
 				const p = particles[i];
 				const targetA = p.targets[stageIdx];
@@ -442,11 +390,8 @@
 				const targetGridX = targetA.x + (targetB.x - targetA.x) * t + noiseX;
 				const targetGridY = targetA.y + (targetB.y - targetA.y) * t + noiseY;
 
-				p.x = targetGridX;
-				p.y = targetGridY;
-
-				const pixelX = originX + p.x * cellWidth + cellWidth / 2;
-				const pixelY = originY + p.y * cellHeight + cellHeight / 2;
+				const pixelX = originX + targetGridX * cellWidth + halfCellW;
+				const pixelY = originY + targetGridY * cellHeight + halfCellH;
 
 				const char = t < 0.5 ? targetA.char : targetB.char;
 				const type = t < 0.5 ? targetA.type : targetB.type;
@@ -471,7 +416,6 @@
 			animationFrameId = requestAnimationFrame(render);
 		};
 
-		// Synchronous first frame render for zero-delay paint
 		render(performance.now());
 
 		return () => {
@@ -486,22 +430,15 @@
 </script>
 
 <div bind:this={containerElement} class="ascii-scroll-container">
-	<!-- Fixed fullscreen viewport -->
 	<div class="ascii-fixed-viewport">
 		<canvas bind:this={canvasElement} class="ascii-canvas"></canvas>
 
-		<!-- Selectable transparent text layer for native highlighting/copying -->
 		<pre
 			bind:this={overlayElement}
 			class="ascii-selectable-overlay"
 			aria-label="Figlet ASCII Header">{activeGridText}</pre>
 
-		<!-- Floating scroll hint -->
-		<div
-			bind:this={footerHintElement}
-			class="ascii-footer-hint"
-			style="opacity: {Math.max(0, 1 - scrollProgress * 2.5)};"
-		>
+		<div bind:this={footerHintElement} class="ascii-footer-hint">
 			<span class="scroll-arrow">↓</span>
 			<span class="scroll-text">Scroll down</span>
 		</div>

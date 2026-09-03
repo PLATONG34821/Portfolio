@@ -6,45 +6,24 @@
 	import AwardEntry from './awardEntry.svelte';
 	import { coreProjects, ossProjects, awards } from '$lib/data/experienceData';
 
-	// Modal State for viewing high-res certificates and exhibition photos
 	let activeCertModal: { title: string; image: string } | null = $state(null);
 
-	function openCert(title: string, image: string) {
-		activeCertModal = { title, image };
-	}
-
-	function closeCert() {
-		activeCertModal = null;
-	}
+	const openCert = (title: string, image: string) => (activeCertModal = { title, image });
+	const closeCert = () => (activeCertModal = null);
 </script>
 
-<!-- Fixed top gradient curtain that progressively masks text as it scrolls up under EXP -->
 <div class="top-fade-curtain" aria-hidden="true"></div>
 
 <section class="experience-section" id="experience">
 	<div class="content-container">
 		<!-- SECTION 01: SELECTED PROJECTS & RECOGNITION (GOLD THEME) -->
 		<div class="section-block" id="projects">
-			<!-- Section Header: Tag at Top Right -->
-			<SectionHeader
-				tag="SECTION 01"
-				title="EXPERIENCE & AWARDS"
-				prefixColor="#785e2f"
-				titleColor="#fbbf24"
-				subColor="#71717a"
-			/>
+			<SectionHeader tag="SECTION 01" title="EXPERIENCE & AWARDS" theme="amber" />
 
 			<!-- TOP ROW: Symmetrical 2-Column Grid (Selected Projects & Awards) -->
 			<div class="experience-symmetric-grid">
 				<!-- COL 1: Selected Projects -->
-				<TuiBox
-					title="Selected Projects"
-					titleColor="amber"
-					borderColor="#382f1d"
-					cornerColor="#785e2f"
-					class="grid-box"
-					bodyClass="grid-box-body"
-				>
+				<TuiBox title="Selected Projects" theme="amber" class="grid-box" bodyClass="grid-box-body">
 					<div class="projects-list">
 						{#each coreProjects as project (project.id)}
 							<ProjectEntry {project} onOpenCert={openCert} />
@@ -55,9 +34,7 @@
 				<!-- COL 2: Awards & Honors -->
 				<TuiBox
 					title="Awards & Honors"
-					titleColor="amber"
-					borderColor="#382f1d"
-					cornerColor="#785e2f"
+					theme="amber"
 					id="awards"
 					class="grid-box"
 					bodyClass="grid-box-body"
@@ -73,9 +50,7 @@
 			<!-- BOTTOM ROW: Open Source & Systems (Full Frame) -->
 			<TuiBox
 				title="Open Source & Systems"
-				titleColor="amber"
-				borderColor="#382f1d"
-				cornerColor="#785e2f"
+				theme="amber"
 				class="full-frame-box"
 				bodyClass="oss-full-body"
 			>
@@ -157,8 +132,6 @@
 		padding: 21rem 1.5rem 3rem;
 		z-index: 10;
 		pointer-events: auto;
-		font-family:
-			ui-monospace, 'SF Mono', 'Cascadia Code', 'Fira Code', Menlo, Monaco, Consolas, monospace;
 	}
 
 	@media (max-width: 960px) {
@@ -171,27 +144,6 @@
 		.experience-section {
 			padding: 12rem 0.75rem 2rem;
 		}
-	}
-
-	.content-container {
-		max-width: 1180px;
-		width: 100%;
-		margin: 0 auto;
-		display: flex;
-		flex-direction: column;
-		gap: 2rem;
-	}
-
-	@media (max-width: 640px) {
-		.content-container {
-			gap: 1.25rem;
-		}
-	}
-
-	.section-block {
-		display: flex;
-		flex-direction: column;
-		gap: 1.25rem;
 	}
 
 	/* Symmetrical 2-Column Desktop Grid for Projects and Awards */

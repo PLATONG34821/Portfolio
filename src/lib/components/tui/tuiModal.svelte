@@ -1,9 +1,10 @@
 <script lang="ts">
-	import TuiBox from './tuiBox.svelte';
+	import TuiBox, { type TuiTheme } from './tuiBox.svelte';
 
 	interface Props {
 		title: string;
 		image: string;
+		theme?: TuiTheme;
 		titleColor?: string;
 		borderColor?: string;
 		cornerColor?: string;
@@ -15,17 +16,14 @@
 	let {
 		title,
 		image,
-		titleColor = 'amber',
-		borderColor = '#785e2f',
-		cornerColor = '#fbbf24',
+		theme = 'amber',
+		titleColor,
+		borderColor,
+		cornerColor,
 		bgColor = '#09090b',
 		maxWidth = '860px',
 		onClose
 	}: Props = $props();
-
-	const handleClose = () => {
-		onClose();
-	};
 </script>
 
 <div
@@ -33,8 +31,8 @@
 	role="dialog"
 	aria-modal="true"
 	tabindex="-1"
-	onclick={handleClose}
-	onkeydown={(e) => e.key === 'Escape' && handleClose()}
+	onclick={onClose}
+	onkeydown={(e) => e.key === 'Escape' && onClose()}
 >
 	<!-- svelte-ignore a11y_click_events_have_key_events -->
 	<!-- svelte-ignore a11y_no_noninteractive_element_interactions -->
@@ -46,6 +44,7 @@
 	>
 		<TuiBox
 			{title}
+			{theme}
 			{titleColor}
 			{borderColor}
 			{cornerColor}
@@ -58,7 +57,7 @@
 				<button
 					type="button"
 					class="tui-modal-close-btn"
-					onclick={handleClose}
+					onclick={onClose}
 					title="Close (ESC)"
 					aria-label="Close modal"
 				>

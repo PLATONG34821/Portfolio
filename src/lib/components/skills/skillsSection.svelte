@@ -2,72 +2,22 @@
 	import TuiBox from '$lib/components/tui/tuiBox.svelte';
 	import SectionHeader from '$lib/components/tui/sectionHeader.svelte';
 	import SkillItem from './skillItem.svelte';
-	import { capabilityCategories } from '$lib/data/experienceData';
-
-	interface Props {
-		titleColor?: string;
-		borderColor?: string;
-		cornerColor?: string;
-		bgColor?: string;
-	}
-
-	let {
-		titleColor = 'cyan',
-		borderColor = '#1e293b',
-		cornerColor = '#334155',
-		bgColor = '#030712'
-	}: Props = $props();
+	import { capabilityCategories, quickScanTools } from '$lib/data/skillsData';
 </script>
 
 <section class="skills-section" id="skills">
 	<div class="content-container">
 		<div class="section-block">
-			<SectionHeader
-				tag="SECTION 02"
-				title="CAPABILITIES"
-				prefixColor="#0284c7"
-				titleColor="#38bdf8"
-				subColor="#64748b"
-			/>
+			<SectionHeader tag="SECTION 02" title="CAPABILITIES" theme="cyan" />
 
-			<!-- ATS Quick-Scan Summary TuiBox -->
-			<TuiBox
-				title="Tools"
-				{titleColor}
-				{borderColor}
-				{cornerColor}
-				{bgColor}
-				class="quick-scan-box"
-				bodyClass="quick-scan-body"
-			>
+			<TuiBox title="Tools" theme="cyan" class="quick-scan-box" bodyClass="quick-scan-body">
 				<div class="quick-scan-items">
-					<span class="scan-item">TypeScript</span>
-					<span class="scan-dot">•</span>
-					<span class="scan-item">SvelteKit</span>
-					<span class="scan-dot">•</span>
-					<span class="scan-item">React / Next.js</span>
-					<span class="scan-dot">•</span>
-					<span class="scan-item">Node.js</span>
-					<span class="scan-dot">•</span>
-					<span class="scan-item">PostgreSQL</span>
-					<span class="scan-dot">•</span>
-					<span class="scan-item">MySQL</span>
-					<span class="scan-dot">•</span>
-					<span class="scan-item">Redis</span>
-					<span class="scan-dot">•</span>
-					<span class="scan-item">MongoDB</span>
-					<span class="scan-dot">•</span>
-					<span class="scan-item">Supabase</span>
-					<span class="scan-dot">•</span>
-					<span class="scan-item">Docker Swarm</span>
-					<span class="scan-dot">•</span>
-					<span class="scan-item">Kubernetes</span>
-					<span class="scan-dot">•</span>
-					<span class="scan-item">Linux</span>
-					<span class="scan-dot">•</span>
-					<span class="scan-item">CI/CD GitHub Actions</span>
-					<span class="scan-dot">•</span>
-					<span class="scan-item">Nginx</span>
+					{#each quickScanTools as tool, i (tool)}
+						{#if i > 0}
+							<span class="scan-dot">•</span>
+						{/if}
+						<span class="scan-item">{tool}</span>
+					{/each}
 				</div>
 			</TuiBox>
 
@@ -75,10 +25,7 @@
 				{#each capabilityCategories as category (category.id)}
 					<TuiBox
 						title={category.title}
-						{titleColor}
-						{borderColor}
-						{cornerColor}
-						{bgColor}
+						theme="cyan"
 						class="cap-box {category.id === '04' ? 'full-frame' : ''}"
 						bodyClass="cap-body {category.id === '04' ? 'full-frame-body' : ''}"
 					>
@@ -98,11 +45,9 @@
 		width: 100%;
 		background: #000000;
 		color: #e5e7eb;
-		padding: 5rem 1.5rem 12rem;
+		padding: 5rem 1.5rem 10rem;
 		z-index: 10;
 		pointer-events: auto;
-		font-family:
-			ui-monospace, 'SF Mono', 'Cascadia Code', 'Fira Code', Menlo, Monaco, Consolas, monospace;
 	}
 
 	@media (max-width: 1024px) {
@@ -115,27 +60,6 @@
 		.skills-section {
 			padding: 3.5rem 0.75rem 6rem;
 		}
-	}
-
-	.content-container {
-		max-width: 1160px;
-		width: 100%;
-		margin: 0 auto;
-		display: flex;
-		flex-direction: column;
-		gap: 2rem;
-	}
-
-	@media (max-width: 640px) {
-		.content-container {
-			gap: 1.25rem;
-		}
-	}
-
-	.section-block {
-		display: flex;
-		flex-direction: column;
-		gap: 1.25rem;
 	}
 
 	.tui-grid-3col {

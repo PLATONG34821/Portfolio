@@ -1,5 +1,5 @@
 <script lang="ts">
-	import type { CapabilityItem } from '$lib/data/experienceData';
+	import type { CapabilityItem } from '$lib/data/skillsData';
 	import TuiBox from '$lib/components/tui/tuiBox.svelte';
 
 	interface Props {
@@ -11,9 +11,8 @@
 
 <TuiBox
 	title={item.skill}
+	theme="cyan"
 	titleColor={item.isHighlighted ? 'cyan' : 'white'}
-	borderColor="#1e293b"
-	cornerColor="#334155"
 	bgColor="rgba(3, 7, 18, 0.45)"
 	padding="0.55rem 0.65rem"
 	class="skill-tui-box"

@@ -1,13 +1,42 @@
+<script lang="ts" module>
+	export type TuiTheme = 'amber' | 'cyan' | 'emerald';
+
+	export const tuiThemes: Record<
+		TuiTheme,
+		{ titleColor: string; borderColor: string; cornerColor: string; bgColor: string }
+	> = {
+		amber: {
+			titleColor: 'amber',
+			borderColor: '#382f1d',
+			cornerColor: '#785e2f',
+			bgColor: 'rgba(18, 14, 8, 0.45)'
+		},
+		cyan: {
+			titleColor: 'cyan',
+			borderColor: '#1e293b',
+			cornerColor: '#334155',
+			bgColor: '#030712'
+		},
+		emerald: {
+			titleColor: 'emerald',
+			borderColor: '#064e3b',
+			cornerColor: '#10b981',
+			bgColor: '#021a12'
+		}
+	};
+</script>
+
 <script lang="ts">
 	import type { Snippet } from 'svelte';
 
 	interface Props {
 		title: string;
-		titleColor?: string; // Hex code or preset ('coral' | 'cyan' | 'emerald' | 'amber' | 'gold' | 'purple')
-		borderColor?: string; // Hex code for border lines
-		cornerColor?: string; // Hex code for corners
-		bgColor?: string; // Background color for the box body
-		padding?: string; // Custom padding for body e.g. "1rem 1.25rem"
+		theme?: TuiTheme;
+		titleColor?: string;
+		borderColor?: string;
+		cornerColor?: string;
+		bgColor?: string;
+		padding?: string;
 		titlePrefix?: string;
 		titleSuffix?: string;
 		id?: string;
@@ -19,10 +48,11 @@
 
 	let {
 		title,
-		titleColor = 'amber',
-		borderColor = '#27272a',
-		cornerColor = '#3f3f46',
-		bgColor = 'transparent',
+		theme,
+		titleColor = theme ? tuiThemes[theme].titleColor : 'amber',
+		borderColor = theme ? tuiThemes[theme].borderColor : '#27272a',
+		cornerColor = theme ? tuiThemes[theme].cornerColor : '#3f3f46',
+		bgColor = theme ? tuiThemes[theme].bgColor : 'transparent',
 		padding,
 		titlePrefix = '',
 		titleSuffix = '',
@@ -33,31 +63,19 @@
 		children
 	}: Props = $props();
 
-	// Color preset mapping
-	const resolvedTitleColor = $derived.by(() => {
-		switch (titleColor) {
-			case 'coral':
-				return '#f87171';
-			case 'cyan':
-				return '#38bdf8';
-			case 'emerald':
-				return '#34d399';
-			case 'amber':
-				return '#fbbf24';
-			case 'gold':
-				return '#facc15';
-			case 'purple':
-				return '#c084fc';
-			case 'rose':
-				return '#fb7185';
-			default:
-				return titleColor;
-		}
-	});
+	const colorMap: Record<string, string> = {
+		coral: '#f87171',
+		cyan: '#38bdf8',
+		emerald: '#34d399',
+		amber: '#fbbf24',
+		gold: '#facc15',
+		purple: '#c084fc',
+		rose: '#fb7185'
+	};
 
-	// Classic ASCII border characters (+, -, |)
+	const resolvedTitleColor = $derived(colorMap[titleColor] ?? titleColor);
 	const horizontalFill = '-'.repeat(250);
-	const verticalBorderText = Array(200).fill('|').join('\n');
+	const verticalBorderText = '|\n'.repeat(200);
 </script>
 
 <div
@@ -71,12 +89,9 @@
 		{padding ? `--tui-body-padding: ${padding};` : ''}
 	"
 >
-	<!-- Top Line with Title -->
 	<div class="tui-line-top">
 		<span class="tui-corner">+--</span>
-		<span class="tui-title">
-			{titlePrefix}{title}{titleSuffix}
-		</span>
+		<span class="tui-title">{titlePrefix}{title}{titleSuffix}</span>
 		<span class="tui-fill">{horizontalFill}</span>
 		{#if topRightAction}
 			{@render topRightAction()}
@@ -84,7 +99,6 @@
 		<span class="tui-corner">--+</span>
 	</div>
 
-	<!-- Box Middle Row with Real Text Vertical Borders -->
 	<div class="tui-middle-row">
 		<div class="tui-side-col tui-side-left">
 			{verticalBorderText}
@@ -101,7 +115,6 @@
 		</div>
 	</div>
 
-	<!-- Bottom Line -->
 	<div class="tui-line-bot">
 		<span class="tui-corner">+--</span>
 		<span class="tui-fill">{horizontalFill}</span>

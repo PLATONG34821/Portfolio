@@ -1,127 +1,89 @@
 <script lang="ts">
 	import TuiBox from '$lib/components/tui/tuiBox.svelte';
 	import { Link } from 'phosphor-svelte';
+	import { contactProfile, getContactChannels } from '$lib/data/contactData';
 
 	interface Props {
 		email?: string;
 		githubUrl?: string;
 	}
 
-	let { email = 'platong34821@gmail.com', githubUrl = 'https://github.com/PLATONG34821' }: Props =
-		$props();
+	let { email = contactProfile.email, githubUrl = contactProfile.githubUrl }: Props = $props();
 
 	let copied = $state(false);
 
+	const channels = $derived(getContactChannels(email, githubUrl));
+
 	function copyEmail() {
-		if (typeof navigator !== 'undefined' && navigator.clipboard) {
-			navigator.clipboard.writeText(email);
-			copied = true;
-			setTimeout(() => {
-				copied = false;
-			}, 2200);
-		}
+		navigator?.clipboard?.writeText(email);
+		copied = true;
+		setTimeout(() => (copied = false), 2200);
 	}
 </script>
 
-<TuiBox
-	title="GET IN TOUCH"
-	titleColor="emerald"
-	borderColor="#064e3b"
-	cornerColor="#10b981"
-	bgColor="#021a12"
-	class="contact-card-box"
-	bodyClass="contact-card-body"
->
+<TuiBox title="GET IN TOUCH" theme="emerald" class="contact-card-box" bodyClass="contact-card-body">
 	<div class="contact-card-content">
-		<!-- Compact Spec Intro -->
 		<div class="contact-intro">
-			<p class="intro-summary">
-				Available for full-stack engineering, performance systems, and collaborative software
-				architecture.
-			</p>
+			<p class="intro-summary">{contactProfile.summary}</p>
 		</div>
 
-		<!-- Direct Action Channels -->
 		<div class="channels-grid">
-			<!-- Email Card -->
-			<TuiBox
-				title="EMAIL ADDRESS"
-				titleColor="emerald"
-				borderColor="#064e3b"
-				cornerColor="#10b981"
-				bgColor="rgba(2, 26, 18, 0.6)"
-				padding="0.75rem 0.95rem"
-				class="channel-tui-box"
-				bodyClass="channel-tui-body"
-			>
-				<div class="channel-content">
-					<div class="channel-main">
-						<a href="mailto:{email}" class="channel-link">
-							{email}
-						</a>
-					</div>
-					<div class="entry-meta">
-						<span class="meta-label">Details:</span>
-						<span class="meta-text"
-							>Direct inbox for technical roles, inquiries & collaboration</span
-						>
-					</div>
-					<div class="entry-links">
-						<span class="links-label" title="Links" aria-label="Links">
-							<Link size={13} weight="bold" />
-						</span>
-						<div class="links-list">
-							<button
-								type="button"
-								class="text-link"
-								onclick={copyEmail}
-								aria-label="Copy email address"
+			{#each channels as channel (channel.title)}
+				<TuiBox
+					title={channel.title}
+					theme="emerald"
+					bgColor="rgba(2, 26, 18, 0.6)"
+					padding="0.75rem 0.95rem"
+					class="channel-tui-box"
+					bodyClass="channel-tui-body"
+				>
+					<div class="channel-content">
+						<!-- eslint-disable svelte/no-navigation-without-resolve -->
+						<div class="channel-main">
+							<a
+								href={channel.href}
+								target={channel.isExternal ? '_blank' : undefined}
+								rel={channel.isExternal ? 'external noreferrer' : 'external'}
+								class="channel-link"
 							>
-								{copied ? 'Copied!' : 'Copy Address ↗'}
-							</button>
-							<a href="mailto:{email}" class="text-link"> Open Mail ↗ </a>
-						</div>
-					</div>
-				</div>
-			</TuiBox>
-
-			<!-- GitHub Card -->
-			<TuiBox
-				title="GITHUB PROFILE"
-				titleColor="emerald"
-				borderColor="#064e3b"
-				cornerColor="#10b981"
-				bgColor="rgba(2, 26, 18, 0.6)"
-				padding="0.75rem 0.95rem"
-				class="channel-tui-box"
-				bodyClass="channel-tui-body"
-			>
-				<div class="channel-content">
-					<div class="channel-main">
-						<!-- eslint-disable-next-line svelte/no-navigation-without-resolve -->
-						<a href={githubUrl} target="_blank" rel="external noreferrer" class="channel-link">
-							github.com/PLATONG34821
-						</a>
-					</div>
-					<div class="entry-meta">
-						<span class="meta-label">Details:</span>
-						<span class="meta-text"
-							>Open source repositories, system infrastructure & active codebases</span
-						>
-					</div>
-					<div class="entry-links">
-						<span class="links-label" title="Links" aria-label="Links">
-							<Link size={13} weight="bold" />
-						</span>
-						<div class="links-list">
-							<!-- eslint-disable-next-line svelte/no-navigation-without-resolve -->
-							<a href={githubUrl} target="_blank" rel="external noreferrer" class="text-link">
-								GitHub Profile ↗
+								{channel.display}
 							</a>
 						</div>
+						<div class="entry-meta">
+							<span class="meta-label">Details:</span>
+							<span class="meta-text">{channel.details}</span>
+						</div>
+						<div class="entry-links">
+							<span class="links-label" title="Links" aria-label="Links">
+								<Link size={13} weight="bold" />
+							</span>
+							<div class="links-list">
+								{#if !channel.isExternal}
+									<button
+										type="button"
+										class="text-link"
+										onclick={copyEmail}
+										aria-label="Copy email address"
+									>
+										{copied ? 'Copied!' : 'Copy Address ↗'}
+									</button>
+									<a href={channel.href} class="text-link">Open Mail ↗</a>
+								{:else}
+									<a
+										href={channel.href}
+										target="_blank"
+										rel="external noreferrer"
+										class="text-link"
+									>
+										GitHub Profile ↗
+									</a>
+								{/if}
+							</div>
+						</div>
+						<!-- eslint-enable svelte/no-navigation-without-resolve -->
 					</div>
-				</div>
-			</TuiBox>
+				</TuiBox>
+			{/each}
 		</div>
 	</div>
 </TuiBox>

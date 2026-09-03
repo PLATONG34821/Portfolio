@@ -9,14 +9,13 @@
 	}
 
 	let { project, onOpenCert }: Props = $props();
+
+	const openImage = (img: string) => onOpenCert?.(project.title, img);
 </script>
 
 <TuiBox
 	title="{project.id}. {project.title}"
-	titleColor="amber"
-	borderColor="#382f1d"
-	cornerColor="#785e2f"
-	bgColor="rgba(18, 14, 8, 0.45)"
+	theme="amber"
 	padding="0.65rem 0.85rem"
 	class="project-tui-box"
 	bodyClass="project-tui-body"
@@ -30,7 +29,7 @@
 				<span class="meta-text">{project.metrics}</span>
 			</div>
 
-			{#if project.links && project.links.length > 0}
+			{#if project.links?.length}
 				<div class="entry-links">
 					<span class="links-label" title="Links" aria-label="Links">
 						<Link size={13} weight="bold" />
@@ -38,11 +37,7 @@
 					<div class="links-list">
 						{#each project.links as link (link.label)}
 							{#if link.isCertModal && link.certImage && onOpenCert}
-								<button
-									type="button"
-									onclick={() => onOpenCert(project.title, link.certImage!)}
-									class="text-link"
-								>
+								<button type="button" onclick={() => openImage(link.certImage!)} class="text-link">
 									{link.label} ↗
 								</button>
 							{:else}
@@ -57,13 +52,12 @@
 			{/if}
 		</div>
 
-		<!-- Embedded Project Image (Side-by-side on desktop, compact & crisp) -->
 		{#if project.certImage}
 			<div class="entry-media-wrap">
 				<button
 					type="button"
 					class="entry-media-btn"
-					onclick={() => onOpenCert?.(project.title, project.certImage!)}
+					onclick={() => openImage(project.certImage!)}
 					title="Click to expand full resolution"
 				>
 					<img src={project.certImage} alt={project.title} class="entry-media-img" loading="lazy" />
