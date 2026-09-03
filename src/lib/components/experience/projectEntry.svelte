@@ -116,79 +116,6 @@
 		word-break: break-word;
 		overflow-wrap: break-word;
 	}
-
-	.entry-meta {
-		display: flex;
-		gap: 0.45rem;
-		font-size: 0.76rem;
-		line-height: 1.4;
-		flex-wrap: wrap;
-	}
-
-	.meta-label {
-		color: #71717a;
-		font-weight: 600;
-		flex-shrink: 0;
-	}
-
-	.meta-text {
-		color: #a1a1aa;
-		word-break: break-word;
-		overflow-wrap: break-word;
-	}
-
-	.entry-links {
-		display: flex;
-		align-items: flex-start;
-		gap: 0.5rem;
-		font-size: 0.78rem;
-		line-height: 1.4;
-		padding-top: 0.15rem;
-	}
-
-	.links-label {
-		color: #71717a;
-		display: inline-flex;
-		align-items: center;
-		justify-content: center;
-		height: 1.4em;
-		flex-shrink: 0;
-	}
-
-	.links-list {
-		display: flex;
-		flex-wrap: wrap;
-		align-items: center;
-		gap: 0.35rem 0.75rem;
-		line-height: 1.4;
-	}
-
-	.text-link {
-		background: transparent !important;
-		border: none !important;
-		padding: 0 !important;
-		margin: 0 !important;
-		color: #fbbf24 !important; /* Gold Link */
-		font-family: inherit;
-		font-size: 0.78rem;
-		font-weight: 500;
-		line-height: 1.4;
-		text-decoration: none;
-		cursor: pointer;
-		display: inline-flex;
-		align-items: center;
-		vertical-align: middle;
-		transition:
-			color 0.15s ease,
-			text-decoration 0.15s ease;
-	}
-
-	.text-link:hover {
-		color: #ffffff !important;
-		text-decoration: underline !important;
-		text-underline-offset: 3px;
-	}
-
 	/* Compact Embedded Media Preview Styling */
 	.entry-media-wrap {
 		width: 140px;
@@ -271,18 +198,6 @@
 
 		.entry-summary {
 			font-size: 0.76rem;
-		}
-
-		.entry-meta {
-			font-size: 0.72rem;
-		}
-
-		.entry-links {
-			font-size: 0.72rem;
-		}
-
-		.text-link {
-			font-size: 0.72rem !important;
 		}
 	}
 </style>

@@ -106,6 +106,7 @@
 		width: 100%;
 		font-family:
 			ui-monospace, 'SF Mono', 'Cascadia Code', 'Fira Code', Menlo, Monaco, Consolas, monospace;
+		--tui-link-color: #34d399;
 	}
 
 	:global(.contact-card-body) {
@@ -206,81 +207,6 @@
 	.channel-link:hover {
 		color: #34d399;
 		text-decoration: underline;
-		text-underline-offset: 3px;
-	}
-
-	.entry-meta {
-		display: flex;
-		gap: 0.45rem;
-		font-size: 0.76rem;
-		line-height: 1.35;
-		flex-wrap: wrap;
-		margin: 0;
-		padding: 0;
-	}
-
-	.meta-label {
-		color: #71717a;
-		font-weight: 600;
-		flex-shrink: 0;
-	}
-
-	.meta-text {
-		color: #a1a1aa;
-		word-break: break-word;
-		overflow-wrap: break-word;
-	}
-
-	.entry-links {
-		display: flex;
-		align-items: flex-start;
-		gap: 0.5rem;
-		font-size: 0.78rem;
-		line-height: 1.4;
-		padding-top: 0;
-		margin-top: 0.05rem;
-	}
-
-	.links-label {
-		color: #71717a;
-		display: inline-flex;
-		align-items: center;
-		justify-content: center;
-		height: 1.4em;
-		flex-shrink: 0;
-	}
-
-	.links-list {
-		display: flex;
-		align-items: center;
-		flex-wrap: wrap;
-		gap: 0.35rem 0.75rem;
-		line-height: 1.4;
-	}
-
-	.text-link {
-		background: transparent !important;
-		border: none !important;
-		padding: 0 !important;
-		margin: 0 !important;
-		color: #34d399 !important; /* Emerald Link matching Section 3 */
-		font-family: inherit;
-		font-size: 0.78rem;
-		font-weight: 500;
-		line-height: 1.4;
-		text-decoration: none;
-		cursor: pointer;
-		display: inline-flex;
-		align-items: center;
-		vertical-align: middle;
-		transition:
-			color 0.15s ease,
-			text-decoration 0.15s ease;
-	}
-
-	.text-link:hover {
-		color: #ffffff !important;
-		text-decoration: underline !important;
 		text-underline-offset: 3px;
 	}
 </style>
