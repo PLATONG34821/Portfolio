@@ -214,4 +214,3 @@ export const awards: Award[] = [
 	})
 ];
 
-export * from './skillsData';

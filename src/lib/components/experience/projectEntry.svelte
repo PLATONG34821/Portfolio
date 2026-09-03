@@ -43,7 +43,7 @@
 								</button>
 							{:else}
 								<!-- eslint-disable-next-line svelte/no-navigation-without-resolve -->
-								<a href={link.url} target="_blank" rel="external noreferrer" class="text-link">
+								<a href={link.url} target="_blank" rel="noopener noreferrer" class="text-link">
 									{link.label} ↗
 								</a>
 							{/if}

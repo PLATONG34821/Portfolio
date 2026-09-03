@@ -69,7 +69,7 @@
 							<a
 								href={channel.href}
 								target={channel.isExternal ? '_blank' : undefined}
-								rel={channel.isExternal ? 'external noreferrer' : 'external'}
+								rel={channel.isExternal ? 'noopener noreferrer' : undefined}
 								class="channel-link"
 							>
 								{channel.display}
