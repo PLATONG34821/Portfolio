@@ -1,5 +1,6 @@
 <script lang="ts">
 	import type { Award } from '$lib/data/experienceData';
+	import TuiBox from '$lib/components/tui/tuiBox.svelte';
 
 	interface Props {
 		award: Award;
@@ -9,7 +10,16 @@
 	let { award, onOpenCert }: Props = $props();
 </script>
 
-<div class="award-card" class:has-image={!!award.certImage} class:no-image={!award.certImage}>
+<TuiBox
+	title="{award.year} [{award.badge}]{award.isHighlighted ? ' ✓' : ''}"
+	titleColor="amber"
+	borderColor="#382f1d"
+	cornerColor="#785e2f"
+	bgColor="rgba(18, 14, 8, 0.45)"
+	padding="0.65rem 0.75rem"
+	class="award-tui-box"
+	bodyClass="award-tui-body"
+>
 	{#if award.certImage}
 		<button
 			type="button"
@@ -23,14 +33,6 @@
 	{/if}
 
 	<div class="award-body">
-		<div class="award-meta-row">
-			<span class="award-year">{award.year}</span>
-			<span class="award-badge">[{award.badge}]</span>
-			{#if award.isHighlighted}
-				<span class="check-mark">✓</span>
-			{/if}
-		</div>
-
 		{#if award.certImage && onOpenCert}
 			<button
 				type="button"
@@ -48,30 +50,24 @@
 
 		<p class="award-sub">{award.subtitle}</p>
 	</div>
-</div>
+</TuiBox>
 
 <style>
-	.award-card {
-		display: flex;
-		flex-direction: column;
-		gap: 0.6rem;
-		padding: 0.85rem;
-		background: rgba(18, 14, 8, 0.45);
-		border: 1px solid #292524;
-		border-radius: 4px;
+	:global(.award-tui-box) {
 		height: 100%;
 		width: 100%;
-		min-width: 0;
-		transition:
-			border-color 0.2s ease,
-			box-shadow 0.2s ease;
+		display: flex;
+		flex-direction: column;
 		font-family:
 			ui-monospace, 'SF Mono', 'Cascadia Code', 'Fira Code', Menlo, Monaco, Consolas, monospace;
 	}
 
-	.award-card:hover {
-		border-color: #785e2f;
-		box-shadow: 0 0 10px rgba(251, 191, 36, 0.08);
+	:global(.award-tui-body) {
+		display: flex;
+		flex-direction: column;
+		gap: 0.5rem;
+		height: 100%;
+		min-width: 0;
 	}
 
 	.award-img-btn {
@@ -145,34 +141,6 @@
 		min-width: 0;
 	}
 
-	.award-meta-row {
-		display: flex;
-		align-items: baseline;
-		gap: 0.35rem 0.5rem;
-		flex-wrap: wrap;
-	}
-
-	.award-year {
-		color: #a1a1aa;
-		font-size: 0.8rem;
-		font-weight: 600;
-		flex-shrink: 0;
-	}
-
-	.award-badge {
-		color: #facc15; /* Bright Gold badge */
-		font-weight: 600;
-		font-size: 0.8rem;
-		flex-shrink: 0;
-	}
-
-	.check-mark {
-		color: #fbbf24;
-		font-weight: 700;
-		margin-left: 0.2rem;
-		flex-shrink: 0;
-	}
-
 	.award-title-btn,
 	.award-title {
 		background: transparent;
@@ -200,7 +168,7 @@
 
 	.award-title-btn.highlighted,
 	.award-title.highlighted {
-		color: #fde047; /* Gold Highlight */
+		color: #fde047;
 	}
 
 	.award-sub {
@@ -213,11 +181,6 @@
 	}
 
 	@media (max-width: 640px) {
-		.award-year,
-		.award-badge {
-			font-size: 0.72rem;
-		}
-
 		.award-title-btn,
 		.award-title {
 			font-size: 0.8rem;
