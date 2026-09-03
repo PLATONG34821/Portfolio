@@ -7,13 +7,20 @@
 	interface Props {
 		email?: string;
 		githubUrl?: string;
+		lineUrl?: string;
+		facebookUrl?: string;
 	}
 
-	let { email = contactProfile.email, githubUrl = contactProfile.githubUrl }: Props = $props();
+	let {
+		email = contactProfile.email,
+		githubUrl = contactProfile.githubUrl,
+		lineUrl = contactProfile.lineUrl,
+		facebookUrl = contactProfile.facebookUrl
+	}: Props = $props();
 
 	let copied = $state(false);
 
-	const channels = $derived(getContactChannels(email, githubUrl));
+	const channels = $derived(getContactChannels(email, githubUrl, lineUrl, facebookUrl));
 
 	function copyEmail() {
 		navigator?.clipboard?.writeText(email);
@@ -64,7 +71,7 @@
 								<Link size={13} weight="bold" />
 							</span>
 							<div class="links-list">
-								{#if !channel.isExternal}
+								{#if channel.id === 'email'}
 									<button
 										type="button"
 										class="text-link"
@@ -73,7 +80,7 @@
 									>
 										{copied ? m.copied() : m.copyAddress()}
 									</button>
-									<a href={channel.href} class="text-link">{m.openMail()}</a>
+									<a href={channel.href} class="text-link">{channel.linkLabel}</a>
 								{:else}
 									<a
 										href={channel.href}
@@ -81,7 +88,7 @@
 										rel="external noreferrer"
 										class="text-link"
 									>
-										{m.gitHubProfile()}
+										{channel.linkLabel}
 									</a>
 								{/if}
 							</div>
