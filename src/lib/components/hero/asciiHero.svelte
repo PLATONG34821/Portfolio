@@ -32,6 +32,8 @@
 	let footerHintElement = $state<HTMLElement | null>(null);
 
 	let activeGridText = $state('');
+	let canvasReady = $state(false);
+	const initialSsrArt = $derived(generateFigletArt(startText).join('\n'));
 
 	// Theme color palette per stage:
 	// Stage 0: Pure Silver / White
@@ -284,6 +286,7 @@
 		const handleResize = () => {
 			initSimulation();
 			ScrollTrigger.refresh();
+			render(performance.now());
 		};
 
 		window.addEventListener('resize', handleResize, { passive: true });
@@ -447,10 +450,12 @@
 			context.globalAlpha = 1.0;
 			context.restore();
 			isDirty = false;
+			canvasReady = true;
 			animationFrameId = requestAnimationFrame(render);
 		};
 
-		animationFrameId = requestAnimationFrame(render);
+		// Synchronous first frame render for zero-delay paint
+		render(performance.now());
 
 		return () => {
 			cancelAnimationFrame(animationFrameId);
@@ -465,6 +470,9 @@
 <div bind:this={containerElement} class="ascii-scroll-container">
 	<!-- Fixed fullscreen viewport -->
 	<div class="ascii-fixed-viewport">
+		{#if !canvasReady}
+			<pre class="ascii-ssr-placeholder">{initialSsrArt}</pre>
+		{/if}
 		<canvas bind:this={canvasElement} class="ascii-canvas"></canvas>
 
 		<!-- Selectable transparent text layer for native highlighting/copying -->
@@ -537,6 +545,28 @@
 		cursor: text;
 		z-index: 60;
 		background: transparent;
+	}
+
+	.ascii-ssr-placeholder {
+		position: absolute;
+		top: 50%;
+		left: 50%;
+		transform: translate(-50%, -50%);
+		margin: 0;
+		padding: 0;
+		color: #ffffff;
+		font-family: ui-monospace, 'SF Mono', Menlo, Monaco, Consolas, monospace;
+		font-weight: 600;
+		white-space: pre;
+		font-size: clamp(6.5px, 1.15vw, 14px);
+		line-height: 1.15;
+		letter-spacing: 0;
+		user-select: text;
+		-webkit-user-select: text;
+		pointer-events: auto;
+		cursor: text;
+		z-index: 55;
+		text-align: left;
 	}
 
 	.ascii-selectable-overlay::selection {

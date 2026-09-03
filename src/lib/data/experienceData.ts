@@ -63,13 +63,13 @@ export const coreProjects: Project[] = [
 		metrics: 'Scale: 4,400+ Active Users • Stack: SvelteKit, TypeScript, iOS, Android',
 		tags: ['SvelteKit', 'TypeScript', 'High Concurrency', 'REST API'],
 		githubUrl: 'https://apps.apple.com/th/app/hllc/id6748238190',
-		certImage: '/certs/hllcHomepage.jpg',
+		certImage: '/certs/hllcHomepage.webp',
 		links: [
 			{
 				label: 'App UI Preview',
-				url: '/certs/hllcHomepage.jpg',
+				url: '/certs/hllcHomepage.webp',
 				isCertModal: true,
-				certImage: '/certs/hllcHomepage.jpg'
+				certImage: '/certs/hllcHomepage.webp'
 			},
 			{ label: 'App Store', url: 'https://apps.apple.com/th/app/hllc/id6748238190' },
 			{
@@ -90,26 +90,26 @@ export const coreProjects: Project[] = [
 			'Selected student research & embedded "IV Stand" smart infusion hardware presented in English at Thailand-Japan Student ICT Fair.',
 		metrics: 'Forum: Thailand 🇹🇭 × Japan 🇯🇵 Student ICT Fair • Embedded IoT & Flow Sensors',
 		tags: ['Embedded Systems', 'IoT Hardware', 'Research Paper', 'Sensors'],
-		githubUrl: '/certs/tjsif_cert.jpg',
-		certImage: '/certs/tjsif_booth.jpg',
+		githubUrl: '/certs/tjsif_cert.webp',
+		certImage: '/certs/tjsif_booth.webp',
 		links: [
 			{
 				label: 'Certificate',
-				url: '/certs/tjsif_cert.jpg',
+				url: '/certs/tjsif_cert.webp',
 				isCertModal: true,
-				certImage: '/certs/tjsif_cert.jpg'
+				certImage: '/certs/tjsif_cert.webp'
 			},
 			{
 				label: 'Stage Trophy',
-				url: '/certs/tjsif_stage.png',
+				url: '/certs/tjsif_stage.webp',
 				isCertModal: true,
-				certImage: '/certs/tjsif_stage.png'
+				certImage: '/certs/tjsif_stage.webp'
 			},
 			{
 				label: 'Live Booth',
-				url: '/certs/tjsif_booth.jpg',
+				url: '/certs/tjsif_booth.webp',
 				isCertModal: true,
-				certImage: '/certs/tjsif_booth.jpg'
+				certImage: '/certs/tjsif_booth.webp'
 			},
 			{
 				label: 'Report (p.125)',
@@ -130,20 +130,20 @@ export const coreProjects: Project[] = [
 			'Automated frame system engineered to control the uniformity of silkworm silk spinning for silk sheet production by applying biological gravitropic behavioral response. Funded grantee in the 25th National Software Contest (NSC 25 @ CMU).',
 		metrics: 'Contest: 25th National Software Contest (NSC 25 Grantee @ CMU)',
 		tags: ['Embedded Automation', 'Biological Control', 'NSC 25', 'Hardware IoT'],
-		githubUrl: '/certs/nsc25_cert.jpg',
-		certImage: '/certs/nsc25_booth.png',
+		githubUrl: '/certs/nsc25_cert.webp',
+		certImage: '/certs/nsc25_booth.webp',
 		links: [
 			{
 				label: 'NSC 25 Certificate',
-				url: '/certs/nsc25_cert.jpg',
+				url: '/certs/nsc25_cert.webp',
 				isCertModal: true,
-				certImage: '/certs/nsc25_cert.jpg'
+				certImage: '/certs/nsc25_cert.webp'
 			},
 			{
 				label: 'Exhibition Photo',
-				url: '/certs/nsc25_booth.png',
+				url: '/certs/nsc25_booth.webp',
 				isCertModal: true,
-				certImage: '/certs/nsc25_booth.png'
+				certImage: '/certs/nsc25_booth.webp'
 			}
 		]
 	},
@@ -159,13 +159,13 @@ export const coreProjects: Project[] = [
 		metrics: 'Stack: SvelteKit + Supabase Cloud + Web Audio DSP',
 		tags: ['SvelteKit', 'TypeScript', 'Supabase', 'Web Audio', 'Community'],
 		githubUrl: 'https://polytone.pages.dev/',
-		certImage: '/certs/polyTonePreview.png',
+		certImage: '/certs/polyTonePreview.webp',
 		links: [
 			{
 				label: 'UI Preview',
-				url: '/certs/polyTonePreview.png',
+				url: '/certs/polyTonePreview.webp',
 				isCertModal: true,
-				certImage: '/certs/polyTonePreview.png'
+				certImage: '/certs/polyTonePreview.webp'
 			},
 			{ label: 'Live App', url: 'https://polytone.pages.dev/' }
 		]
@@ -246,7 +246,7 @@ export const awards: Award[] = [
 		badge: 'Gold Medal',
 		year: '2023',
 		isHighlighted: true,
-		certImage: '/certs/gold_cert.png'
+		certImage: '/certs/gold_cert.webp'
 	},
 	{
 		id: '02',
@@ -254,7 +254,7 @@ export const awards: Award[] = [
 		subtitle: '70th National Student Arts & Crafts Fair (งานศิลปหัตถกรรมนักเรียน ครั้งที่ 70)',
 		badge: 'Silver Medal',
 		year: '2022',
-		certImage: '/certs/silver_cert.jpg'
+		certImage: '/certs/silver_cert.webp'
 	},
 	{
 		id: '03',
@@ -263,7 +263,7 @@ export const awards: Award[] = [
 		badge: 'Grant Winner',
 		year: '2023',
 		isHighlighted: true,
-		certImage: '/certs/nsc25_cert.jpg'
+		certImage: '/certs/nsc25_cert.webp'
 	},
 	{
 		id: '04',
@@ -271,7 +271,7 @@ export const awards: Award[] = [
 		subtitle: 'Innovation Shortlist & Design Thinking / Entrepreneurship Workshop',
 		badge: 'Finalist',
 		year: '2024',
-		certImage: '/certs/samsung_cert.jpg'
+		certImage: '/certs/samsung_cert.webp'
 	},
 	{
 		id: '05',
@@ -279,7 +279,7 @@ export const awards: Award[] = [
 		subtitle: 'Rank #1,152 out of 31,905 developers nationwide (Top 3.6%)',
 		badge: 'Top 3.6%',
 		year: '2024',
-		certImage: '/certs/borntodev_cert.png'
+		certImage: '/certs/borntodev_cert.webp'
 	},
 	{
 		id: '06',
@@ -288,7 +288,7 @@ export const awards: Award[] = [
 		badge: 'Intl Trophy',
 		year: '2022',
 		isHighlighted: true,
-		certImage: '/certs/tjsif_stage.png'
+		certImage: '/certs/tjsif_stage.webp'
 	}
 ];
 
