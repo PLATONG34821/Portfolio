@@ -1,21 +1,8 @@
 <script lang="ts">
 	import type { Snippet } from 'svelte';
-	import cliBoxes, { type BoxStyle } from 'cli-boxes';
-
-	export type BoxStyleType =
-		| 'classic'
-		| 'round'
-		| 'single'
-		| 'double'
-		| 'bold'
-		| 'singleDouble'
-		| 'doubleSingle'
-		| 'arrow'
-		| BoxStyle;
 
 	interface Props {
 		title: string;
-		boxStyle?: BoxStyleType;
 		titleColor?: string; // Hex code or preset ('coral' | 'cyan' | 'emerald' | 'amber' | 'gold' | 'purple')
 		borderColor?: string; // Hex code for border lines
 		cornerColor?: string; // Hex code for corners
@@ -32,7 +19,6 @@
 
 	let {
 		title,
-		boxStyle = 'classic',
 		titleColor = 'amber',
 		borderColor = '#27272a',
 		cornerColor = '#3f3f46',
@@ -46,17 +32,6 @@
 		topRightAction,
 		children
 	}: Props = $props();
-
-	// Resolve the active box definition from cli-boxes or custom object
-	const activeBox = $derived.by<BoxStyle>(() => {
-		if (typeof boxStyle === 'object') {
-			return boxStyle;
-		}
-		if (boxStyle in cliBoxes) {
-			return cliBoxes[boxStyle as keyof typeof cliBoxes] || cliBoxes.classic;
-		}
-		return cliBoxes.classic;
-	});
 
 	// Color preset mapping
 	const resolvedTitleColor = $derived.by(() => {
@@ -80,22 +55,9 @@
 		}
 	});
 
-	// Use solid box-drawing '─' when '-' is given so the horizontal line connects seamlessly without gaps
-	const resolvedTopChar = $derived.by(() => (activeBox.top === '-' ? '─' : activeBox.top));
-	const resolvedBotChar = $derived.by(() => (activeBox.bottom === '-' ? '─' : activeBox.bottom));
-
-	// Fill repeated characters across the full width
-	const horizontalFillTop = $derived.by(() => resolvedTopChar.repeat(250));
-	const horizontalFillBot = $derived.by(() => resolvedBotChar.repeat(250));
-
-	// Real text characters for vertical borders so they can be selected / highlighted
-	const verticalLineCount = 200;
-	const leftBorderText = $derived.by(() =>
-		Array(verticalLineCount).fill(activeBox.left).join('\n')
-	);
-	const rightBorderText = $derived.by(() =>
-		Array(verticalLineCount).fill(activeBox.right).join('\n')
-	);
+	// Classic ASCII border characters (+, -, |)
+	const horizontalFill = '-'.repeat(250);
+	const verticalBorderText = Array(200).fill('|').join('\n');
 </script>
 
 <div
@@ -111,21 +73,21 @@
 >
 	<!-- Top Line with Title -->
 	<div class="tui-line-top">
-		<span class="tui-corner">{activeBox.topLeft}{resolvedTopChar}{resolvedTopChar}</span>
+		<span class="tui-corner">+--</span>
 		<span class="tui-title">
 			{titlePrefix}{title}{titleSuffix}
 		</span>
-		<span class="tui-fill">{horizontalFillTop}</span>
+		<span class="tui-fill">{horizontalFill}</span>
 		{#if topRightAction}
 			{@render topRightAction()}
 		{/if}
-		<span class="tui-corner">{resolvedTopChar}{resolvedTopChar}{activeBox.topRight}</span>
+		<span class="tui-corner">--+</span>
 	</div>
 
 	<!-- Box Middle Row with Real Text Vertical Borders -->
 	<div class="tui-middle-row">
 		<div class="tui-side-col tui-side-left">
-			{leftBorderText}
+			{verticalBorderText}
 		</div>
 
 		<div class="tui-body {bodyClass}">
@@ -135,15 +97,15 @@
 		</div>
 
 		<div class="tui-side-col tui-side-right">
-			{rightBorderText}
+			{verticalBorderText}
 		</div>
 	</div>
 
 	<!-- Bottom Line -->
 	<div class="tui-line-bot">
-		<span class="tui-corner">{activeBox.bottomLeft}{resolvedBotChar}{resolvedBotChar}</span>
-		<span class="tui-fill">{horizontalFillBot}</span>
-		<span class="tui-corner">{resolvedBotChar}{resolvedBotChar}{activeBox.bottomRight}</span>
+		<span class="tui-corner">+--</span>
+		<span class="tui-fill">{horizontalFill}</span>
+		<span class="tui-corner">--+</span>
 	</div>
 </div>
 

@@ -2,11 +2,10 @@
 	import { onMount } from 'svelte';
 	import { gsap } from 'gsap';
 	import { ScrollTrigger } from 'gsap/ScrollTrigger';
-	import TuiBox, { type BoxStyleType } from './tuiBox.svelte';
+	import TuiBox from './tuiBox.svelte';
 	import { capabilityCategories } from '$lib/data/experienceData';
 
 	interface Props {
-		boxStyle?: BoxStyleType;
 		titleColor?: string;
 		borderColor?: string;
 		cornerColor?: string;
@@ -14,7 +13,6 @@
 	}
 
 	let {
-		boxStyle = 'classic',
 		titleColor = 'cyan',
 		borderColor = '#1e293b',
 		cornerColor = '#334155',
@@ -109,7 +107,6 @@
 				{#each capabilityCategories as category (category.id)}
 					<TuiBox
 						title={category.title}
-						{boxStyle}
 						{titleColor}
 						{borderColor}
 						{cornerColor}

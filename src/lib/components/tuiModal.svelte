@@ -1,12 +1,11 @@
 <script lang="ts">
 	import { onMount } from 'svelte';
 	import { gsap } from 'gsap';
-	import TuiBox, { type BoxStyleType } from './tuiBox.svelte';
+	import TuiBox from './tuiBox.svelte';
 
 	interface Props {
 		title: string;
 		image: string;
-		boxStyle?: BoxStyleType;
 		titleColor?: string;
 		borderColor?: string;
 		cornerColor?: string;
@@ -18,7 +17,6 @@
 	let {
 		title,
 		image,
-		boxStyle = 'classic',
 		titleColor = 'amber',
 		borderColor = '#785e2f',
 		cornerColor = '#fbbf24',
@@ -79,7 +77,6 @@
 	>
 		<TuiBox
 			{title}
-			{boxStyle}
 			{titleColor}
 			{borderColor}
 			{cornerColor}
