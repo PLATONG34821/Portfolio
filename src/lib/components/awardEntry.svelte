@@ -114,7 +114,7 @@
 		position: absolute;
 		bottom: 0.35rem;
 		right: 0.35rem;
-		background: rgba(0, 0, 0, 0.75);
+		background: rgba(9, 9, 11, 0.92);
 		color: #fbbf24;
 		font-family: inherit;
 		font-size: 0.68rem;
@@ -122,8 +122,6 @@
 		padding: 0.15rem 0.4rem;
 		border-radius: 3px;
 		border: 1px solid #785e2f;
-		backdrop-filter: blur(4px);
-		-webkit-backdrop-filter: blur(4px);
 		user-select: none;
 		pointer-events: none;
 	}

@@ -313,7 +313,7 @@
 		position: absolute;
 		bottom: 0.3rem;
 		right: 0.3rem;
-		background: rgba(0, 0, 0, 0.8);
+		background: rgba(9, 9, 11, 0.92);
 		color: #fbbf24;
 		font-family: inherit;
 		font-size: 0.65rem;
@@ -321,8 +321,6 @@
 		padding: 0.15rem 0.35rem;
 		border-radius: 3px;
 		border: 1px solid #785e2f;
-		backdrop-filter: blur(4px);
-		-webkit-backdrop-filter: blur(4px);
 	}
 
 	@media (max-width: 600px) {

@@ -32,12 +32,12 @@
 
 		const mainTween = gsap.to(sectionElement, {
 			autoAlpha: 1,
-			duration: 0.5,
+			duration: 0.4,
 			ease: 'power2.out',
 			scrollTrigger: {
 				trigger: sectionElement,
-				start: 'top 40%',
-				toggleActions: 'play none none reverse'
+				start: 'top 50%',
+				once: true
 			}
 		});
 		tweens.push(mainTween);
@@ -49,12 +49,14 @@
 			const headerTween = gsap.from(headerRow, {
 				y: -12,
 				opacity: 0,
-				duration: 0.5,
+				duration: 0.4,
 				ease: 'power2.out',
+				force3D: true,
+				clearProps: 'transform,opacity',
 				scrollTrigger: {
 					trigger: headerRow,
-					start: 'top 85%',
-					toggleActions: 'play none none reverse'
+					start: 'top 88%',
+					once: true
 				}
 			});
 			tweens.push(headerTween);
@@ -65,94 +67,41 @@
 		const gridBoxes = sectionElement.querySelectorAll('.experience-symmetric-grid > .grid-box');
 		if (gridBoxes.length > 0) {
 			const gridTween = gsap.from(gridBoxes, {
-				y: 32,
+				y: 28,
 				opacity: 0,
-				duration: 0.6,
-				stagger: 0.15,
+				duration: 0.5,
+				stagger: 0.1,
 				ease: 'power3.out',
+				force3D: true,
+				clearProps: 'transform,opacity',
 				scrollTrigger: {
 					trigger: '.experience-symmetric-grid',
-					start: 'top 82%',
-					toggleActions: 'play none none reverse'
+					start: 'top 85%',
+					once: true
 				}
 			});
 			tweens.push(gridTween);
 			if (gridTween.scrollTrigger) triggers.push(gridTween.scrollTrigger);
 		}
 
-		// 3. Project entries inside Selected Projects (cascading list)
-		const projectEntries = sectionElement.querySelectorAll('.projects-list > *');
-		if (projectEntries.length > 0) {
-			const pTween = gsap.from(projectEntries, {
-				y: 16,
-				opacity: 0,
-				duration: 0.45,
-				stagger: 0.08,
-				ease: 'power2.out',
-				scrollTrigger: {
-					trigger: '.projects-list',
-					start: 'top 85%',
-					toggleActions: 'play none none reverse'
-				}
-			});
-			tweens.push(pTween);
-			if (pTween.scrollTrigger) triggers.push(pTween.scrollTrigger);
-		}
-
-		// 4. Award entries inside Awards & Honors
-		const awardEntries = sectionElement.querySelectorAll('.awards-subgrid > *');
-		if (awardEntries.length > 0) {
-			const aTween = gsap.from(awardEntries, {
-				y: 14,
-				opacity: 0,
-				duration: 0.4,
-				stagger: 0.05,
-				ease: 'power2.out',
-				scrollTrigger: {
-					trigger: '.awards-subgrid',
-					start: 'top 85%',
-					toggleActions: 'play none none reverse'
-				}
-			});
-			tweens.push(aTween);
-			if (aTween.scrollTrigger) triggers.push(aTween.scrollTrigger);
-		}
-
-		// 5. Open Source & Systems Full Frame Box
+		// 3. Open Source & Systems Full Frame Box
 		const ossBox = sectionElement.querySelector('.full-frame-box');
 		if (ossBox) {
 			const ossTween = gsap.from(ossBox, {
-				y: 30,
+				y: 24,
 				opacity: 0,
-				duration: 0.6,
+				duration: 0.5,
 				ease: 'power3.out',
+				force3D: true,
+				clearProps: 'transform,opacity',
 				scrollTrigger: {
 					trigger: ossBox,
 					start: 'top 88%',
-					toggleActions: 'play none none reverse'
+					once: true
 				}
 			});
 			tweens.push(ossTween);
 			if (ossTween.scrollTrigger) triggers.push(ossTween.scrollTrigger);
-		}
-
-		// 6. OSS subgrid items
-		const ossEntries = sectionElement.querySelectorAll('.oss-subgrid > *');
-		if (ossEntries.length > 0) {
-			const ossListTween = gsap.from(ossEntries, {
-				y: 16,
-				opacity: 0,
-				duration: 0.45,
-				stagger: 0.08,
-				ease: 'power2.out',
-				scrollTrigger: {
-					trigger: '.oss-subgrid',
-					start: 'top 88%',
-					toggleActions: 'play none none reverse'
-				}
-			});
-			tweens.push(ossListTween);
-			if (ossListTween.scrollTrigger) triggers.push(ossListTween.scrollTrigger);
 		}
 
 		return () => {
@@ -270,6 +219,7 @@
 		user-select: none;
 		-webkit-user-select: none;
 		z-index: 40;
+		transform: translateZ(0);
 	}
 
 	@media (max-width: 768px) {

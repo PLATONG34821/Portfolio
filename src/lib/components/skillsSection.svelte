@@ -34,12 +34,12 @@
 
 		const mainTween = gsap.to(sectionElement, {
 			autoAlpha: 1,
-			duration: 0.5,
+			duration: 0.4,
 			ease: 'power2.out',
 			scrollTrigger: {
 				trigger: sectionElement,
 				start: 'top 85%',
-				toggleActions: 'play none none reverse'
+				once: true
 			}
 		});
 		tweens.push(mainTween);
@@ -51,12 +51,14 @@
 			const headerTween = gsap.from(headerRow, {
 				y: -12,
 				opacity: 0,
-				duration: 0.5,
+				duration: 0.4,
 				ease: 'power2.out',
+				force3D: true,
+				clearProps: 'transform,opacity',
 				scrollTrigger: {
 					trigger: headerRow,
 					start: 'top 88%',
-					toggleActions: 'play none none reverse'
+					once: true
 				}
 			});
 			tweens.push(headerTween);
@@ -67,38 +69,21 @@
 		const capBoxes = sectionElement.querySelectorAll('.tui-grid-3col > .cap-box');
 		if (capBoxes.length > 0) {
 			const boxTween = gsap.from(capBoxes, {
-				y: 35,
+				y: 28,
 				opacity: 0,
-				duration: 0.6,
-				stagger: 0.1,
+				duration: 0.5,
+				stagger: 0.08,
 				ease: 'power3.out',
+				force3D: true,
+				clearProps: 'transform,opacity',
 				scrollTrigger: {
 					trigger: '.tui-grid-3col',
 					start: 'top 85%',
-					toggleActions: 'play none none reverse'
+					once: true
 				}
 			});
 			tweens.push(boxTween);
 			if (boxTween.scrollTrigger) triggers.push(boxTween.scrollTrigger);
-		}
-
-		// 3. Skill Items terminal data-stream cascade
-		const skillItems = sectionElement.querySelectorAll('.tui-item');
-		if (skillItems.length > 0) {
-			const itemTween = gsap.from(skillItems, {
-				x: -8,
-				opacity: 0,
-				duration: 0.35,
-				stagger: 0.03,
-				ease: 'power2.out',
-				scrollTrigger: {
-					trigger: '.tui-grid-3col',
-					start: 'top 82%',
-					toggleActions: 'play none none reverse'
-				}
-			});
-			tweens.push(itemTween);
-			if (itemTween.scrollTrigger) triggers.push(itemTween.scrollTrigger);
 		}
 
 		return () => {

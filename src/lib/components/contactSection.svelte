@@ -48,12 +48,12 @@
 
 		const mainTween = gsap.to(sectionElement, {
 			autoAlpha: 1,
-			duration: 0.5,
+			duration: 0.4,
 			ease: 'power2.out',
 			scrollTrigger: {
 				trigger: sectionElement,
 				start: 'top 85%',
-				toggleActions: 'play none none reverse'
+				once: true
 			}
 		});
 		tweens.push(mainTween);
@@ -65,12 +65,14 @@
 			const headerTween = gsap.from(headerRow, {
 				y: -12,
 				opacity: 0,
-				duration: 0.5,
+				duration: 0.4,
 				ease: 'power2.out',
+				force3D: true,
+				clearProps: 'transform,opacity',
 				scrollTrigger: {
 					trigger: headerRow,
 					start: 'top 88%',
-					toggleActions: 'play none none reverse'
+					once: true
 				}
 			});
 			tweens.push(headerTween);
@@ -81,38 +83,21 @@
 		const boxes = sectionElement.querySelectorAll('.contact-grid > *');
 		if (boxes.length > 0) {
 			const boxTween = gsap.from(boxes, {
-				y: 35,
+				y: 28,
 				opacity: 0,
-				duration: 0.6,
-				stagger: 0.12,
+				duration: 0.5,
+				stagger: 0.1,
 				ease: 'power3.out',
+				force3D: true,
+				clearProps: 'transform,opacity',
 				scrollTrigger: {
 					trigger: '.contact-grid',
 					start: 'top 85%',
-					toggleActions: 'play none none reverse'
+					once: true
 				}
 			});
 			tweens.push(boxTween);
 			if (boxTween.scrollTrigger) triggers.push(boxTween.scrollTrigger);
-		}
-
-		// Channel rows cascade
-		const rows = sectionElement.querySelectorAll('.channel-row');
-		if (rows.length > 0) {
-			const rowTween = gsap.from(rows, {
-				x: -10,
-				opacity: 0,
-				duration: 0.4,
-				stagger: 0.05,
-				ease: 'power2.out',
-				scrollTrigger: {
-					trigger: '.contact-grid',
-					start: 'top 82%',
-					toggleActions: 'play none none reverse'
-				}
-			});
-			tweens.push(rowTween);
-			if (rowTween.scrollTrigger) triggers.push(rowTween.scrollTrigger);
 		}
 
 		return () => {

@@ -29,6 +29,7 @@
 	let containerElement = $state<HTMLElement | null>(null);
 	let canvasElement = $state<HTMLCanvasElement | null>(null);
 	let overlayElement = $state<HTMLPreElement | null>(null);
+	let footerHintElement = $state<HTMLElement | null>(null);
 
 	let activeGridText = $state('');
 
@@ -39,29 +40,24 @@
 	interface StageTheme {
 		faceColor: [number, number, number]; // [r, g, b]
 		outlineColor: [number, number, number]; // [r, g, b]
-		shadowColor: [number, number, number, number]; // [r, g, b, a]
 	}
 
 	const stageThemes: StageTheme[] = [
 		{
 			faceColor: [255, 255, 255],
-			outlineColor: [63, 63, 70],
-			shadowColor: [255, 255, 255, 0.8]
+			outlineColor: [63, 63, 70]
 		},
 		{
 			faceColor: [250, 204, 21], // #facc15 (Pure Gold)
-			outlineColor: [120, 94, 47], // #785e2f (Warm Bronze)
-			shadowColor: [251, 191, 36, 0.85] // #fbbf24 glow
+			outlineColor: [120, 94, 47] // #785e2f (Warm Bronze)
 		},
 		{
 			faceColor: [56, 189, 248], // #38bdf8 (Cyber Cyan)
-			outlineColor: [30, 58, 95], // #1e3a5f (Midnight Cyber Slate)
-			shadowColor: [56, 189, 248, 0.9] // #38bdf8 glow
+			outlineColor: [30, 58, 95] // #1e3a5f (Midnight Cyber Slate)
 		},
 		{
 			faceColor: [52, 211, 153], // #34d399 (Terminal Emerald)
-			outlineColor: [6, 78, 59], // #064e3b (Deep Emerald Slate)
-			shadowColor: [52, 211, 153, 0.9] // #34d399 glow
+			outlineColor: [6, 78, 59] // #064e3b (Deep Emerald Slate)
 		}
 	];
 
@@ -76,18 +72,6 @@
 		const g = Math.round(lerp(c1[1], c2[1], t));
 		const b = Math.round(lerp(c1[2], c2[2], t));
 		return `rgb(${r}, ${g}, ${b})`;
-	};
-
-	const interpolateRgba = (
-		c1: [number, number, number, number],
-		c2: [number, number, number, number],
-		t: number
-	): string => {
-		const r = Math.round(lerp(c1[0], c2[0], t));
-		const g = Math.round(lerp(c1[1], c2[1], t));
-		const b = Math.round(lerp(c1[2], c2[2], t));
-		const a = +lerp(c1[3], c2[3], t).toFixed(3);
-		return `rgba(${r}, ${g}, ${b}, ${a})`;
 	};
 
 	onMount(() => {
@@ -168,7 +152,53 @@
 			gridTextD = buildGridString(pointsD, currentCols, currentRows);
 
 			activeGridText = gridTextA;
+
+			// Calculate responsive crisp font sizing with optimized cell ratio
+			const cellRatio = width < 768 ? 0.52 : 0.6;
+			const cellHeightRatio = width < 768 ? 1.08 : 1.15;
+			const widthCoverage = width < 480 ? 0.98 : width < 768 ? 0.96 : 0.94;
+
+			const baseFontSize = Math.min(
+				(width * widthCoverage) / (currentCols * cellRatio),
+				(height * 0.8) / (currentRows * cellHeightRatio)
+			);
+			const minFontSize = width < 400 ? 6.5 : width < 600 ? 7.2 : 8.5;
+			const maxFontSize = 14;
+			fontSize = Math.max(minFontSize, Math.min(maxFontSize, baseFontSize));
+			cellWidth = fontSize * cellRatio;
+			cellHeight = fontSize * cellHeightRatio;
+
+			const gridPixelWidth = currentCols * cellWidth;
+			const gridPixelHeight = currentRows * cellHeight;
+			originX = (width - gridPixelWidth) / 2;
+
+			const targetLetterTop = width < 640 ? 38 : 60;
+			const endArtTopRow = (currentRows - endTextLinesCount) >> 1;
+			centerY = (height - gridPixelHeight) / 2;
+			stickyOriginY = targetLetterTop - endArtTopRow * cellHeight;
+
+			if (overlayElement) {
+				overlayElement.style.left = `${originX}px`;
+				overlayElement.style.top = `${centerY}px`;
+				overlayElement.style.width = `${gridPixelWidth}px`;
+				overlayElement.style.height = `${gridPixelHeight}px`;
+				overlayElement.style.fontSize = `${fontSize}px`;
+				overlayElement.style.lineHeight = `${cellHeight}px`;
+				overlayElement.style.transform = 'translateY(0px)';
+			}
+
+			isDirty = true;
 		};
+
+		let originX = 0;
+		let centerY = 0;
+		let stickyOriginY = 0;
+		let cellWidth = 0;
+		let cellHeight = 0;
+		let fontSize = 10;
+		let isDirty = true;
+		let overlayVisible = true;
+		let lastSlideT = -1;
 
 		initSimulation();
 
@@ -192,11 +222,17 @@
 			trigger: containerElement,
 			start: 'top top',
 			end: 'bottom top',
-			scrub: 0.2,
+			scrub: true,
 			onUpdate: (self) => {
 				heroProgress = self.progress;
 				scrollProgress = self.progress;
+				if (footerHintElement) {
+					const opacity = Math.max(0, 1 - self.progress * 2.5);
+					footerHintElement.style.opacity = `${opacity}`;
+					footerHintElement.style.pointerEvents = opacity <= 0.05 ? 'none' : 'auto';
+				}
 				updateTargetProgress();
+				isDirty = true;
 			}
 		});
 
@@ -207,10 +243,11 @@
 				const dockedHeaderBottom = window.innerWidth < 640 ? 125 : 200;
 				return `top ${dockedHeaderBottom + (window.innerWidth < 640 ? 20 : 40)}px`;
 			},
-			scrub: 0.2,
+			scrub: true,
 			onUpdate: (self) => {
 				skillsProgress = self.progress;
 				updateTargetProgress();
+				isDirty = true;
 			}
 		});
 
@@ -221,19 +258,12 @@
 				const dockedHeaderBottom = window.innerWidth < 640 ? 125 : 200;
 				return `top ${dockedHeaderBottom + (window.innerWidth < 640 ? 20 : 40)}px`;
 			},
-			scrub: 0.2,
+			scrub: true,
 			onUpdate: (self) => {
 				contactProgress = self.progress;
 				updateTargetProgress();
+				isDirty = true;
 			}
-		});
-
-		const arrowTween = gsap.to('.scroll-arrow', {
-			y: 5,
-			repeat: -1,
-			yoyo: true,
-			duration: 0.85,
-			ease: 'power1.inOut'
 		});
 
 		ScrollTrigger.refresh();
@@ -260,34 +290,16 @@
 				return;
 			}
 
-			const context = canvasElement.getContext('2d');
-			if (!context) {
-				animationFrameId = requestAnimationFrame(render);
-				return;
-			}
-
-			const dpr = window.devicePixelRatio || 1;
-			const width = window.innerWidth;
-			const height = window.innerHeight;
-
-			// Smooth scroll interpolation
-			currentProgress += (targetProgress - currentProgress) * 0.16;
-
-			// Update selectable text layer to match current stage
-			if (currentProgress < 0.5) {
-				if (activeGridText !== gridTextA) activeGridText = gridTextA;
-			} else if (currentProgress < 1.5) {
-				if (activeGridText !== gridTextB) activeGridText = gridTextB;
-			} else if (currentProgress < 2.5) {
-				if (activeGridText !== gridTextC) activeGridText = gridTextC;
-			} else {
-				if (activeGridText !== gridTextD) activeGridText = gridTextD;
+			const progressDiff = Math.abs(targetProgress - currentProgress);
+			if (progressDiff > 0.0001) {
+				currentProgress += (targetProgress - currentProgress) * 0.18;
+				isDirty = true;
+			} else if (isDirty) {
+				currentProgress = targetProgress;
+				isDirty = false;
 			}
 
 			// Multi-stage progression:
-			// Stage 0 -> 1 (0.0 to 1.0): THANAPHUM -> EXPERIENCE (finishes right as experience section arrives)
-			// Stage 1 -> 2 (1.0 to 2.0): EXPERIENCE -> SKILLS (docked at sticky top)
-			// Stage 2 -> 3 (2.0 to 3.0): SKILLS -> CONTACT (docked at sticky top)
 			let stageIdx: number;
 			let morphPhase: number;
 			let slideT: number;
@@ -311,6 +323,49 @@
 			const midDispersal = Math.sin(t * Math.PI);
 			const dispersionFactor = Math.pow(midDispersal, 1.8);
 
+			// Idle optimization: when settled and not morphing, skip redundant redraw
+			if (!isDirty && progressDiff <= 0.0001 && dispersionFactor <= 0.001) {
+				animationFrameId = requestAnimationFrame(render);
+				return;
+			}
+
+			// Update selectable text layer to match current stage
+			if (currentProgress < 0.5) {
+				if (activeGridText !== gridTextA) activeGridText = gridTextA;
+			} else if (currentProgress < 1.5) {
+				if (activeGridText !== gridTextB) activeGridText = gridTextB;
+			} else if (currentProgress < 2.5) {
+				if (activeGridText !== gridTextC) activeGridText = gridTextC;
+			} else {
+				if (activeGridText !== gridTextD) activeGridText = gridTextD;
+			}
+
+			const originY = centerY + (stickyOriginY - centerY) * slideT;
+
+			// Position selectable transparent text overlay precisely without layout thrashing
+			if (overlayElement) {
+				const isVisible = currentProgress < 0.4;
+				if (isVisible !== overlayVisible) {
+					overlayVisible = isVisible;
+					overlayElement.style.display = isVisible ? 'block' : 'none';
+					overlayElement.style.pointerEvents = isVisible ? 'auto' : 'none';
+				}
+				if (isVisible && slideT !== lastSlideT) {
+					lastSlideT = slideT;
+					overlayElement.style.transform = `translateY(${(stickyOriginY - centerY) * slideT}px)`;
+				}
+			}
+
+			const context = canvasElement.getContext('2d', { alpha: true });
+			if (!context) {
+				animationFrameId = requestAnimationFrame(render);
+				return;
+			}
+
+			const dpr = window.devicePixelRatio || 1;
+			const width = window.innerWidth;
+			const height = window.innerHeight;
+
 			// Interpolate theme colors smoothly across stages
 			const currentTheme = stageThemes[stageIdx];
 			const nextTheme = stageThemes[stageIdx + 1] || currentTheme;
@@ -320,64 +375,18 @@
 				nextTheme.outlineColor,
 				t
 			);
-			const activeShadowGlow = interpolateRgba(currentTheme.shadowColor, nextTheme.shadowColor, t);
 
-			// Clear canvas transparently so content underneath flows through
+			// Clear canvas transparently
 			context.save();
 			context.scale(dpr, dpr);
 			context.clearRect(0, 0, width, height);
-
-			// Calculate responsive crisp font sizing with optimized cell ratio for larger scale on mobile
-			const cellRatio = width < 768 ? 0.52 : 0.6;
-			const cellHeightRatio = width < 768 ? 1.08 : 1.15;
-			const widthCoverage = width < 480 ? 0.98 : width < 768 ? 0.96 : 0.94;
-
-			const baseFontSize = Math.min(
-				(width * widthCoverage) / (currentCols * cellRatio),
-				(height * 0.8) / (currentRows * cellHeightRatio)
-			);
-			const minFontSize = width < 400 ? 6.5 : width < 600 ? 7.2 : 8.5;
-			const maxFontSize = 14;
-			const fontSize = Math.max(minFontSize, Math.min(maxFontSize, baseFontSize));
-			const cellWidth = fontSize * cellRatio;
-			const cellHeight = fontSize * cellHeightRatio;
-
-			const gridPixelWidth = currentCols * cellWidth;
-			const gridPixelHeight = currentRows * cellHeight;
-			const originX = (width - gridPixelWidth) / 2;
-
-			// Center Y transitioning smoothly to top sticky position:
-			// 38px on mobile (<640px), 60px on tablet/desktop
-			const targetLetterTop = width < 640 ? 38 : 60;
-			const endArtTopRow = (currentRows - endTextLinesCount) >> 1;
-			const centerY = (height - gridPixelHeight) / 2;
-			const stickyOriginY = targetLetterTop - endArtTopRow * cellHeight;
-			const originY = centerY + (stickyOriginY - centerY) * slideT;
-
-			// Position selectable transparent text overlay precisely over the canvas grid
-			if (overlayElement) {
-				if (currentProgress >= 0.4) {
-					overlayElement.style.display = 'none';
-					overlayElement.style.pointerEvents = 'none';
-					overlayElement.style.userSelect = 'none';
-				} else {
-					overlayElement.style.display = 'block';
-					overlayElement.style.pointerEvents = 'auto';
-					overlayElement.style.userSelect = 'text';
-					overlayElement.style.left = `${originX}px`;
-					overlayElement.style.top = `${originY}px`;
-					overlayElement.style.width = `${gridPixelWidth}px`;
-					overlayElement.style.height = `${gridPixelHeight}px`;
-					overlayElement.style.fontSize = `${fontSize}px`;
-					overlayElement.style.lineHeight = `${cellHeight}px`;
-				}
-			}
 
 			context.font = `600 ${fontSize}px ui-monospace, "SF Mono", Menlo, Monaco, Consolas, monospace`;
 			context.textAlign = 'center';
 			context.textBaseline = 'middle';
 
-			// Render all particles with subpixel precision and dynamic stage-theme colors
+			let lastFill = '';
+			// Render all particles with direct GPU accelerated text fill (zero shadowBlur overhead)
 			for (let i = 0; i < particles.length; i++) {
 				const p = particles[i];
 				const targetA = p.targets[stageIdx];
@@ -404,16 +413,10 @@
 
 				context.globalAlpha = Math.max(0, Math.min(1, alpha));
 
-				if (type === 'shadow') {
-					context.fillStyle = activeFaceFill;
-					context.shadowColor = activeShadowGlow;
-					context.shadowBlur = width < 640 ? 8 : 16;
-					context.shadowOffsetY = width < 640 ? 1 : 2;
-				} else {
-					context.fillStyle = activeOutlineFill;
-					context.shadowColor = 'rgba(0, 0, 0, 0.9)';
-					context.shadowBlur = width < 640 ? 4 : 8;
-					context.shadowOffsetY = width < 640 ? 1 : 2;
+				const fill = type === 'shadow' ? activeFaceFill : activeOutlineFill;
+				if (fill !== lastFill) {
+					context.fillStyle = fill;
+					lastFill = fill;
 				}
 
 				context.fillText(char, pixelX, pixelY);
@@ -429,7 +432,6 @@
 		return () => {
 			cancelAnimationFrame(animationFrameId);
 			window.removeEventListener('resize', handleResize);
-			arrowTween.kill();
 			heroTrigger.kill();
 			skillsTrigger.kill();
 			contactTrigger.kill();
@@ -449,7 +451,11 @@
 			aria-label="Figlet ASCII Header">{activeGridText}</pre>
 
 		<!-- Floating scroll hint -->
-		<div class="ascii-footer-hint" style="opacity: {Math.max(0, 1 - scrollProgress * 2.5)};">
+		<div
+			bind:this={footerHintElement}
+			class="ascii-footer-hint"
+			style="opacity: {Math.max(0, 1 - scrollProgress * 2.5)};"
+		>
 			<span class="scroll-arrow">↓</span>
 			<span class="scroll-text">Scroll down</span>
 		</div>
@@ -477,6 +483,7 @@
 		background: transparent;
 		pointer-events: none;
 		z-index: 50;
+		transform: translateZ(0);
 	}
 
 	.ascii-canvas {
@@ -487,7 +494,8 @@
 		user-select: none;
 		-webkit-user-select: none;
 		pointer-events: none;
-		filter: drop-shadow(0 6px 20px rgba(0, 0, 0, 0.95)) drop-shadow(0 2px 6px rgba(0, 0, 0, 0.85));
+		transform: translateZ(0);
+		will-change: transform;
 	}
 
 	.ascii-selectable-overlay {
