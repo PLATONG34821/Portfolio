@@ -1,8 +1,8 @@
 <script lang="ts">
-	import AsciiHero from '$lib/components/asciiHero.svelte';
-	import ExperienceSection from '$lib/components/experienceSection.svelte';
-	import SkillsSection from '$lib/components/skillsSection.svelte';
-	import ContactSection from '$lib/components/contactSection.svelte';
+	import AsciiHero from '$lib/components/hero/asciiHero.svelte';
+	import ExperienceSection from '$lib/components/experience/experienceSection.svelte';
+	import SkillsSection from '$lib/components/skills/skillsSection.svelte';
+	import ContactSection from '$lib/components/contact/contactSection.svelte';
 </script>
 
 <svelte:head>

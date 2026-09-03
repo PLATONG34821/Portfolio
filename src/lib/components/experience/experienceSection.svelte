@@ -2,8 +2,9 @@
 	import { onMount } from 'svelte';
 	import { gsap } from 'gsap';
 	import { ScrollTrigger } from 'gsap/ScrollTrigger';
-	import TuiBox from './tuiBox.svelte';
-	import TuiModal from './tuiModal.svelte';
+	import TuiBox from '$lib/components/tui/tuiBox.svelte';
+	import TuiModal from '$lib/components/tui/tuiModal.svelte';
+	import SectionHeader from '$lib/components/tui/sectionHeader.svelte';
 	import ProjectEntry from './projectEntry.svelte';
 	import AwardEntry from './awardEntry.svelte';
 	import { coreProjects, ossProjects, awards } from '$lib/data/experienceData';
@@ -119,14 +120,14 @@
 		<!-- SECTION 01: SELECTED PROJECTS & RECOGNITION (GOLD THEME) -->
 		<div class="section-block" id="projects">
 			<!-- Section Header: Tag at Top Right -->
-			<div class="section-header-row">
-				<div class="section-tag-wrap">
-					<span class="section-tag-prefix">//</span>
-					<span class="section-tag-title">SECTION 01</span>
-					<span class="section-tag-sub">EXPERIENCE & AWARDS</span>
-				</div>
-				<div class="section-header-divider">{'┄'.repeat(250)}</div>
-			</div>
+			<SectionHeader
+				tag="SECTION 01"
+				title="EXPERIENCE & AWARDS"
+				prefixColor="#785e2f"
+				titleColor="#fbbf24"
+				subColor="#71717a"
+				dividerColor="#292524"
+			/>
 
 			<!-- TOP ROW: Symmetrical 2-Column Grid (Selected Projects & Awards) -->
 			<div class="experience-symmetric-grid">
@@ -288,62 +289,6 @@
 		display: flex;
 		flex-direction: column;
 		gap: 1.25rem;
-	}
-
-	/* Section Header Row with Tag at Left */
-	.section-header-row {
-		display: flex;
-		flex-direction: column;
-		gap: 0.5rem;
-		padding: 0 0.25rem 0;
-	}
-
-	.section-header-divider {
-		width: 100%;
-		overflow: hidden;
-		white-space: nowrap;
-		letter-spacing: 0;
-		font-family: inherit;
-		font-size: 0.8rem;
-		line-height: 1;
-		color: #292524;
-		user-select: text;
-		-webkit-user-select: text;
-	}
-
-	.section-tag-wrap {
-		display: flex;
-		align-items: baseline;
-		gap: 0.5rem;
-		font-size: 0.8rem;
-		font-weight: 600;
-		flex-wrap: wrap;
-	}
-
-	.section-tag-prefix {
-		color: #785e2f;
-	}
-
-	.section-tag-title {
-		color: #fbbf24;
-		letter-spacing: 0.04em;
-	}
-
-	.section-tag-sub {
-		color: #71717a;
-		font-size: 0.74rem;
-		font-weight: 400;
-	}
-
-	@media (max-width: 640px) {
-		.section-tag-wrap {
-			font-size: 0.72rem;
-			gap: 0.35rem;
-		}
-
-		.section-tag-sub {
-			font-size: 0.66rem;
-		}
 	}
 
 	/* Symmetrical 2-Column Desktop Grid for Projects and Awards */

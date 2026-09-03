@@ -2,7 +2,9 @@
 	import { onMount } from 'svelte';
 	import { gsap } from 'gsap';
 	import { ScrollTrigger } from 'gsap/ScrollTrigger';
-	import TuiBox from './tuiBox.svelte';
+	import TuiBox from '$lib/components/tui/tuiBox.svelte';
+	import SectionHeader from '$lib/components/tui/sectionHeader.svelte';
+	import SkillItem from './skillItem.svelte';
 	import { capabilityCategories } from '$lib/data/experienceData';
 
 	interface Props {
@@ -94,14 +96,14 @@
 <section bind:this={sectionElement} class="skills-section" id="skills">
 	<div class="content-container">
 		<div class="section-block">
-			<!-- Section Header: Tag at Top Right -->
-			<div class="section-header-row">
-				<div class="section-tag-wrap">
-					<span class="section-tag-prefix">//</span>
-					<span class="section-tag-title">SECTION 02</span>
-					<span class="section-tag-sub">CAPABILITIES MATRIX</span>
-				</div>
-			</div>
+			<SectionHeader
+				tag="SECTION 02"
+				title="CAPABILITIES MATRIX"
+				prefixColor="#0284c7"
+				titleColor="#38bdf8"
+				subColor="#64748b"
+				dividerColor="#1e293b"
+			/>
 
 			<div class="tui-grid-3col">
 				{#each capabilityCategories as category (category.id)}
@@ -115,19 +117,7 @@
 						bodyClass="cap-body"
 					>
 						{#each category.items as item (item.skill)}
-							<div class="tui-item">
-								<div class="tui-item-line1">
-									<span class="tui-title-static" class:highlighted={item.isHighlighted}>
-										{item.skill}
-										{#if item.isHighlighted}
-											<span class="check-mark">✓</span>
-										{/if}
-									</span>
-								</div>
-								<div class="tui-item-line2">
-									<span class="tui-desc">{item.focus}</span>
-								</div>
-							</div>
+							<SkillItem {item} />
 						{/each}
 					</TuiBox>
 				{/each}
@@ -184,50 +174,6 @@
 		gap: 1.25rem;
 	}
 
-	/* Section Header Row with Tag at Left */
-	.section-header-row {
-		display: flex;
-		justify-content: flex-start;
-		align-items: baseline;
-		padding: 0 0.25rem 0.5rem;
-		border-bottom: 1px dashed #1e293b;
-	}
-
-	.section-tag-wrap {
-		display: flex;
-		align-items: baseline;
-		gap: 0.5rem;
-		font-size: 0.8rem;
-		font-weight: 600;
-		flex-wrap: wrap;
-	}
-
-	.section-tag-prefix {
-		color: #0284c7;
-	}
-
-	.section-tag-title {
-		color: #38bdf8;
-		letter-spacing: 0.04em;
-	}
-
-	.section-tag-sub {
-		color: #64748b;
-		font-size: 0.74rem;
-		font-weight: 400;
-	}
-
-	@media (max-width: 640px) {
-		.section-tag-wrap {
-			font-size: 0.72rem;
-			gap: 0.35rem;
-		}
-
-		.section-tag-sub {
-			font-size: 0.66rem;
-		}
-	}
-
 	.tui-grid-3col {
 		display: grid;
 		grid-template-columns: repeat(3, minmax(0, 1fr));
@@ -251,64 +197,5 @@
 
 	:global(.cap-body) {
 		gap: 0.85rem;
-	}
-
-	.tui-item {
-		display: flex;
-		flex-direction: column;
-		gap: 0.15rem;
-	}
-
-	.tui-item-line1 {
-		display: flex;
-		align-items: baseline;
-		gap: 0.45rem;
-		line-height: 1.4;
-		flex-wrap: wrap;
-	}
-
-	.tui-item-line2 {
-		display: flex;
-		align-items: baseline;
-		flex-wrap: wrap;
-		gap: 0.45rem;
-		font-size: 0.78rem;
-		line-height: 1.4;
-		color: #94a3b8;
-	}
-
-	.tui-title-static {
-		color: #e2e8f0;
-		font-size: 0.88rem;
-		font-weight: 500;
-		word-break: break-word;
-		overflow-wrap: break-word;
-	}
-
-	.tui-title-static.highlighted {
-		color: #38bdf8; /* Cyber Cyan highlight in skills section */
-	}
-
-	.check-mark {
-		color: #22d3ee; /* Electric Cyan checkmark */
-		margin-left: 0.35rem;
-		font-weight: 700;
-		flex-shrink: 0;
-	}
-
-	.tui-desc {
-		color: #94a3b8;
-		word-break: break-word;
-		overflow-wrap: break-word;
-	}
-
-	@media (max-width: 640px) {
-		.tui-title-static {
-			font-size: 0.78rem;
-		}
-
-		.tui-item-line2 {
-			font-size: 0.7rem;
-		}
 	}
 </style>
