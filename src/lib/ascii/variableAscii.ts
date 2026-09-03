@@ -1,55 +1,61 @@
-import figlet from 'figlet';
-import { bigMoneySeFont } from '$lib/ascii/bigMoneySeFont';
-import { slantFont } from '$lib/ascii/slantFont';
-
-const FONT_NAME = 'Big Money-se';
-const SUBTITLE_FONT = 'Slant';
 const TWO_PI = Math.PI * 2;
-const artCache = new Map<string, string[]>();
-let isFontParsed = false;
 
-function ensureFont(): void {
-	if (!isFontParsed) {
-		figlet.parseFont(FONT_NAME, bigMoneySeFont);
-		figlet.parseFont(SUBTITLE_FONT, slantFont);
-		isFontParsed = true;
-	}
-}
+export const precomputedAsciiArt: Record<string, string[]> = {
+	'THANAPHUM\nPORTFOLIO': [
+		' ________  __    __   ______   __    __   ______   _______   __    __  __    __  __       __ ',
+		'|        \\|  \\  |  \\ /      \\ |  \\  |  \\ /      \\ |       \\ |  \\  |  \\|  \\  |  \\|  \\     /  \\',
+		' \\$$$$$$$$| $$  | $$|  $$$$$$\\| $$\\ | $$|  $$$$$$\\| $$$$$$$\\| $$  | $$| $$  | $$| $$\\   /  $$',
+		'   | $$   | $$__| $$| $$__| $$| $$$\\| $$| $$__| $$| $$__/ $$| $$__| $$| $$  | $$| $$$\\ /  $$$',
+		'   | $$   | $$    $$| $$    $$| $$$$\\ $$| $$    $$| $$    $$| $$    $$| $$  | $$| $$$$\\  $$$$',
+		'   | $$   | $$$$$$$$| $$$$$$$$| $$\\$$ $$| $$$$$$$$| $$$$$$$ | $$$$$$$$| $$  | $$| $$\\$$ $$ $$',
+		'   | $$   | $$  | $$| $$  | $$| $$ \\$$$$| $$  | $$| $$      | $$  | $$| $$__/ $$| $$ \\$$$| $$',
+		'   | $$   | $$  | $$| $$  | $$| $$  \\$$$| $$  | $$| $$      | $$  | $$ \\$$    $$| $$  \\$ | $$',
+		'    \\$$    \\$$   \\$$ \\$$   \\$$ \\$$   \\$$ \\$$   \\$$ \\$$       \\$$   \\$$  \\$$$$$$  \\$$      \\$$',
+		'',
+		'    ____  ____  ____  ________________  __    ________ ',
+		'   / __ \\/ __ \\/ __ \\/_  __/ ____/ __ \\/ /   /  _/ __ \\',
+		'  / /_/ / / / / /_/ / / / / /_  / / / / /    / // / / /',
+		' / ____/ /_/ / _, _/ / / / __/ / /_/ / /____/ // /_/ / ',
+		'/_/    \\____/_/ |_| /_/ /_/    \\____/_____/___/\\____/  '
+	],
+	EXPERIENCE: [
+		' ________  __    __  _______   ________  _______   ______  ________  __    __   ______   ________ ',
+		'|        \\|  \\  |  \\|       \\ |        \\|       \\ |      \\|        \\|  \\  |  \\ /      \\ |        \\',
+		'| $$$$$$$$| $$  | $$| $$$$$$$\\| $$$$$$$$| $$$$$$$\\ \\$$$$$$| $$$$$$$$| $$\\ | $$|  $$$$$$\\| $$$$$$$$',
+		'| $$__     \\$$\\/  $$| $$__/ $$| $$__    | $$__| $$  | $$  | $$__    | $$$\\| $$| $$   \\$$| $$__    ',
+		'| $$  \\     >$$  $$ | $$    $$| $$  \\   | $$    $$  | $$  | $$  \\   | $$$$\\ $$| $$      | $$  \\   ',
+		'| $$$$$    /  $$$$\\ | $$$$$$$ | $$$$$   | $$$$$$$\\  | $$  | $$$$$   | $$\\$$ $$| $$   __ | $$$$$   ',
+		'| $$_____ |  $$ \\$$\\| $$      | $$_____ | $$  | $$ _| $$_ | $$_____ | $$ \\$$$$| $$__/  \\| $$_____ ',
+		'| $$     \\| $$  | $$| $$      | $$     \\| $$  | $$|   $$ \\| $$     \\| $$  \\$$$ \\$$    $$| $$     \\',
+		' \\$$$$$$$$ \\$$   \\$$ \\$$       \\$$$$$$$$ \\$$   \\$$ \\$$$$$$ \\$$$$$$$$ \\$$   \\$$  \\$$$$$$  \\$$$$$$$$'
+	],
+	SKILLS: [
+		'  ______   __    __  ______  __        __        ______  ',
+		' /      \\ |  \\  /  \\|      \\|  \\      |  \\      /      \\ ',
+		'|  $$$$$$\\| $$ /  $$ \\$$$$$$| $$      | $$     |  $$$$$$\\',
+		'| $$___\\$$| $$/  $$   | $$  | $$      | $$     | $$___\\$$',
+		' \\$$    \\ | $$  $$    | $$  | $$      | $$      \\$$    \\ ',
+		' _\\$$$$$$\\| $$$$$\\    | $$  | $$      | $$      _\\$$$$$$\\',
+		'|  \\__| $$| $$ \\$$\\  _| $$_ | $$_____ | $$_____|  \\__| $$',
+		' \\$$    $$| $$  \\$$\\|   $$ \\| $$     \\| $$     \\\\$$    $$',
+		'  \\$$$$$$  \\$$   \\$$ \\$$$$$$ \\$$$$$$$$ \\$$$$$$$$ \\$$$$$$ '
+	],
+	CONTACT: [
+		'  ______    ______   __    __  ________   ______    ______  ________ ',
+		' /      \\  /      \\ |  \\  |  \\|        \\ /      \\  /      \\|        \\',
+		'|  $$$$$$\\|  $$$$$$\\| $$\\ | $$ \\$$$$$$$$|  $$$$$$\\|  $$$$$$\\\\$$$$$$$$',
+		'| $$   \\$$| $$  | $$| $$$\\| $$   | $$   | $$__| $$| $$   \\$$  | $$   ',
+		'| $$      | $$  | $$| $$$$\\ $$   | $$   | $$    $$| $$        | $$   ',
+		'| $$   __ | $$  | $$| $$\\$$ $$   | $$   | $$$$$$$$| $$   __   | $$   ',
+		'| $$__/  \\| $$__/ $$| $$ \\$$$$   | $$   | $$  | $$| $$__/  \\  | $$   ',
+		' \\$$    $$ \\$$    $$| $$  \\$$$   | $$   | $$  | $$ \\$$    $$  | $$   ',
+		'  \\$$$$$$   \\$$$$$$  \\$$   \\$$    \\$$    \\$$   \\$$  \\$$$$$$    \\$$   '
+	]
+};
 
 export function generateFigletArt(text: string): string[] {
-	const cached = artCache.get(text);
-	if (cached) return cached;
-
-	ensureFont();
-
-	// Split by either literal "\n" string or actual newline characters
-	const words = text.split(/\\n|\n/);
-	const allLines: string[] = [];
-
-	for (let i = 0; i < words.length; i++) {
-		const word = words[i].trim();
-		if (!word) continue;
-
-		// Main title uses Big Money-se; subtitle line uses Slant for a smaller, sleeker scale
-		const font = i === 0 ? FONT_NAME : 'Slant';
-		const raw = figlet.textSync(word, { font });
-		const lines = raw.split('\n');
-
-		// Trim trailing blank lines of this word
-		while (lines.length > 0 && lines[lines.length - 1].trim() === '') {
-			lines.pop();
-		}
-
-		if (i > 0 && allLines.length > 0) {
-			// Add 1 blank spacer row between lines
-			allLines.push('');
-		}
-
-		allLines.push(...lines);
-	}
-
-	artCache.set(text, allLines);
-	return allLines;
+	const normalized = text.replace(/\\n/g, '\n');
+	return precomputedAsciiArt[normalized] || precomputedAsciiArt[text] || [];
 }
 
 export type CharType = 'shadow' | 'outline' | 'normal';
