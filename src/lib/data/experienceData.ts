@@ -25,282 +25,185 @@ export interface Award {
 	certImage?: string;
 }
 
-export const coreProjects: Project[] = [
-	{
-		id: '01',
-		get title() {
-			return m.projectHllcTitle();
-		},
-		get summary() {
-			return m.projectHllcSummary();
-		},
-		get metrics() {
-			return m.projectHllcMetrics();
-		},
-		certImage: '/certs/hllcHomepage.webp',
-		get links() {
-			return [
-				{
-					label: m.projectHllcLinkPreview(),
-					url: '/certs/hllcHomepage.webp',
-					isCertModal: true,
-					certImage: '/certs/hllcHomepage.webp'
-				},
-				{ label: 'App Store', url: 'https://apps.apple.com/th/app/hllc/id6748238190' },
-				{
-					label: 'Google Play',
-					url: 'https://play.google.com/store/apps/details?id=com.hllc.mfuactivity&hl=en'
-				},
-				{ label: 'Instagram', url: 'https://www.instagram.com/mfu_activities/p/Da1msGcCV8-/' }
-			];
-		}
+const createProject = (
+	id: string,
+	title: () => string,
+	summary: () => string,
+	metrics: () => string,
+	options: { certImage?: string; links?: () => ProjectLink[] } = {}
+): Project => ({
+	id,
+	get title() {
+		return title();
 	},
-	{
-		id: '02',
-		get title() {
-			return m.projectTjsifTitle();
-		},
-		get summary() {
-			return m.projectTjsifSummary();
-		},
-		get metrics() {
-			return m.projectTjsifMetrics();
-		},
-		certImage: '/certs/tjsif_booth.webp',
-		get links() {
-			return [
-				{
-					label: m.projectTjsifLinkCert(),
-					url: '/certs/tjsif_cert.webp',
-					isCertModal: true,
-					certImage: '/certs/tjsif_cert.webp'
-				},
-				{
-					label: m.projectTjsifLinkTrophy(),
-					url: '/certs/tjsif_stage.webp',
-					isCertModal: true,
-					certImage: '/certs/tjsif_stage.webp'
-				},
-				{
-					label: m.projectTjsifLinkBooth(),
-					url: '/certs/tjsif_booth.webp',
-					isCertModal: true,
-					certImage: '/certs/tjsif_booth.webp'
-				},
-				{
-					label: m.projectTjsifLinkReport(),
-					url: 'https://online.anyflip.com/zpkny/qiwq/mobile/index.html#page=137'
-				}
-			];
-		}
+	get summary() {
+		return summary();
 	},
-	{
-		id: '03',
-		get title() {
-			return m.projectNsc25Title();
-		},
-		get summary() {
-			return m.projectNsc25Summary();
-		},
-		get metrics() {
-			return m.projectNsc25Metrics();
-		},
-		certImage: '/certs/nsc25_booth.webp',
-		get links() {
-			return [
-				{
-					label: m.projectNsc25LinkCert(),
-					url: '/certs/nsc25_cert.webp',
-					isCertModal: true,
-					certImage: '/certs/nsc25_cert.webp'
-				},
-				{
-					label: m.projectNsc25LinkPhoto(),
-					url: '/certs/nsc25_booth.webp',
-					isCertModal: true,
-					certImage: '/certs/nsc25_booth.webp'
-				}
-			];
-		}
+	get metrics() {
+		return metrics();
 	},
-	{
-		id: '04',
-		get title() {
-			return m.projectPolytoneTitle();
-		},
-		get summary() {
-			return m.projectPolytoneSummary();
-		},
-		get metrics() {
-			return m.projectPolytoneMetrics();
-		},
-		certImage: '/certs/polyTonePreview.webp',
-		get links() {
-			return [
-				{
-					label: m.projectPolytoneLinkPreview(),
-					url: '/certs/polyTonePreview.webp',
-					isCertModal: true,
-					certImage: '/certs/polyTonePreview.webp'
-				},
-				{ label: m.projectPolytoneLinkLive(), url: 'https://polytone.pages.dev/' }
-			];
-		}
+	certImage: options.certImage,
+	get links() {
+		return options.links ? options.links() : undefined;
 	}
+});
+
+const createAward = (
+	id: string,
+	year: string,
+	title: () => string,
+	subtitle: () => string,
+	options: { certImage?: string; isHighlighted?: boolean } = {}
+): Award => ({
+	id,
+	year,
+	get title() {
+		return title();
+	},
+	get subtitle() {
+		return subtitle();
+	},
+	...options
+});
+
+export const coreProjects: Project[] = [
+	createProject('01', m.projectHllcTitle, m.projectHllcSummary, m.projectHllcMetrics, {
+		certImage: '/certs/hllcHomepage.webp',
+		links: () => [
+			{
+				label: m.projectHllcLinkPreview(),
+				url: '/certs/hllcHomepage.webp',
+				isCertModal: true,
+				certImage: '/certs/hllcHomepage.webp'
+			},
+			{ label: 'App Store', url: 'https://apps.apple.com/th/app/hllc/id6748238190' },
+			{
+				label: 'Google Play',
+				url: 'https://play.google.com/store/apps/details?id=com.hllc.mfuactivity&hl=en'
+			},
+			{ label: 'Instagram', url: 'https://www.instagram.com/mfu_activities/p/Da1msGcCV8-/' }
+		]
+	}),
+	createProject('02', m.projectTjsifTitle, m.projectTjsifSummary, m.projectTjsifMetrics, {
+		certImage: '/certs/tjsif_booth.webp',
+		links: () => [
+			{
+				label: m.projectTjsifLinkCert(),
+				url: '/certs/tjsif_cert.webp',
+				isCertModal: true,
+				certImage: '/certs/tjsif_cert.webp'
+			},
+			{
+				label: m.projectTjsifLinkTrophy(),
+				url: '/certs/tjsif_stage.webp',
+				isCertModal: true,
+				certImage: '/certs/tjsif_stage.webp'
+			},
+			{
+				label: m.projectTjsifLinkBooth(),
+				url: '/certs/tjsif_booth.webp',
+				isCertModal: true,
+				certImage: '/certs/tjsif_booth.webp'
+			},
+			{
+				label: m.projectTjsifLinkReport(),
+				url: 'https://online.anyflip.com/zpkny/qiwq/mobile/index.html#page=137'
+			}
+		]
+	}),
+	createProject('03', m.projectNsc25Title, m.projectNsc25Summary, m.projectNsc25Metrics, {
+		certImage: '/certs/nsc25_booth.webp',
+		links: () => [
+			{
+				label: m.projectNsc25LinkCert(),
+				url: '/certs/nsc25_cert.webp',
+				isCertModal: true,
+				certImage: '/certs/nsc25_cert.webp'
+			},
+			{
+				label: m.projectNsc25LinkPhoto(),
+				url: '/certs/nsc25_booth.webp',
+				isCertModal: true,
+				certImage: '/certs/nsc25_booth.webp'
+			}
+		]
+	}),
+	createProject('04', m.projectPolytoneTitle, m.projectPolytoneSummary, m.projectPolytoneMetrics, {
+		certImage: '/certs/polyTonePreview.webp',
+		links: () => [
+			{
+				label: m.projectPolytoneLinkPreview(),
+				url: '/certs/polyTonePreview.webp',
+				isCertModal: true,
+				certImage: '/certs/polyTonePreview.webp'
+			},
+			{ label: m.projectPolytoneLinkLive(), url: 'https://polytone.pages.dev/' }
+		]
+	})
 ];
 
 export const ossProjects: Project[] = [
-	{
-		id: '01',
-		get title() {
-			return m.ossStudyScheduleTitle();
-		},
-		get summary() {
-			return m.ossStudyScheduleSummary();
-		},
-		get metrics() {
-			return m.ossStudyScheduleMetrics();
-		},
-		get links() {
-			return [
+	createProject(
+		'01',
+		m.ossStudyScheduleTitle,
+		m.ossStudyScheduleSummary,
+		m.ossStudyScheduleMetrics,
+		{
+			links: () => [
 				{ label: m.ossStudyScheduleLinkLive(), url: 'https://schedule-wallpapers.pages.dev/' },
 				{
 					label: m.ossStudyScheduleLinkRepo(),
 					url: 'https://github.com/PLATONG34821/Study-Schedule'
 				}
-			];
+			]
 		}
-	},
-	{
-		id: '02',
-		get title() {
-			return m.ossSwarmClusterTitle();
-		},
-		get summary() {
-			return m.ossSwarmClusterSummary();
-		},
-		get metrics() {
-			return m.ossSwarmClusterMetrics();
-		},
-		get links() {
-			return [
-				{
-					label: m.ossSwarmClusterLinkRepo(),
-					url: 'https://github.com/PLATONG34821/Portable-Hybrid-Arch-Docker-Swarm-Cluster'
-				}
-			];
-		}
-	},
-	{
-		id: '03',
-		get title() {
-			return m.ossProjectDsmTitle();
-		},
-		get summary() {
-			return m.ossProjectDsmSummary();
-		},
-		get metrics() {
-			return m.ossProjectDsmMetrics();
-		},
-		get links() {
-			return [
-				{ label: m.ossProjectDsmLinkLive(), url: 'https://project-dsm.pages.dev/' },
-				{ label: m.ossProjectDsmLinkRepo(), url: 'https://github.com/PLATONG34821/Project-DSM' }
-			];
-		}
-	},
-	{
-		id: '04',
-		get title() {
-			return m.ossGroupPlanTitle();
-		},
-		get summary() {
-			return m.ossGroupPlanSummary();
-		},
-		get metrics() {
-			return m.ossGroupPlanMetrics();
-		},
-		get links() {
-			return [
-				{
-					label: m.ossGroupPlanLinkRepo(),
-					url: 'https://github.com/PLATONG34821/GroupPlan'
-				}
-			];
-		}
-	}
+	),
+	createProject('02', m.ossSwarmClusterTitle, m.ossSwarmClusterSummary, m.ossSwarmClusterMetrics, {
+		links: () => [
+			{
+				label: m.ossSwarmClusterLinkRepo(),
+				url: 'https://github.com/PLATONG34821/Portable-Hybrid-Arch-Docker-Swarm-Cluster'
+			}
+		]
+	}),
+	createProject('03', m.ossProjectDsmTitle, m.ossProjectDsmSummary, m.ossProjectDsmMetrics, {
+		links: () => [
+			{ label: m.ossProjectDsmLinkLive(), url: 'https://project-dsm.pages.dev/' },
+			{ label: m.ossProjectDsmLinkRepo(), url: 'https://github.com/PLATONG34821/Project-DSM' }
+		]
+	}),
+	createProject('04', m.ossGroupPlanTitle, m.ossGroupPlanSummary, m.ossGroupPlanMetrics, {
+		links: () => [
+			{
+				label: m.ossGroupPlanLinkRepo(),
+				url: 'https://github.com/PLATONG34821/GroupPlan'
+			}
+		]
+	})
 ];
 
 export const awards: Award[] = [
-	{
-		id: '01',
-		get title() {
-			return m.award4Title();
-		},
-		get subtitle() {
-			return m.award4Subtitle();
-		},
-		year: '2024',
+	createAward('01', '2024', m.award4Title, m.award4Subtitle, {
 		certImage: '/certs/samsung_cert.webp'
-	},
-	{
-		id: '02',
-		get title() {
-			return m.award5Title();
-		},
-		get subtitle() {
-			return m.award5Subtitle();
-		},
-		year: '2024',
+	}),
+	createAward('02', '2024', m.award5Title, m.award5Subtitle, {
 		certImage: '/certs/borntodev_cert.webp'
-	},
-	{
-		id: '03',
-		get title() {
-			return m.award1Title();
-		},
-		get subtitle() {
-			return m.award1Subtitle();
-		},
-		year: '2023',
+	}),
+	createAward('03', '2023', m.award1Title, m.award1Subtitle, {
 		isHighlighted: true,
 		certImage: '/certs/gold_cert.webp'
-	},
-	{
-		id: '04',
-		get title() {
-			return m.award3Title();
-		},
-		get subtitle() {
-			return m.award3Subtitle();
-		},
-		year: '2023',
+	}),
+	createAward('04', '2023', m.award3Title, m.award3Subtitle, {
 		isHighlighted: true,
 		certImage: '/certs/nsc25_cert.webp'
-	},
-	{
-		id: '05',
-		get title() {
-			return m.award6Title();
-		},
-		get subtitle() {
-			return m.award6Subtitle();
-		},
-		year: '2022',
+	}),
+	createAward('05', '2022', m.award6Title, m.award6Subtitle, {
 		isHighlighted: true,
 		certImage: '/certs/tjsif_stage.webp'
-	},
-	{
-		id: '06',
-		get title() {
-			return m.award2Title();
-		},
-		get subtitle() {
-			return m.award2Subtitle();
-		},
-		year: '2022',
+	}),
+	createAward('06', '2022', m.award2Title, m.award2Subtitle, {
 		certImage: '/certs/silver_cert.webp'
-	}
+	})
 ];
 
 export * from './skillsData';
