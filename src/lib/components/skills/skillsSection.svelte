@@ -32,8 +32,8 @@
 					<TuiBox
 						title={category.title}
 						theme="cyan"
-						class="cap-box {category.id === '04' ? 'full-frame' : ''}"
-						bodyClass="cap-body {category.id === '04' ? 'full-frame-body' : ''}"
+						class={category.id === '04' ? 'cap-box full-frame' : 'cap-box'}
+						bodyClass={category.id === '04' ? 'cap-body full-frame-body' : 'cap-body'}
 					>
 						{#each category.items as item (item.skill)}
 							<SkillItem {item} />
