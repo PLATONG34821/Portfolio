@@ -1,11 +1,11 @@
 import * as m from '$lib/paraglide/messages';
 
 const certModules = import.meta.glob<{ default: string }>(
-	'$lib/assets/certs/*.webp',
+	'../assets/certs/*.webp',
 	{ eager: true, query: { enhanced: true } }
 );
 function cert(name: string): string {
-	return certModules[`$lib/assets/certs/${name}`]?.default ?? '';
+	return certModules[`../assets/certs/${name}`]?.default ?? '';
 }
 
 export interface ProjectLink {
