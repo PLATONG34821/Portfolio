@@ -235,6 +235,28 @@ export const awards: Award[] = [
 	{
 		id: '01',
 		get title() {
+			return m.award4Title();
+		},
+		get subtitle() {
+			return m.award4Subtitle();
+		},
+		year: '2024',
+		certImage: '/certs/samsung_cert.webp'
+	},
+	{
+		id: '02',
+		get title() {
+			return m.award5Title();
+		},
+		get subtitle() {
+			return m.award5Subtitle();
+		},
+		year: '2024',
+		certImage: '/certs/borntodev_cert.webp'
+	},
+	{
+		id: '03',
+		get title() {
 			return m.award1Title();
 		},
 		get subtitle() {
@@ -245,18 +267,7 @@ export const awards: Award[] = [
 		certImage: '/certs/gold_cert.webp'
 	},
 	{
-		id: '02',
-		get title() {
-			return m.award2Title();
-		},
-		get subtitle() {
-			return m.award2Subtitle();
-		},
-		year: '2022',
-		certImage: '/certs/silver_cert.webp'
-	},
-	{
-		id: '03',
+		id: '04',
 		get title() {
 			return m.award3Title();
 		},
@@ -268,29 +279,7 @@ export const awards: Award[] = [
 		certImage: '/certs/nsc25_cert.webp'
 	},
 	{
-		id: '04',
-		get title() {
-			return m.award4Title();
-		},
-		get subtitle() {
-			return m.award4Subtitle();
-		},
-		year: '2024',
-		certImage: '/certs/samsung_cert.webp'
-	},
-	{
 		id: '05',
-		get title() {
-			return m.award5Title();
-		},
-		get subtitle() {
-			return m.award5Subtitle();
-		},
-		year: '2024',
-		certImage: '/certs/borntodev_cert.webp'
-	},
-	{
-		id: '06',
 		get title() {
 			return m.award6Title();
 		},
@@ -300,6 +289,17 @@ export const awards: Award[] = [
 		year: '2022',
 		isHighlighted: true,
 		certImage: '/certs/tjsif_stage.webp'
+	},
+	{
+		id: '06',
+		get title() {
+			return m.award2Title();
+		},
+		get subtitle() {
+			return m.award2Subtitle();
+		},
+		year: '2022',
+		certImage: '/certs/silver_cert.webp'
 	}
 ];
 
