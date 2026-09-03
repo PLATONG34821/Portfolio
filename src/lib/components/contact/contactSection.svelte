@@ -1,7 +1,6 @@
 <script lang="ts">
 	import SectionHeader from '$lib/components/tui/sectionHeader.svelte';
-	import TransmissionChannels from './transmissionChannels.svelte';
-	import StationArchitecture from './stationArchitecture.svelte';
+	import ContactCard from './contactCard.svelte';
 	import TerminalFooter from './terminalFooter.svelte';
 </script>
 
@@ -17,10 +16,7 @@
 				dividerColor="#064e3b"
 			/>
 
-			<div class="contact-grid">
-				<TransmissionChannels />
-				<StationArchitecture />
-			</div>
+			<ContactCard />
 
 			<TerminalFooter />
 		</div>
@@ -71,19 +67,5 @@
 		display: flex;
 		flex-direction: column;
 		gap: 1.5rem;
-	}
-
-	.contact-grid {
-		display: grid;
-		grid-template-columns: 1fr 1fr;
-		gap: 1.5rem;
-		width: 100%;
-	}
-
-	@media (max-width: 900px) {
-		.contact-grid {
-			grid-template-columns: 1fr;
-			gap: 1.25rem;
-		}
 	}
 </style>
