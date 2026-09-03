@@ -1,15 +1,14 @@
 <script lang="ts">
+	import { onMount } from 'svelte';
+	import { gsap } from 'gsap';
+	import { ScrollTrigger } from 'gsap/ScrollTrigger';
 	import TuiBox from './tuiBox.svelte';
 	import TuiModal from './tuiModal.svelte';
 	import ProjectEntry from './projectEntry.svelte';
 	import AwardEntry from './awardEntry.svelte';
 	import { coreProjects, ossProjects, awards } from '$lib/data/experienceData';
 
-	interface Props {
-		scrollProgress?: number;
-	}
-
-	let { scrollProgress = 0 }: Props = $props();
+	let sectionElement = $state<HTMLElement | null>(null);
 
 	// Modal State for viewing high-res certificates and exhibition photos
 	let activeCertModal: { title: string; image: string } | null = $state(null);
@@ -22,14 +21,34 @@
 		activeCertModal = null;
 	}
 
-	// Fade in early while scrolling (scrollProgress >= 0.45)
-	let isRevealed = $derived(scrollProgress >= 0.45);
+	onMount(() => {
+		if (!sectionElement) return;
+		gsap.registerPlugin(ScrollTrigger);
+
+		gsap.set(sectionElement, { autoAlpha: 0 });
+
+		const tween = gsap.to(sectionElement, {
+			autoAlpha: 1,
+			duration: 0.5,
+			ease: 'power2.out',
+			scrollTrigger: {
+				trigger: sectionElement,
+				start: 'top 40%',
+				toggleActions: 'play none none reverse'
+			}
+		});
+
+		return () => {
+			tween.scrollTrigger?.kill();
+			tween.kill();
+		};
+	});
 </script>
 
 <!-- Fixed top gradient curtain that progressively masks text as it scrolls up under EXP -->
 <div class="top-fade-curtain" aria-hidden="true"></div>
 
-<section class="experience-section" class:is-revealed={isRevealed} id="experience">
+<section bind:this={sectionElement} class="experience-section" id="experience">
 	<div class="content-container">
 		<!-- SECTION 01: SELECTED PROJECTS & RECOGNITION (GOLD THEME) -->
 		<div class="section-block" id="projects">
@@ -153,9 +172,9 @@
 		color: #e5e7eb;
 		padding: 17rem 1.5rem 3rem;
 		z-index: 10;
+		visibility: hidden;
 		opacity: 0;
-		pointer-events: none;
-		transition: opacity 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+		pointer-events: auto;
 		font-family:
 			ui-monospace, 'SF Mono', 'Cascadia Code', 'Fira Code', Menlo, Monaco, Consolas, monospace;
 	}
@@ -170,11 +189,6 @@
 		.experience-section {
 			padding: 10rem 0.75rem 2rem;
 		}
-	}
-
-	.experience-section.is-revealed {
-		opacity: 1;
-		pointer-events: auto;
 	}
 
 	.content-container {

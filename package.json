@@ -36,6 +36,7 @@
 	"dependencies": {
 		"@chenglou/pretext": "^0.0.8",
 		"cli-boxes": "^4.0.1",
+		"gsap": "^3.15.0",
 		"pixelarticons": "^2.4.1"
 	}
 }

@@ -1,5 +1,7 @@
 <script lang="ts">
 	import { onMount } from 'svelte';
+	import { gsap } from 'gsap';
+	import { ScrollTrigger } from 'gsap/ScrollTrigger';
 	import {
 		generateFigletArt,
 		extractFigletPoints,
@@ -84,6 +86,8 @@
 	onMount(() => {
 		if (!canvasElement) return;
 
+		gsap.registerPlugin(ScrollTrigger);
+
 		let animationFrameId: number;
 		let particles: MultiStageFigletParticle[] = [];
 		let currentCols = 120;
@@ -158,38 +162,47 @@
 
 		let currentProgress = 0;
 		let targetProgress = 0;
+		let heroProgress = 0;
+		let skillsProgress = 0;
 
-		const handleScroll = () => {
-			const scrollY = window.scrollY || window.pageYOffset;
-			const scrollDistance = Math.max(350, window.innerHeight * 0.65);
-			const heroProgress = scrollY / scrollDistance;
-			scrollProgress = Math.max(0, Math.min(1, heroProgress));
-
-			// Detect scroll position of #skills section for stage 1 -> stage 2 morph
-			// Finishes right when #skills arrives below the docked header
-			let skillsProgress = 0;
-			const skillsEl = document.getElementById('skills');
-			if (skillsEl) {
-				const rect = skillsEl.getBoundingClientRect();
-				const dockedHeaderBottom = window.innerWidth < 640 ? 125 : 200;
-				const startY = window.innerHeight * 0.75;
-				const endY = dockedHeaderBottom + (window.innerWidth < 640 ? 20 : 40);
-				if (rect.top < startY) {
-					skillsProgress = Math.max(0, Math.min(1, (startY - rect.top) / (startY - endY)));
-				}
-			}
-
-			targetProgress = heroProgress < 1 ? Math.max(0, heroProgress) : 1 + skillsProgress;
+		const updateTargetProgress = () => {
+			targetProgress = heroProgress < 1 ? heroProgress : 1 + skillsProgress;
 		};
+
+		const heroTrigger = ScrollTrigger.create({
+			trigger: containerElement,
+			start: 'top top',
+			end: 'bottom top',
+			scrub: 0.2,
+			onUpdate: (self) => {
+				heroProgress = self.progress;
+				scrollProgress = self.progress;
+				updateTargetProgress();
+			}
+		});
+
+		const skillsTrigger = ScrollTrigger.create({
+			trigger: '#skills',
+			start: 'top 75%',
+			end: () => {
+				const dockedHeaderBottom = window.innerWidth < 640 ? 125 : 200;
+				return `top ${dockedHeaderBottom + (window.innerWidth < 640 ? 20 : 40)}px`;
+			},
+			scrub: 0.2,
+			onUpdate: (self) => {
+				skillsProgress = self.progress;
+				updateTargetProgress();
+			}
+		});
+
+		ScrollTrigger.refresh();
 
 		const handleResize = () => {
 			initSimulation();
-			handleScroll();
+			ScrollTrigger.refresh();
 		};
 
-		window.addEventListener('scroll', handleScroll, { passive: true });
 		window.addEventListener('resize', handleResize, { passive: true });
-		handleScroll();
 
 		const easeInOutCubic = (t: number): number => {
 			return t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2;
@@ -365,8 +378,9 @@
 
 		return () => {
 			cancelAnimationFrame(animationFrameId);
-			window.removeEventListener('scroll', handleScroll);
 			window.removeEventListener('resize', handleResize);
+			heroTrigger.kill();
+			skillsTrigger.kill();
 		};
 	});
 </script>

@@ -1,9 +1,11 @@
 <script lang="ts">
+	import { onMount } from 'svelte';
+	import { gsap } from 'gsap';
+	import { ScrollTrigger } from 'gsap/ScrollTrigger';
 	import TuiBox, { type BoxStyleType } from './tuiBox.svelte';
 	import { capabilityCategories } from '$lib/data/experienceData';
 
 	interface Props {
-		scrollProgress?: number;
 		boxStyle?: BoxStyleType;
 		titleColor?: string;
 		borderColor?: string;
@@ -12,7 +14,6 @@
 	}
 
 	let {
-		scrollProgress = 0,
 		boxStyle = 'classic',
 		titleColor = 'cyan',
 		borderColor = '#1e293b',
@@ -20,11 +21,33 @@
 		bgColor = '#030712'
 	}: Props = $props();
 
-	// In-place fade-in matching experience section (scrollProgress >= 0.45)
-	let isRevealed = $derived(scrollProgress >= 0.45);
+	let sectionElement = $state<HTMLElement | null>(null);
+
+	onMount(() => {
+		if (!sectionElement) return;
+		gsap.registerPlugin(ScrollTrigger);
+
+		gsap.set(sectionElement, { autoAlpha: 0 });
+
+		const tween = gsap.to(sectionElement, {
+			autoAlpha: 1,
+			duration: 0.5,
+			ease: 'power2.out',
+			scrollTrigger: {
+				trigger: sectionElement,
+				start: 'top 85%',
+				toggleActions: 'play none none reverse'
+			}
+		});
+
+		return () => {
+			tween.scrollTrigger?.kill();
+			tween.kill();
+		};
+	});
 </script>
 
-<section class="skills-section" class:is-revealed={isRevealed} id="skills">
+<section bind:this={sectionElement} class="skills-section" id="skills">
 	<div class="content-container">
 		<div class="section-block">
 			<!-- Section Header: Tag at Top Right -->
@@ -78,9 +101,9 @@
 		color: #e5e7eb;
 		padding: 5rem 1.5rem 12rem;
 		z-index: 10;
+		visibility: hidden;
 		opacity: 0;
-		pointer-events: none;
-		transition: opacity 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+		pointer-events: auto;
 		font-family:
 			ui-monospace, 'SF Mono', 'Cascadia Code', 'Fira Code', Menlo, Monaco, Consolas, monospace;
 	}
@@ -95,11 +118,6 @@
 		.skills-section {
 			padding: 3.5rem 0.75rem 6rem;
 		}
-	}
-
-	.skills-section.is-revealed {
-		opacity: 1;
-		pointer-events: auto;
 	}
 
 	.content-container {
