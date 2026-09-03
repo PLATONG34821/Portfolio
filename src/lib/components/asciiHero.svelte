@@ -166,12 +166,14 @@
 			scrollProgress = Math.max(0, Math.min(1, heroProgress));
 
 			// Detect scroll position of #skills section for stage 1 -> stage 2 morph
+			// Finishes right when #skills arrives below the docked header
 			let skillsProgress = 0;
 			const skillsEl = document.getElementById('skills');
 			if (skillsEl) {
 				const rect = skillsEl.getBoundingClientRect();
-				const startY = window.innerHeight * 0.88;
-				const endY = window.innerHeight * 0.45;
+				const dockedHeaderBottom = window.innerWidth < 640 ? 125 : 200;
+				const startY = window.innerHeight * 0.75;
+				const endY = dockedHeaderBottom + (window.innerWidth < 640 ? 20 : 40);
 				if (rect.top < startY) {
 					skillsProgress = Math.max(0, Math.min(1, (startY - rect.top) / (startY - endY)));
 				}
@@ -227,7 +229,7 @@
 			}
 
 			// Multi-stage progression:
-			// Stage 0 -> 1 (0.0 to 1.0): THANAPHUM -> EXPERIENCE (with slide to top)
+			// Stage 0 -> 1 (0.0 to 1.0): THANAPHUM -> EXPERIENCE (finishes right as experience section arrives)
 			// Stage 1 -> 2 (1.0 to 2.0): EXPERIENCE -> SKILLS (docked at sticky top)
 			let stageIdx: number;
 			let morphPhase: number;
@@ -235,8 +237,8 @@
 
 			if (currentProgress <= 1.0) {
 				stageIdx = 0;
-				morphPhase = Math.min(1, currentProgress / 0.7);
-				const slidePhase = Math.max(0, Math.min(1, (currentProgress - 0.2) / 0.65));
+				morphPhase = Math.min(1, currentProgress / 0.96);
+				const slidePhase = Math.max(0, Math.min(1, (currentProgress - 0.05) / 0.92));
 				slideT = easeInOutCubic(slidePhase);
 			} else {
 				stageIdx = 1;

@@ -22,8 +22,8 @@
 		activeCertModal = null;
 	}
 
-	// Pure in-place fade in once EXP finishes assembling (scrollProgress >= 0.6)
-	let isRevealed = $derived(scrollProgress >= 0.6);
+	// In-place fade in as EXP finishes assembling and docks at top (scrollProgress >= 0.85)
+	let isRevealed = $derived(scrollProgress >= 0.85);
 </script>
 
 <!-- Fixed top gradient curtain that progressively masks text as it scrolls up under EXP -->
