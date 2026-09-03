@@ -46,38 +46,21 @@
 	// Stage 0: Pure Silver / White
 	// Stage 1: Radiant Gold / Amber (Experience Section Theme)
 	// Stage 2: Cyber Cyan (Skills Section Theme)
+	// Stage 3: Terminal Emerald (Contact Section Theme)
 	interface StageTheme {
-		faceColor: [number, number, number]; // [r, g, b]
-		outlineColor: [number, number, number]; // [r, g, b]
+		faceColor: string;
+		outlineColor: string;
 	}
 
 	const stageThemes: StageTheme[] = [
-		{
-			faceColor: [255, 255, 255],
-			outlineColor: [63, 63, 70]
-		},
-		{
-			faceColor: [250, 204, 21], // #facc15 (Pure Gold)
-			outlineColor: [120, 94, 47] // #785e2f (Warm Bronze)
-		},
-		{
-			faceColor: [56, 189, 248], // #38bdf8 (Cyber Cyan)
-			outlineColor: [30, 58, 95] // #1e3a5f (Midnight Cyber Slate)
-		},
-		{
-			faceColor: [52, 211, 153], // #34d399 (Terminal Emerald)
-			outlineColor: [6, 78, 59] // #064e3b (Deep Emerald Slate)
-		}
+		{ faceColor: '#ffffff', outlineColor: '#3f3f46' },
+		{ faceColor: '#facc15', outlineColor: '#785e2f' },
+		{ faceColor: '#38bdf8', outlineColor: '#1e3a5f' },
+		{ faceColor: '#34d399', outlineColor: '#064e3b' }
 	];
 
-	const lerp = (a: number, b: number, t: number) => a + (b - a) * t;
-
-	const interpolateColor = (
-		c1: [number, number, number],
-		c2: [number, number, number],
-		t: number
-	): string =>
-		`rgb(${Math.round(lerp(c1[0], c2[0], t))}, ${Math.round(lerp(c1[1], c2[1], t))}, ${Math.round(lerp(c1[2], c2[2], t))})`;
+	const easeInOutCubic = gsap.parseEase('power2.inOut');
+	const clamp = gsap.utils.clamp;
 
 	onMount(() => {
 		if (!canvasElement) return;
@@ -89,7 +72,6 @@
 
 		gsap.registerPlugin(ScrollTrigger);
 
-		let animationFrameId: number;
 		let particles: MultiStageFigletParticle[] = [];
 		let currentCols = 120;
 		let currentRows = 38;
@@ -176,7 +158,7 @@
 			);
 			const minFontSize = viewportWidth < 400 ? 6.5 : viewportWidth < 600 ? 7.2 : 8.5;
 			const maxFontSize = 14;
-			fontSize = Math.max(minFontSize, Math.min(maxFontSize, baseFontSize));
+			fontSize = clamp(minFontSize, maxFontSize, baseFontSize);
 			cellWidth = fontSize * cellRatio;
 			cellHeight = fontSize * cellHeightRatio;
 
@@ -213,8 +195,8 @@
 				const currentSwitcherY = heroSwitcherY + (stickySwitcherY - heroSwitcherY) * slideT;
 				lastSwitcherY = Math.round(currentSwitcherY);
 				langSwitcherElement.style.transform = `translate(-50%, ${lastSwitcherY}px)`;
-				langSwitcherElement.style.setProperty('--lang-active-color', 'rgb(255, 255, 255)');
-				lastFaceFill = 'rgb(255, 255, 255)';
+				langSwitcherElement.style.setProperty('--lang-active-color', '#ffffff');
+				lastFaceFill = '#ffffff';
 			}
 
 			isDirty = true;
@@ -239,7 +221,7 @@
 
 		const updateFooterHint = (progress: number) => {
 			if (!footerHintElement) return;
-			const opacity = Math.max(0, 1 - progress * 2.5);
+			const opacity = clamp(0, 1, 1 - progress * 2.5);
 			footerHintElement.style.opacity = `${opacity}`;
 			footerHintElement.style.pointerEvents = opacity <= 0.05 ? 'none' : 'auto';
 		};
@@ -308,7 +290,7 @@
 			lastWindowHeight = window.innerHeight;
 			initSimulation();
 			ScrollTrigger.refresh();
-			render(performance.now());
+			render();
 		};
 
 		const handleScroll = () => {
@@ -318,18 +300,12 @@
 		window.addEventListener('resize', handleResize, { passive: true });
 		window.addEventListener('scroll', handleScroll, { passive: true });
 
-		const easeInOutCubic = (t: number): number =>
-			t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2;
-
-		let lastTime = performance.now();
 		let initialSnapFrames = 3;
 
-		const render = (now: number) => {
-			const delta = Math.min(32, now - lastTime);
-			lastTime = now;
+		const render = (...args: number[]) => {
+			const delta = Math.min(32, args[1] || 16);
 
 			if (!canvasElement || !particles.length) {
-				animationFrameId = requestAnimationFrame(render);
 				return;
 			}
 
@@ -352,20 +328,17 @@
 					? Math.min(1, currentProgress / 0.96)
 					: Math.min(1, currentProgress - stageIdx);
 			const slideT =
-				currentProgress <= 1.0
-					? easeInOutCubic(Math.max(0, Math.min(1, (currentProgress - 0.05) / 0.92)))
-					: 1.0;
+				currentProgress <= 1.0 ? easeInOutCubic(clamp(0, 1, (currentProgress - 0.05) / 0.92)) : 1.0;
 
 			const t = easeInOutCubic(morphPhase);
 			const midDispersal = Math.sin(t * Math.PI);
 			const dispersionFactor = Math.pow(midDispersal, 1.8);
 
 			if (!isDirty && progressDiff <= 0.0001 && dispersionFactor <= 0.001) {
-				animationFrameId = requestAnimationFrame(render);
 				return;
 			}
 
-			const stageTextIndex = Math.min(3, Math.max(0, Math.floor(currentProgress + 0.5)));
+			const stageTextIndex = clamp(0, 3, Math.floor(currentProgress + 0.5));
 			if (activeGridText !== gridTexts[stageTextIndex]) {
 				activeGridText = gridTexts[stageTextIndex];
 			}
@@ -397,14 +370,13 @@
 
 			const context = canvasElement.getContext('2d', { alpha: true });
 			if (!context) {
-				animationFrameId = requestAnimationFrame(render);
 				return;
 			}
 
 			const currentTheme = stageThemes[stageIdx];
 			const nextTheme = stageThemes[stageIdx + 1] || currentTheme;
-			const activeFaceFill = interpolateColor(currentTheme.faceColor, nextTheme.faceColor, t);
-			const activeOutlineFill = interpolateColor(
+			const activeFaceFill = gsap.utils.interpolate(currentTheme.faceColor, nextTheme.faceColor, t);
+			const activeOutlineFill = gsap.utils.interpolate(
 				currentTheme.outlineColor,
 				nextTheme.outlineColor,
 				t
@@ -448,7 +420,7 @@
 
 				if (alpha <= 0.01) continue;
 
-				context.globalAlpha = Math.max(0, Math.min(1, alpha));
+				context.globalAlpha = clamp(0, 1, alpha);
 
 				const fill = type === 'shadow' ? activeFaceFill : activeOutlineFill;
 				if (fill !== lastFill) {
@@ -462,13 +434,12 @@
 			context.globalAlpha = 1.0;
 			context.restore();
 			isDirty = false;
-			animationFrameId = requestAnimationFrame(render);
 		};
 
-		render(performance.now());
+		gsap.ticker.add(render);
 
 		return () => {
-			cancelAnimationFrame(animationFrameId);
+			gsap.ticker.remove(render);
 			window.removeEventListener('resize', handleResize);
 			window.removeEventListener('scroll', handleScroll);
 			heroTrigger.kill();
@@ -634,23 +605,6 @@
 		opacity: 0.35;
 		font-weight: 400;
 		user-select: none;
-	}
-
-	.ascii-footer-hint {
-		position: absolute;
-		bottom: 2.5rem;
-		left: 50%;
-		transform: translateX(-50%);
-		z-index: 20;
-		display: flex;
-		flex-direction: column;
-		align-items: center;
-		gap: 0.25rem;
-		color: rgba(255, 255, 255, 0.45);
-		font-size: 0.8rem;
-		font-family: ui-monospace, monospace;
-		transition: opacity 0.2s ease-out;
-		pointer-events: none;
 	}
 
 	@media (max-width: 640px) {
