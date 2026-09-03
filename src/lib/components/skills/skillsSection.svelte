@@ -83,10 +83,6 @@
 						class="cap-box {category.id === '04' ? 'full-frame' : ''}"
 						bodyClass="cap-body {category.id === '04' ? 'full-frame-body' : ''}"
 					>
-						{#snippet topRightAction()}
-							<span class="cat-action-tag">[{category.id} // {category.items.length} SPECS]</span>
-						{/snippet}
-
 						{#each category.items as item (item.skill)}
 							<SkillItem {item} />
 						{/each}
@@ -162,12 +158,6 @@
 			grid-template-columns: 1fr;
 			gap: 1rem;
 		}
-	}
-
-	.cat-action-tag {
-		color: #64748b;
-		font-size: 0.68rem;
-		letter-spacing: 0.04em;
 	}
 
 	.quick-scan-items {

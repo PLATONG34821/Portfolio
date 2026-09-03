@@ -38,25 +38,13 @@
 		gap: 0.2rem;
 		padding: 0.55rem 0.65rem;
 		background: rgba(3, 7, 18, 0.4);
-		border-left: 2px solid #1e293b;
-		transition:
-			border-color 0.15s ease,
-			background-color 0.15s ease;
+		transition: background-color 0.15s ease;
 		font-family:
 			ui-monospace, 'SF Mono', 'Cascadia Code', 'Fira Code', Menlo, Monaco, Consolas, monospace;
 	}
 
 	.tui-item:hover {
-		border-left-color: #38bdf8;
 		background: rgba(14, 165, 233, 0.04);
-	}
-
-	.tui-item.highlighted {
-		border-left-color: #0284c7;
-	}
-
-	.tui-item.highlighted:hover {
-		border-left-color: #38bdf8;
 	}
 
 	.tui-item-header {
