@@ -19,14 +19,22 @@
 	}: Props = $props();
 
 	let copied = $state(false);
+	let copyTimer: ReturnType<typeof setTimeout> | undefined;
 
 	const channels = $derived(getContactChannels(email, githubUrl, lineUrl, facebookUrl));
 
 	function copyEmail() {
+		if (copyTimer) clearTimeout(copyTimer);
 		navigator?.clipboard?.writeText(email);
 		copied = true;
-		setTimeout(() => (copied = false), 2200);
+		copyTimer = setTimeout(() => (copied = false), 2200);
 	}
+
+	$effect(() => {
+		return () => {
+			if (copyTimer) clearTimeout(copyTimer);
+		};
+	});
 </script>
 
 <TuiBox

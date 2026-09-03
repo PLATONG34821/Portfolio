@@ -28,70 +28,67 @@ export const contactProfile: ContactProfile = {
 	}
 };
 
+const createContactChannel = (
+	id: string,
+	href: string,
+	display: string,
+	title: () => string,
+	details: () => string,
+	linkLabel: () => string,
+	isExternal = true
+): ContactChannel => ({
+	id,
+	href,
+	display,
+	get title() {
+		return title();
+	},
+	get details() {
+		return details();
+	},
+	get linkLabel() {
+		return linkLabel();
+	},
+	isExternal
+});
+
 export const getContactChannels = (
 	email = contactProfile.email,
 	githubUrl = contactProfile.githubUrl,
 	lineUrl = contactProfile.lineUrl,
 	facebookUrl = contactProfile.facebookUrl
 ): ContactChannel[] => [
-	{
-		id: 'email',
-		get title() {
-			return m.contactEmailTitle();
-		},
-		href: `mailto:${email}`,
-		display: email,
-		get details() {
-			return m.contactEmailDetails();
-		},
-		isExternal: false,
-		get linkLabel() {
-			return m.openMail();
-		}
-	},
-	{
-		id: 'github',
-		get title() {
-			return m.contactGitHubTitle();
-		},
-		href: githubUrl,
-		display: 'github.com/PLATONG34821',
-		get details() {
-			return m.contactGitHubDetails();
-		},
-		isExternal: true,
-		get linkLabel() {
-			return m.gitHubProfile();
-		}
-	},
-	{
-		id: 'line',
-		get title() {
-			return m.contactLineTitle();
-		},
-		href: lineUrl,
-		display: 'line.me/ti/p/qTlcksaQyU',
-		get details() {
-			return m.contactLineDetails();
-		},
-		isExternal: true,
-		get linkLabel() {
-			return m.openLine();
-		}
-	},
-	{
-		id: 'facebook',
-		get title() {
-			return m.contactFacebookTitle();
-		},
-		href: facebookUrl,
-		display: 'facebook.com/thanaphum.34821',
-		get details() {
-			return m.contactFacebookDetails();
-		},
-		isExternal: true,
-		get linkLabel() {
-			return m.openFacebook();
-		}
-	}
+	createContactChannel(
+		'email',
+		`mailto:${email}`,
+		email,
+		m.contactEmailTitle,
+		m.contactEmailDetails,
+		m.openMail,
+		false
+	),
+	createContactChannel(
+		'github',
+		githubUrl,
+		'github.com/PLATONG34821',
+		m.contactGitHubTitle,
+		m.contactGitHubDetails,
+		m.gitHubProfile
+	),
+	createContactChannel(
+		'line',
+		lineUrl,
+		'line.me/ti/p/qTlcksaQyU',
+		m.contactLineTitle,
+		m.contactLineDetails,
+		m.openLine
+	),
+	createContactChannel(
+		'facebook',
+		facebookUrl,
+		'facebook.com/thanaphum.34821',
+		m.contactFacebookTitle,
+		m.contactFacebookDetails,
+		m.openFacebook
+	)
 ];
