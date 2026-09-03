@@ -40,7 +40,7 @@
 </script>
 
 <TuiBox
-	title="COMMUNICATION HUB"
+	title="GET IN TOUCH"
 	titleColor="emerald"
 	borderColor="#064e3b"
 	cornerColor="#10b981"
@@ -51,7 +51,9 @@
 	{#snippet topRightAction()}
 		<div class="node-badge">
 			<span class="pulse-dot"></span>
-			<span class="node-label">BANGKOK (UTC+7) // {localTime ? `${localTime} ICT` : 'ONLINE'}</span>
+			<span class="node-label"
+				>BANGKOK, THAILAND (UTC+7) // {localTime ? `${localTime} ICT` : 'ONLINE'}</span
+			>
 		</div>
 	{/snippet}
 
@@ -70,11 +72,16 @@
 		<!-- Direct Action Channels -->
 		<div class="channels-grid">
 			<!-- Email Card -->
-			<div class="channel-card">
-				<div class="channel-header">
-					<span class="channel-idx">01</span>
-					<span class="channel-type">DIRECT INBOX</span>
-				</div>
+			<TuiBox
+				title="01 // EMAIL ADDRESS"
+				titleColor="emerald"
+				borderColor="#064e3b"
+				cornerColor="#10b981"
+				bgColor="rgba(2, 26, 18, 0.6)"
+				padding="0.85rem 1rem"
+				class="channel-tui-box"
+				bodyClass="channel-tui-body"
+			>
 				<div class="channel-main">
 					<a href="mailto:{email}" class="channel-link">
 						{email}
@@ -92,14 +99,19 @@
 					</button>
 					<a href="mailto:{email}" class="tui-btn mail-btn"> [OPEN MAIL ↗] </a>
 				</div>
-			</div>
+			</TuiBox>
 
 			<!-- GitHub Card -->
-			<div class="channel-card">
-				<div class="channel-header">
-					<span class="channel-idx">02</span>
-					<span class="channel-type">CODE REPOSITORIES</span>
-				</div>
+			<TuiBox
+				title="02 // GITHUB PROFILE"
+				titleColor="emerald"
+				borderColor="#064e3b"
+				cornerColor="#10b981"
+				bgColor="rgba(2, 26, 18, 0.6)"
+				padding="0.85rem 1rem"
+				class="channel-tui-box"
+				bodyClass="channel-tui-body"
+			>
 				<div class="channel-main">
 					<!-- eslint-disable-next-line svelte/no-navigation-without-resolve -->
 					<a href={githubUrl} target="_blank" rel="external noreferrer" class="channel-link">
@@ -112,7 +124,7 @@
 						[VISIT GITHUB ↗]
 					</a>
 				</div>
-			</div>
+			</TuiBox>
 		</div>
 	</div>
 </TuiBox>
@@ -213,38 +225,19 @@
 		}
 	}
 
-	.channel-card {
-		background: rgba(2, 26, 18, 0.6);
-		border: 1px solid rgba(16, 185, 129, 0.2);
-		padding: 1.15rem 1.25rem;
+	:global(.channel-tui-box) {
+		height: 100%;
+		width: 100%;
+		display: flex;
+		flex-direction: column;
+	}
+
+	:global(.channel-tui-body) {
 		display: flex;
 		flex-direction: column;
 		gap: 0.75rem;
-		transition:
-			border-color 0.15s ease,
-			background 0.15s ease;
-	}
-
-	.channel-card:hover {
-		border-color: rgba(16, 185, 129, 0.45);
-		background: rgba(2, 26, 18, 0.9);
-	}
-
-	.channel-header {
-		display: flex;
-		align-items: center;
-		gap: 0.5rem;
-		font-size: 0.72rem;
-		color: #6b7280;
-	}
-
-	.channel-idx {
-		color: #10b981;
-		font-weight: 700;
-	}
-
-	.channel-type {
-		letter-spacing: 0.06em;
+		height: 100%;
+		min-width: 0;
 	}
 
 	.channel-main {

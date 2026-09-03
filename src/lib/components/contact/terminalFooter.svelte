@@ -5,7 +5,7 @@
 	}
 
 	let {
-		statusText = '[SYS_STATUS: 0 OK]',
+		statusText = '[STATUS: OPEN FOR OPPORTUNITIES]',
 		copyrightText = 'THANAPHUM © 2026 // ALL SYSTEMS OPERATIONAL'
 	}: Props = $props();
 

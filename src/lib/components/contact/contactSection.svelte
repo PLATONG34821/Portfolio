@@ -9,7 +9,7 @@
 		<div class="section-block">
 			<SectionHeader
 				tag="SECTION 03"
-				title="COMM CHANNELS & TRANSMISSION"
+				title="CONTACT INFORMATION"
 				prefixColor="#059669"
 				titleColor="#10b981"
 				subColor="#6ee7b7"
