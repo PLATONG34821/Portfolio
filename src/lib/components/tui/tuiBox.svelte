@@ -24,6 +24,19 @@
 			bgColor: '#021a12'
 		}
 	};
+
+	const colorMap: Record<string, string> = {
+		coral: '#f87171',
+		cyan: '#38bdf8',
+		emerald: '#34d399',
+		amber: '#fbbf24',
+		gold: '#facc15',
+		purple: '#c084fc',
+		rose: '#fb7185'
+	};
+
+	const horizontalFill = '-'.repeat(250);
+	const verticalBorderText = '|\n'.repeat(200);
 </script>
 
 <script lang="ts">
@@ -63,19 +76,7 @@
 		children
 	}: Props = $props();
 
-	const colorMap: Record<string, string> = {
-		coral: '#f87171',
-		cyan: '#38bdf8',
-		emerald: '#34d399',
-		amber: '#fbbf24',
-		gold: '#facc15',
-		purple: '#c084fc',
-		rose: '#fb7185'
-	};
-
 	const resolvedTitleColor = $derived(colorMap[titleColor] ?? titleColor);
-	const horizontalFill = '-'.repeat(250);
-	const verticalBorderText = '|\n'.repeat(200);
 </script>
 
 <div
