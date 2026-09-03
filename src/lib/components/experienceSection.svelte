@@ -3,8 +3,7 @@
 	import TuiModal from './tuiModal.svelte';
 	import ProjectEntry from './projectEntry.svelte';
 	import AwardEntry from './awardEntry.svelte';
-	import CertEntry from './certEntry.svelte';
-	import { coreProjects, ossProjects, awards, certifications } from '$lib/data/experienceData';
+	import { coreProjects, ossProjects, awards } from '$lib/data/experienceData';
 
 	interface Props {
 		scrollProgress?: number;
@@ -32,10 +31,11 @@
 
 <section class="experience-section" class:is-revealed={isRevealed} id="experience">
 	<div class="content-container">
-		<!-- SECTION 01: SYMMETRICAL 2-COLUMN EXPERIENCE GRID (EQUAL HEIGHT BOXES WITHOUT EMPTY SPACE) -->
+		<!-- SECTION 01: SELECTED PROJECTS & RECOGNITION (GOLD THEME) -->
 		<div class="section-block" id="projects">
+			<!-- TOP ROW: Symmetrical 2-Column Grid (Selected Projects & Awards) -->
 			<div class="experience-symmetric-grid">
-				<!-- ROW 1, COL 1: Selected Projects -->
+				<!-- COL 1: Selected Projects -->
 				<TuiBox
 					title="Selected Projects"
 					titleColor="amber"
@@ -51,7 +51,7 @@
 					</div>
 				</TuiBox>
 
-				<!-- ROW 1, COL 2: Awards & Honors -->
+				<!-- COL 2: Awards & Honors -->
 				<TuiBox
 					title="Awards & Honors"
 					titleColor="amber"
@@ -67,40 +67,23 @@
 						{/each}
 					</div>
 				</TuiBox>
-
-				<!-- ROW 2, COL 1: Open Source & Systems -->
-				<TuiBox
-					title="Open Source & Systems"
-					titleColor="amber"
-					borderColor="#382f1d"
-					cornerColor="#785e2f"
-					class="grid-box"
-					bodyClass="grid-box-body"
-				>
-					<div class="oss-subgrid">
-						{#each ossProjects as project (project.id)}
-							<ProjectEntry {project} onOpenCert={openCert} />
-						{/each}
-					</div>
-				</TuiBox>
-
-				<!-- ROW 2, COL 2: Academic Certifications -->
-				<TuiBox
-					title="Academic Certifications"
-					titleColor="amber"
-					borderColor="#382f1d"
-					cornerColor="#785e2f"
-					id="certifications"
-					class="grid-box"
-					bodyClass="grid-box-body"
-				>
-					<div class="certs-subgrid">
-						{#each certifications as cert (cert.code)}
-							<CertEntry {cert} />
-						{/each}
-					</div>
-				</TuiBox>
 			</div>
+
+			<!-- BOTTOM ROW: Open Source & Systems (Full Frame) -->
+			<TuiBox
+				title="Open Source & Systems"
+				titleColor="amber"
+				borderColor="#382f1d"
+				cornerColor="#785e2f"
+				class="full-frame-box"
+				bodyClass="oss-full-body"
+			>
+				<div class="oss-subgrid">
+					{#each ossProjects as project (project.id)}
+						<ProjectEntry {project} onOpenCert={openCert} />
+					{/each}
+				</div>
+			</TuiBox>
 		</div>
 	</div>
 </section>
@@ -168,10 +151,10 @@
 	.section-block {
 		display: flex;
 		flex-direction: column;
-		gap: 2rem;
+		gap: 1.75rem;
 	}
 
-	/* Symmetrical 2-Column Desktop Grid with Strict Equal Heights */
+	/* Symmetrical 2-Column Desktop Grid for Projects and Awards */
 	.experience-symmetric-grid {
 		display: grid;
 		grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -206,7 +189,7 @@
 		height: 100%;
 	}
 
-	/* Awards Subgrid: Symmetrical 2-Column Cards packed with NO empty space */
+	/* Awards Subgrid: Symmetrical 2-Column Cards */
 	.awards-subgrid {
 		display: grid;
 		grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -220,30 +203,24 @@
 		}
 	}
 
-	/* OSS Subgrid: Balanced 2-Column Grid */
+	/* Full Frame Box: Open Source & Systems */
+	:global(.full-frame-box) {
+		width: 100%;
+	}
+
+	:global(.oss-full-body) {
+		padding: 1.25rem 1.4rem;
+	}
+
+	/* OSS Subgrid: Full Frame 2-Column Responsive Grid */
 	.oss-subgrid {
 		display: grid;
 		grid-template-columns: repeat(2, minmax(0, 1fr));
-		gap: 1.15rem;
-		height: 100%;
+		gap: 1.25rem 1.75rem;
 	}
 
-	@media (max-width: 580px) {
+	@media (max-width: 768px) {
 		.oss-subgrid {
-			grid-template-columns: 1fr;
-		}
-	}
-
-	/* Academic Certifications Subgrid: Balanced 2-Column Grid */
-	.certs-subgrid {
-		display: grid;
-		grid-template-columns: repeat(2, minmax(0, 1fr));
-		gap: 0.75rem 1.15rem;
-		height: 100%;
-	}
-
-	@media (max-width: 580px) {
-		.certs-subgrid {
 			grid-template-columns: 1fr;
 		}
 	}

@@ -174,7 +174,7 @@ export const coreProjects: Project[] = [
 
 export const ossProjects: Project[] = [
 	{
-		id: '05',
+		id: '01',
 		title: 'Study-Schedule',
 		subtitle: '4K Wallpaper Canvas Renderer',
 		category: 'Tooling & Canvas',
@@ -190,7 +190,7 @@ export const ossProjects: Project[] = [
 		]
 	},
 	{
-		id: '06',
+		id: '02',
 		title: 'Portable Hybrid Swarm Cluster',
 		subtitle: 'Multi-Arch Docker Swarm Homelab',
 		category: 'DevOps & Cluster',
@@ -208,7 +208,7 @@ export const ossProjects: Project[] = [
 		]
 	},
 	{
-		id: '07',
+		id: '03',
 		title: 'Project-DSM',
 		subtitle: 'Vehicle Telemetry & Road Safety',
 		category: 'IoT & Telemetry',
@@ -224,7 +224,7 @@ export const ossProjects: Project[] = [
 		]
 	},
 	{
-		id: '08',
+		id: '04',
 		title: 'GroupPlan',
 		subtitle: 'Schedule Sync & Team Planner',
 		category: 'Web Application',
