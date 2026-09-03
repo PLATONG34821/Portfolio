@@ -37,6 +37,12 @@
 
 	let activeGridText = $state('');
 
+	let handleResize: (() => void) | null = null;
+	const onWindowResize = () => handleResize?.();
+	const onWindowScroll = () => {
+		sessionStorage.setItem('portfolio_scroll_y', String(window.scrollY));
+	};
+
 	function switchLocale(e: MouseEvent, targetLocale: Locale) {
 		e.preventDefault();
 		setLocale(targetLocale);
@@ -282,7 +288,7 @@
 		let lastWindowWidth = window.innerWidth;
 		let lastWindowHeight = window.innerHeight;
 
-		const handleResize = () => {
+		handleResize = () => {
 			if (window.innerWidth === lastWindowWidth && window.innerHeight === lastWindowHeight) {
 				return;
 			}
@@ -292,13 +298,6 @@
 			ScrollTrigger.refresh();
 			render();
 		};
-
-		const handleScroll = () => {
-			sessionStorage.setItem('portfolio_scroll_y', String(window.scrollY));
-		};
-
-		window.addEventListener('resize', handleResize, { passive: true });
-		window.addEventListener('scroll', handleScroll, { passive: true });
 
 		let initialSnapFrames = 3;
 
@@ -439,15 +438,16 @@
 		gsap.ticker.add(render);
 
 		return () => {
+			handleResize = null;
 			gsap.ticker.remove(render);
-			window.removeEventListener('resize', handleResize);
-			window.removeEventListener('scroll', handleScroll);
 			heroTrigger.kill();
 			skillsTrigger.kill();
 			contactTrigger.kill();
 		};
 	});
 </script>
+
+<svelte:window onresize={onWindowResize} onscroll={onWindowScroll} />
 
 <div bind:this={containerElement} class="ascii-scroll-container">
 	<div class="ascii-fixed-viewport">

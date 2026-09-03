@@ -82,8 +82,8 @@ body {
 }
 
 /* Modals: Radiant Gold */
-.tui-modal-backdrop::selection,
-.tui-modal-backdrop *::selection {
+.tui-modal-dialog::selection,
+.tui-modal-dialog *::selection {
 	background: #fbbf24 !important;
 	color: #09090b !important;
 }
