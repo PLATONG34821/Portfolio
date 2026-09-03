@@ -1,5 +1,4 @@
 <script lang="ts">
-	import { onMount } from 'svelte';
 	import TuiBox from '$lib/components/tui/tuiBox.svelte';
 	import { Link } from 'phosphor-svelte';
 
@@ -12,7 +11,6 @@
 		$props();
 
 	let copied = $state(false);
-	let localTime = $state('');
 
 	function copyEmail() {
 		if (typeof navigator !== 'undefined' && navigator.clipboard) {
@@ -23,21 +21,6 @@
 			}, 2200);
 		}
 	}
-
-	onMount(() => {
-		const updateTime = () => {
-			localTime = new Intl.DateTimeFormat('en-GB', {
-				timeZone: 'Asia/Bangkok',
-				hour: '2-digit',
-				minute: '2-digit',
-				second: '2-digit',
-				hour12: false
-			}).format(new Date());
-		};
-		updateTime();
-		const interval = setInterval(updateTime, 1000);
-		return () => clearInterval(interval);
-	});
 </script>
 
 <TuiBox
@@ -49,89 +32,93 @@
 	class="contact-card-box"
 	bodyClass="contact-card-body"
 >
-	{#snippet topRightAction()}
-		<div class="node-badge">
-			<span class="pulse-dot"></span>
-			<span class="node-label"
-				>BANGKOK, THAILAND (UTC+7) // {localTime ? `${localTime} ICT` : 'ONLINE'}</span
-			>
-		</div>
-	{/snippet}
-
 	<div class="contact-card-content">
-		<!-- Minimal Editorial Intro -->
-		<div class="intro-headline-row">
-			<div class="headline-block">
-				<h3 class="headline-text">HAVE A PROJECT OR ROLE IN MIND?</h3>
-				<p class="headline-sub">
-					Open for full-stack engineering, performance systems, and collaborative software
-					architecture.
-				</p>
-			</div>
+		<!-- Compact Spec Intro -->
+		<div class="contact-intro">
+			<p class="intro-summary">
+				Available for full-stack engineering, performance systems, and collaborative software
+				architecture.
+			</p>
 		</div>
 
 		<!-- Direct Action Channels -->
 		<div class="channels-grid">
 			<!-- Email Card -->
 			<TuiBox
-				title="01 // EMAIL ADDRESS"
+				title="EMAIL ADDRESS"
 				titleColor="emerald"
 				borderColor="#064e3b"
 				cornerColor="#10b981"
 				bgColor="rgba(2, 26, 18, 0.6)"
-				padding="0.85rem 1rem"
+				padding="0.75rem 0.95rem"
 				class="channel-tui-box"
 				bodyClass="channel-tui-body"
 			>
-				<div class="channel-main">
-					<a href="mailto:{email}" class="channel-link">
-						{email}
-					</a>
-				</div>
-				<div class="entry-links">
-					<span class="links-label" title="Links" aria-label="Links">
-						<Link size={13} weight="bold" />
-					</span>
-					<div class="links-list">
-						<button
-							type="button"
-							class="text-link"
-							onclick={copyEmail}
-							aria-label="Copy email address"
+				<div class="channel-content">
+					<div class="channel-main">
+						<a href="mailto:{email}" class="channel-link">
+							{email}
+						</a>
+					</div>
+					<div class="entry-meta">
+						<span class="meta-label">Details:</span>
+						<span class="meta-text"
+							>Direct inbox for technical roles, inquiries & collaboration</span
 						>
-							{copied ? 'Copied ✓' : 'Copy Address'}
-						</button>
-						<a href="mailto:{email}" class="text-link"> Open Mail ↗ </a>
+					</div>
+					<div class="entry-links">
+						<span class="links-label" title="Links" aria-label="Links">
+							<Link size={13} weight="bold" />
+						</span>
+						<div class="links-list">
+							<button
+								type="button"
+								class="text-link"
+								onclick={copyEmail}
+								aria-label="Copy email address"
+							>
+								{copied ? 'Copied!' : 'Copy Address ↗'}
+							</button>
+							<a href="mailto:{email}" class="text-link"> Open Mail ↗ </a>
+						</div>
 					</div>
 				</div>
 			</TuiBox>
 
 			<!-- GitHub Card -->
 			<TuiBox
-				title="02 // GITHUB PROFILE"
+				title="GITHUB PROFILE"
 				titleColor="emerald"
 				borderColor="#064e3b"
 				cornerColor="#10b981"
 				bgColor="rgba(2, 26, 18, 0.6)"
-				padding="0.85rem 1rem"
+				padding="0.75rem 0.95rem"
 				class="channel-tui-box"
 				bodyClass="channel-tui-body"
 			>
-				<div class="channel-main">
-					<!-- eslint-disable-next-line svelte/no-navigation-without-resolve -->
-					<a href={githubUrl} target="_blank" rel="external noreferrer" class="channel-link">
-						github.com/PLATONG34821
-					</a>
-				</div>
-				<div class="entry-links">
-					<span class="links-label" title="Links" aria-label="Links">
-						<Link size={13} weight="bold" />
-					</span>
-					<div class="links-list">
+				<div class="channel-content">
+					<div class="channel-main">
 						<!-- eslint-disable-next-line svelte/no-navigation-without-resolve -->
-						<a href={githubUrl} target="_blank" rel="external noreferrer" class="text-link">
-							GitHub Profile ↗
+						<a href={githubUrl} target="_blank" rel="external noreferrer" class="channel-link">
+							github.com/PLATONG34821
 						</a>
+					</div>
+					<div class="entry-meta">
+						<span class="meta-label">Details:</span>
+						<span class="meta-text"
+							>Open source repositories, system infrastructure & active codebases</span
+						>
+					</div>
+					<div class="entry-links">
+						<span class="links-label" title="Links" aria-label="Links">
+							<Link size={13} weight="bold" />
+						</span>
+						<div class="links-list">
+							<!-- eslint-disable-next-line svelte/no-navigation-without-resolve -->
+							<a href={githubUrl} target="_blank" rel="external noreferrer" class="text-link">
+								GitHub Profile ↗
+							</a>
+						</div>
 					</div>
 				</div>
 			</TuiBox>
@@ -142,86 +129,39 @@
 <style>
 	:global(.contact-card-box) {
 		width: 100%;
+		font-family:
+			ui-monospace, 'SF Mono', 'Cascadia Code', 'Fira Code', Menlo, Monaco, Consolas, monospace;
 	}
 
 	:global(.contact-card-body) {
-		padding: 1.75rem 2rem;
+		padding: 1.25rem 1.4rem;
 	}
 
 	@media (max-width: 640px) {
 		:global(.contact-card-body) {
-			padding: 1.25rem 1.1rem;
+			padding: 0.85rem 0.75rem;
 		}
-	}
-
-	.node-badge {
-		display: flex;
-		align-items: center;
-		gap: 0.5rem;
-		font-size: 0.72rem;
-		letter-spacing: 0.05em;
-		color: #34d399;
-	}
-
-	.pulse-dot {
-		width: 6px;
-		height: 6px;
-		background: #10b981;
-		border-radius: 50%;
-		box-shadow: 0 0 6px #10b981;
-		display: inline-block;
 	}
 
 	.contact-card-content {
 		display: flex;
 		flex-direction: column;
-		gap: 1.75rem;
+		gap: 0.35rem;
 	}
 
-	/* Headline Row */
-	.intro-headline-row {
-		display: flex;
-		justify-content: space-between;
-		align-items: flex-start;
-		gap: 1.5rem;
-		padding-bottom: 1.25rem;
-		border-bottom: 1px solid rgba(16, 185, 129, 0.15);
-	}
-
-	@media (max-width: 768px) {
-		.intro-headline-row {
-			flex-direction: column;
-			gap: 1rem;
-		}
-	}
-
-	.headline-block {
-		display: flex;
-		flex-direction: column;
-		gap: 0.4rem;
-	}
-
-	.headline-text {
-		font-size: 1.25rem;
-		font-weight: 700;
-		color: #f3f4f6;
-		letter-spacing: -0.01em;
+	.contact-intro {
 		margin: 0;
 	}
 
-	@media (max-width: 640px) {
-		.headline-text {
-			font-size: 1.05rem;
-		}
+	.intro-summary {
+		margin: 0;
+		color: #d4d4d8;
+		font-size: 0.82rem;
+		line-height: 1.4;
+		word-break: break-word;
+		overflow-wrap: break-word;
 	}
 
-	.headline-sub {
-		color: #9ca3af;
-		font-size: 0.85rem;
-		line-height: 1.5;
-		margin: 0;
-		max-width: 650px;
-	}
 	.channels-grid {
 		display: grid;
 		grid-template-columns: 1fr 1fr;
@@ -240,48 +180,98 @@
 		width: 100%;
 		display: flex;
 		flex-direction: column;
+		font-family:
+			ui-monospace, 'SF Mono', 'Cascadia Code', 'Fira Code', Menlo, Monaco, Consolas, monospace;
 	}
 
+	:global(.channel-tui-box .tui-body),
 	:global(.channel-tui-body) {
+		display: flex !important;
+		flex-direction: column !important;
+		gap: 0 !important;
+		height: 100% !important;
+		min-width: 0 !important;
+	}
+
+	.channel-content {
 		display: flex;
 		flex-direction: column;
-		gap: 0.75rem;
+		gap: 1.25rem;
+		width: 100%;
 		height: 100%;
-		min-width: 0;
 	}
 
 	.channel-main {
 		overflow: hidden;
 		text-overflow: ellipsis;
+		line-height: 1.25;
+		margin: 0;
+		padding: 0;
 	}
 
 	.channel-link {
-		color: #e5e7eb;
-		font-size: 0.98rem;
-		font-weight: 600;
+		color: #f4f4f5;
+		font-size: 1.08rem;
+		font-weight: 700;
 		text-decoration: none;
 		word-break: break-all;
 		transition: color 0.15s ease;
+		display: inline-block;
+		line-height: 1.25;
+		margin: 0;
+		padding: 0;
+	}
+
+	@media (max-width: 640px) {
+		.channel-link {
+			font-size: 0.95rem;
+		}
 	}
 
 	.channel-link:hover {
 		color: #34d399;
+		text-decoration: underline;
+		text-underline-offset: 3px;
+	}
+
+	.entry-meta {
+		display: flex;
+		gap: 0.45rem;
+		font-size: 0.76rem;
+		line-height: 1.35;
+		flex-wrap: wrap;
+		margin: 0;
+		padding: 0;
+	}
+
+	.meta-label {
+		color: #71717a;
+		font-weight: 600;
+		flex-shrink: 0;
+	}
+
+	.meta-text {
+		color: #a1a1aa;
+		word-break: break-word;
+		overflow-wrap: break-word;
 	}
 
 	.entry-links {
 		display: flex;
-		align-items: center;
-		gap: 0.45rem;
+		align-items: flex-start;
+		gap: 0.5rem;
 		font-size: 0.78rem;
-		margin-top: auto;
-		padding-top: 0.1rem;
-		flex-wrap: wrap;
+		line-height: 1.4;
+		padding-top: 0;
+		margin-top: 0.05rem;
 	}
 
 	.links-label {
 		color: #71717a;
 		display: inline-flex;
 		align-items: center;
+		justify-content: center;
+		height: 1.4em;
 		flex-shrink: 0;
 	}
 
@@ -289,7 +279,8 @@
 		display: flex;
 		align-items: center;
 		flex-wrap: wrap;
-		gap: 0.75rem;
+		gap: 0.35rem 0.75rem;
+		line-height: 1.4;
 	}
 
 	.text-link {
@@ -301,10 +292,12 @@
 		font-family: inherit;
 		font-size: 0.78rem;
 		font-weight: 500;
+		line-height: 1.4;
 		text-decoration: none;
 		cursor: pointer;
 		display: inline-flex;
 		align-items: center;
+		vertical-align: middle;
 		transition:
 			color 0.15s ease,
 			text-decoration 0.15s ease;

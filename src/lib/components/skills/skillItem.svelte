@@ -10,7 +10,7 @@
 </script>
 
 <TuiBox
-	title="{item.skill} [{item.level}]{item.isHighlighted ? ' ✓' : ''}"
+	title={item.skill}
 	titleColor={item.isHighlighted ? 'cyan' : 'white'}
 	borderColor="#1e293b"
 	cornerColor="#334155"

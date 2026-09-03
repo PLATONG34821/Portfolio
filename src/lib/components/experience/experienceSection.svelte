@@ -32,7 +32,6 @@
 				prefixColor="#785e2f"
 				titleColor="#fbbf24"
 				subColor="#71717a"
-				dividerColor="#292524"
 			/>
 
 			<!-- TOP ROW: Symmetrical 2-Column Grid (Selected Projects & Awards) -->

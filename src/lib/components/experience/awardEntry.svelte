@@ -11,7 +11,7 @@
 </script>
 
 <TuiBox
-	title="{award.year} [{award.badge}]{award.isHighlighted ? ' ✓' : ''}"
+	title={award.year}
 	titleColor="amber"
 	borderColor="#382f1d"
 	cornerColor="#785e2f"
@@ -40,7 +40,7 @@
 				class="award-title-btn"
 				class:highlighted={award.isHighlighted}
 			>
-				{award.title}
+				{award.title} ↗
 			</button>
 		{:else}
 			<div class="award-title" class:highlighted={award.isHighlighted}>

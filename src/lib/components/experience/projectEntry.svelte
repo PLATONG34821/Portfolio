@@ -12,7 +12,7 @@
 </script>
 
 <TuiBox
-	title="{project.id}. {project.title} [{project.category}]{project.isFeatured ? ' ✓' : ''}"
+	title="{project.id}. {project.title}"
 	titleColor="amber"
 	borderColor="#382f1d"
 	cornerColor="#785e2f"
@@ -144,23 +144,28 @@
 
 	.entry-links {
 		display: flex;
-		align-items: center;
+		align-items: flex-start;
 		gap: 0.5rem;
 		font-size: 0.78rem;
-		padding-top: 0.1rem;
+		line-height: 1.4;
+		padding-top: 0.15rem;
 	}
 
 	.links-label {
 		color: #71717a;
 		display: inline-flex;
 		align-items: center;
+		justify-content: center;
+		height: 1.4em;
 		flex-shrink: 0;
 	}
 
 	.links-list {
 		display: flex;
 		flex-wrap: wrap;
-		gap: 0.75rem;
+		align-items: center;
+		gap: 0.35rem 0.75rem;
+		line-height: 1.4;
 	}
 
 	.text-link {
@@ -172,10 +177,12 @@
 		font-family: inherit;
 		font-size: 0.78rem;
 		font-weight: 500;
+		line-height: 1.4;
 		text-decoration: none;
 		cursor: pointer;
 		display: inline-flex;
 		align-items: center;
+		vertical-align: middle;
 		transition:
 			color 0.15s ease,
 			text-decoration 0.15s ease;

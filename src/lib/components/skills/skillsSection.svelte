@@ -28,7 +28,6 @@
 				prefixColor="#0284c7"
 				titleColor="#38bdf8"
 				subColor="#64748b"
-				dividerColor="#1e293b"
 			/>
 
 			<!-- ATS Quick-Scan Summary TuiBox -->

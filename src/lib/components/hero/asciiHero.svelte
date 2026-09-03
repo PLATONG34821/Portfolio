@@ -219,12 +219,12 @@
 		let contactProgress = 0;
 
 		const updateTargetProgress = () => {
-			if (heroProgress < 1) {
-				targetProgress = heroProgress;
-			} else if (skillsProgress < 1) {
+			if (contactProgress > 0.001) {
+				targetProgress = 2 + contactProgress;
+			} else if (skillsProgress > 0.001) {
 				targetProgress = 1 + skillsProgress;
 			} else {
-				targetProgress = 2 + contactProgress;
+				targetProgress = Math.min(1, heroProgress);
 			}
 		};
 
@@ -263,11 +263,8 @@
 
 		const contactTrigger = ScrollTrigger.create({
 			trigger: '#contact',
-			start: 'top 75%',
-			end: () => {
-				const dockedHeaderBottom = window.innerWidth < 640 ? 125 : 200;
-				return `top ${dockedHeaderBottom + (window.innerWidth < 640 ? 20 : 40)}px`;
-			},
+			start: 'top 80%',
+			end: '+=220',
 			scrub: true,
 			onUpdate: (self) => {
 				contactProgress = self.progress;

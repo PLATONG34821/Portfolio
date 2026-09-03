@@ -1,7 +1,6 @@
 <script lang="ts">
 	import SectionHeader from '$lib/components/tui/sectionHeader.svelte';
 	import ContactCard from './contactCard.svelte';
-	import TerminalFooter from './terminalFooter.svelte';
 </script>
 
 <section class="contact-section" id="contact">
@@ -13,12 +12,9 @@
 				prefixColor="#059669"
 				titleColor="#10b981"
 				subColor="#6ee7b7"
-				dividerColor="#064e3b"
 			/>
 
 			<ContactCard />
-
-			<TerminalFooter />
 		</div>
 	</div>
 </section>
@@ -29,7 +25,7 @@
 		width: 100%;
 		background: #000000;
 		color: #e5e7eb;
-		padding: 5rem 1.5rem 10rem;
+		padding: 5rem 1.5rem 14rem;
 		z-index: 10;
 		pointer-events: auto;
 		font-family:
@@ -38,13 +34,13 @@
 
 	@media (max-width: 1024px) {
 		.contact-section {
-			padding: 4.5rem 1.25rem 8rem;
+			padding: 4.5rem 1.25rem 10rem;
 		}
 	}
 
 	@media (max-width: 640px) {
 		.contact-section {
-			padding: 3.5rem 0.75rem 6rem;
+			padding: 3.5rem 0.75rem 8rem;
 		}
 	}
 
