@@ -32,8 +32,6 @@
 	let footerHintElement = $state<HTMLElement | null>(null);
 
 	let activeGridText = $state('');
-	let canvasReady = $state(false);
-	const initialSsrArt = $derived(generateFigletArt(startText).join('\n'));
 
 	// Theme color palette per stage:
 	// Stage 0: Pure Silver / White
@@ -79,6 +77,11 @@
 	onMount(() => {
 		if (!canvasElement) return;
 
+		const savedScrollY = Number(sessionStorage.getItem('portfolio_scroll_y') || '0');
+		if (savedScrollY > 0) {
+			window.scrollTo(0, savedScrollY);
+		}
+
 		gsap.registerPlugin(ScrollTrigger);
 
 		let animationFrameId: number;
@@ -112,10 +115,15 @@
 			const width = window.innerWidth;
 			const height = window.innerHeight;
 
-			canvasElement.width = width * dpr;
-			canvasElement.height = height * dpr;
-			canvasElement.style.width = `${width}px`;
-			canvasElement.style.height = `${height}px`;
+			const targetW = Math.round(width * dpr);
+			const targetH = Math.round(height * dpr);
+
+			if (canvasElement.width !== targetW || canvasElement.height !== targetH) {
+				canvasElement.width = targetW;
+				canvasElement.height = targetH;
+				canvasElement.style.width = `${width}px`;
+				canvasElement.style.height = `${height}px`;
+			}
 
 			const linesA = generateFigletArt(startText);
 			const linesB = generateFigletArt(endText);
@@ -283,20 +291,33 @@
 			footerHintElement.style.pointerEvents = opacity <= 0.05 ? 'none' : 'auto';
 		}
 
+		let lastWindowWidth = window.innerWidth;
+		let lastWindowHeight = window.innerHeight;
+
 		const handleResize = () => {
+			if (window.innerWidth === lastWindowWidth && window.innerHeight === lastWindowHeight) {
+				return;
+			}
+			lastWindowWidth = window.innerWidth;
+			lastWindowHeight = window.innerHeight;
 			initSimulation();
 			ScrollTrigger.refresh();
 			render(performance.now());
 		};
 
+		const handleScroll = () => {
+			sessionStorage.setItem('portfolio_scroll_y', String(window.scrollY));
+		};
+
 		window.addEventListener('resize', handleResize, { passive: true });
+		window.addEventListener('scroll', handleScroll, { passive: true });
 
 		const easeInOutCubic = (t: number): number => {
 			return t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2;
 		};
 
 		let lastTime = performance.now();
-		let isFirstFrame = true;
+		let initialSnapFrames = 3;
 
 		const render = (now: number) => {
 			const delta = Math.min(32, now - lastTime);
@@ -307,8 +328,8 @@
 				return;
 			}
 
-			if (isFirstFrame) {
-				isFirstFrame = false;
+			if (initialSnapFrames > 0) {
+				initialSnapFrames--;
 				heroProgress = heroTrigger.progress;
 				skillsProgress = skillsTrigger.progress;
 				contactProgress = contactTrigger.progress;
@@ -450,7 +471,6 @@
 			context.globalAlpha = 1.0;
 			context.restore();
 			isDirty = false;
-			canvasReady = true;
 			animationFrameId = requestAnimationFrame(render);
 		};
 
@@ -460,6 +480,7 @@
 		return () => {
 			cancelAnimationFrame(animationFrameId);
 			window.removeEventListener('resize', handleResize);
+			window.removeEventListener('scroll', handleScroll);
 			heroTrigger.kill();
 			skillsTrigger.kill();
 			contactTrigger.kill();
@@ -470,9 +491,6 @@
 <div bind:this={containerElement} class="ascii-scroll-container">
 	<!-- Fixed fullscreen viewport -->
 	<div class="ascii-fixed-viewport">
-		{#if !canvasReady}
-			<pre class="ascii-ssr-placeholder">{initialSsrArt}</pre>
-		{/if}
 		<canvas bind:this={canvasElement} class="ascii-canvas"></canvas>
 
 		<!-- Selectable transparent text layer for native highlighting/copying -->
@@ -545,28 +563,6 @@
 		cursor: text;
 		z-index: 60;
 		background: transparent;
-	}
-
-	.ascii-ssr-placeholder {
-		position: absolute;
-		top: 50%;
-		left: 50%;
-		transform: translate(-50%, -50%);
-		margin: 0;
-		padding: 0;
-		color: #ffffff;
-		font-family: ui-monospace, 'SF Mono', Menlo, Monaco, Consolas, monospace;
-		font-weight: 600;
-		white-space: pre;
-		font-size: clamp(6.5px, 1.15vw, 14px);
-		line-height: 1.15;
-		letter-spacing: 0;
-		user-select: text;
-		-webkit-user-select: text;
-		pointer-events: auto;
-		cursor: text;
-		z-index: 55;
-		text-align: left;
 	}
 
 	.ascii-selectable-overlay::selection {
