@@ -27,6 +27,15 @@
 <section class="skills-section" class:is-revealed={isRevealed} id="skills">
 	<div class="content-container">
 		<div class="section-block">
+			<!-- Section Header: Tag at Top Right -->
+			<div class="section-header-row">
+				<div class="section-tag-wrap">
+					<span class="section-tag-prefix">//</span>
+					<span class="section-tag-title">SECTION 02</span>
+					<span class="section-tag-sub">CAPABILITIES MATRIX</span>
+				</div>
+			</div>
+
 			<div class="tui-grid-3col">
 				{#each capabilityCategories as category (category.id)}
 					<TuiBox
@@ -92,7 +101,39 @@
 	.section-block {
 		display: flex;
 		flex-direction: column;
-		gap: 2rem;
+		gap: 1.25rem;
+	}
+
+	/* Section Header Row with Tag at Left */
+	.section-header-row {
+		display: flex;
+		justify-content: flex-start;
+		align-items: baseline;
+		padding: 0 0.25rem 0.5rem;
+		border-bottom: 1px dashed #1e293b;
+	}
+
+	.section-tag-wrap {
+		display: flex;
+		align-items: baseline;
+		gap: 0.5rem;
+		font-size: 0.8rem;
+		font-weight: 600;
+	}
+
+	.section-tag-prefix {
+		color: #0284c7;
+	}
+
+	.section-tag-title {
+		color: #38bdf8;
+		letter-spacing: 0.04em;
+	}
+
+	.section-tag-sub {
+		color: #64748b;
+		font-size: 0.74rem;
+		font-weight: 400;
 	}
 
 	.tui-grid-3col {

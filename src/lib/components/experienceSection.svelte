@@ -33,6 +33,15 @@
 	<div class="content-container">
 		<!-- SECTION 01: SELECTED PROJECTS & RECOGNITION (GOLD THEME) -->
 		<div class="section-block" id="projects">
+			<!-- Section Header: Tag at Top Right -->
+			<div class="section-header-row">
+				<div class="section-tag-wrap">
+					<span class="section-tag-prefix">//</span>
+					<span class="section-tag-title">SECTION 01</span>
+					<span class="section-tag-sub">EXPERIENCE & AWARDS</span>
+				</div>
+			</div>
+
 			<!-- TOP ROW: Symmetrical 2-Column Grid (Selected Projects & Awards) -->
 			<div class="experience-symmetric-grid">
 				<!-- COL 1: Selected Projects -->
@@ -151,7 +160,39 @@
 	.section-block {
 		display: flex;
 		flex-direction: column;
-		gap: 1.75rem;
+		gap: 1.25rem;
+	}
+
+	/* Section Header Row with Tag at Left */
+	.section-header-row {
+		display: flex;
+		justify-content: flex-start;
+		align-items: baseline;
+		padding: 0 0.25rem 0.5rem;
+		border-bottom: 1px dashed #292524;
+	}
+
+	.section-tag-wrap {
+		display: flex;
+		align-items: baseline;
+		gap: 0.5rem;
+		font-size: 0.8rem;
+		font-weight: 600;
+	}
+
+	.section-tag-prefix {
+		color: #785e2f;
+	}
+
+	.section-tag-title {
+		color: #fbbf24;
+		letter-spacing: 0.04em;
+	}
+
+	.section-tag-sub {
+		color: #71717a;
+		font-size: 0.74rem;
+		font-weight: 400;
 	}
 
 	/* Symmetrical 2-Column Desktop Grid for Projects and Awards */
