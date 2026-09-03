@@ -1,6 +1,7 @@
 <script lang="ts">
 	import type { Project } from '$lib/data/experienceData';
 	import TuiBox from '$lib/components/tui/tuiBox.svelte';
+	import { Link } from 'phosphor-svelte';
 
 	interface Props {
 		project: Project;
@@ -31,7 +32,9 @@
 
 			{#if project.links && project.links.length > 0}
 				<div class="entry-links">
-					<span class="links-label">Links:</span>
+					<span class="links-label" title="Links" aria-label="Links">
+						<Link size={13} weight="bold" />
+					</span>
 					<div class="links-list">
 						{#each project.links as link (link.label)}
 							{#if link.isCertModal && link.certImage && onOpenCert}
@@ -149,7 +152,8 @@
 
 	.links-label {
 		color: #71717a;
-		font-weight: 600;
+		display: inline-flex;
+		align-items: center;
 		flex-shrink: 0;
 	}
 

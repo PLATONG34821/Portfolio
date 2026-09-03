@@ -1,13 +1,14 @@
 <script lang="ts">
 	import { onMount } from 'svelte';
 	import TuiBox from '$lib/components/tui/tuiBox.svelte';
+	import { Link } from 'phosphor-svelte';
 
 	interface Props {
 		email?: string;
 		githubUrl?: string;
 	}
 
-	let { email = 'thanaphum.dev@gmail.com', githubUrl = 'https://github.com/PLATONG34821' }: Props =
+	let { email = 'platong34821@gmail.com', githubUrl = 'https://github.com/PLATONG34821' }: Props =
 		$props();
 
 	let copied = $state(false);
@@ -87,17 +88,21 @@
 						{email}
 					</a>
 				</div>
-				<div class="channel-footer">
-					<button
-						type="button"
-						class="tui-btn copy-btn"
-						class:copied
-						onclick={copyEmail}
-						aria-label="Copy email address"
-					>
-						{copied ? '[COPIED ✓]' : '[COPY ADDRESS]'}
-					</button>
-					<a href="mailto:{email}" class="tui-btn mail-btn"> [OPEN MAIL ↗] </a>
+				<div class="entry-links">
+					<span class="links-label" title="Links" aria-label="Links">
+						<Link size={13} weight="bold" />
+					</span>
+					<div class="links-list">
+						<button
+							type="button"
+							class="text-link"
+							onclick={copyEmail}
+							aria-label="Copy email address"
+						>
+							{copied ? 'Copied ✓' : 'Copy Address'}
+						</button>
+						<a href="mailto:{email}" class="text-link"> Open Mail ↗ </a>
+					</div>
 				</div>
 			</TuiBox>
 
@@ -118,11 +123,16 @@
 						github.com/PLATONG34821
 					</a>
 				</div>
-				<div class="channel-footer">
-					<!-- eslint-disable-next-line svelte/no-navigation-without-resolve -->
-					<a href={githubUrl} target="_blank" rel="external noreferrer" class="tui-btn github-btn">
-						[VISIT GITHUB ↗]
-					</a>
+				<div class="entry-links">
+					<span class="links-label" title="Links" aria-label="Links">
+						<Link size={13} weight="bold" />
+					</span>
+					<div class="links-list">
+						<!-- eslint-disable-next-line svelte/no-navigation-without-resolve -->
+						<a href={githubUrl} target="_blank" rel="external noreferrer" class="text-link">
+							GitHub Profile ↗
+						</a>
+					</div>
 				</div>
 			</TuiBox>
 		</div>
@@ -258,39 +268,51 @@
 		color: #34d399;
 	}
 
-	.channel-footer {
+	.entry-links {
 		display: flex;
 		align-items: center;
-		gap: 0.6rem;
+		gap: 0.45rem;
+		font-size: 0.78rem;
 		margin-top: auto;
+		padding-top: 0.1rem;
 		flex-wrap: wrap;
 	}
 
-	.tui-btn {
-		background: transparent;
-		color: #9ca3af;
-		border: 1px solid rgba(156, 163, 175, 0.25);
-		font-family: inherit;
-		font-size: 0.75rem;
-		font-weight: 600;
-		padding: 0.35rem 0.65rem;
-		cursor: pointer;
-		text-decoration: none;
+	.links-label {
+		color: #71717a;
 		display: inline-flex;
 		align-items: center;
-		line-height: 1;
-		transition: all 0.15s ease;
+		flex-shrink: 0;
 	}
 
-	.tui-btn:hover {
-		color: #34d399;
-		border-color: #10b981;
-		background: rgba(16, 185, 129, 0.08);
+	.links-list {
+		display: flex;
+		align-items: center;
+		flex-wrap: wrap;
+		gap: 0.75rem;
 	}
 
-	.copy-btn.copied {
-		color: #10b981;
-		border-color: #10b981;
-		background: rgba(16, 185, 129, 0.15);
+	.text-link {
+		background: transparent !important;
+		border: none !important;
+		padding: 0 !important;
+		margin: 0 !important;
+		color: #34d399 !important; /* Emerald Link matching Section 3 */
+		font-family: inherit;
+		font-size: 0.78rem;
+		font-weight: 500;
+		text-decoration: none;
+		cursor: pointer;
+		display: inline-flex;
+		align-items: center;
+		transition:
+			color 0.15s ease,
+			text-decoration 0.15s ease;
+	}
+
+	.text-link:hover {
+		color: #ffffff !important;
+		text-decoration: underline !important;
+		text-underline-offset: 3px;
 	}
 </style>
