@@ -135,14 +135,19 @@
 		top: 0;
 		left: 0;
 		width: 100vw;
-		height: 200px;
+		height: 320px;
 		background: linear-gradient(
 			to bottom,
 			rgba(0, 0, 0, 1) 0%,
-			rgba(0, 0, 1) 150px,
-			rgba(0, 0, 0, 0.85) 175px,
-			rgba(0, 0, 0, 0.35) 200px,
-			transparent 200px
+			rgba(0, 0, 0, 1) 32%,
+			rgba(0, 0, 0, 0.95) 45%,
+			rgba(0, 0, 0, 0.86) 56%,
+			rgba(0, 0, 0, 0.72) 66%,
+			rgba(0, 0, 0, 0.54) 76%,
+			rgba(0, 0, 0, 0.36) 85%,
+			rgba(0, 0, 0, 0.2) 92%,
+			rgba(0, 0, 0, 0.08) 97%,
+			rgba(0, 0, 0, 0) 100%
 		);
 		pointer-events: none;
 		user-select: none;
@@ -152,14 +157,19 @@
 
 	@media (max-width: 768px) {
 		.top-fade-curtain {
-			height: 125px;
+			height: 200px;
 			background: linear-gradient(
 				to bottom,
 				rgba(0, 0, 0, 1) 0%,
-				rgba(0, 0, 1) 85px,
-				rgba(0, 0, 0, 0.85) 105px,
-				rgba(0, 0, 0, 0.35) 125px,
-				transparent 125px
+				rgba(0, 0, 0, 1) 30%,
+				rgba(0, 0, 0, 0.95) 43%,
+				rgba(0, 0, 0, 0.86) 54%,
+				rgba(0, 0, 0, 0.72) 65%,
+				rgba(0, 0, 0, 0.54) 75%,
+				rgba(0, 0, 0, 0.36) 84%,
+				rgba(0, 0, 0, 0.2) 92%,
+				rgba(0, 0, 0, 0.08) 97%,
+				rgba(0, 0, 0, 0) 100%
 			);
 		}
 	}
@@ -170,7 +180,7 @@
 		min-height: 100vh;
 		background: #000000;
 		color: #e5e7eb;
-		padding: 17rem 1.5rem 3rem;
+		padding: 21rem 1.5rem 3rem;
 		z-index: 10;
 		visibility: hidden;
 		opacity: 0;
@@ -181,13 +191,13 @@
 
 	@media (max-width: 960px) {
 		.experience-section {
-			padding: 13rem 1.25rem 2.5rem;
+			padding: 16rem 1.25rem 2.5rem;
 		}
 	}
 
 	@media (max-width: 640px) {
 		.experience-section {
-			padding: 10rem 0.75rem 2rem;
+			padding: 12rem 0.75rem 2rem;
 		}
 	}
 
