@@ -23,11 +23,15 @@
 
 	const channels = $derived(getContactChannels(email, githubUrl, lineUrl, facebookUrl));
 
-	function copyEmail() {
+	async function copyEmail() {
 		if (copyTimer) clearTimeout(copyTimer);
-		navigator?.clipboard?.writeText(email);
-		copied = true;
-		copyTimer = setTimeout(() => (copied = false), 2200);
+		try {
+			await navigator?.clipboard?.writeText(email);
+			copied = true;
+			copyTimer = setTimeout(() => (copied = false), 2200);
+		} catch (err) {
+			console.error('Failed to copy email to clipboard', err);
+		}
 	}
 
 	$effect(() => {
@@ -40,6 +44,7 @@
 <TuiBox
 	title={m.contactGetInTouch()}
 	theme="emerald"
+	titleTag="h3"
 	class="contact-card-box"
 	bodyClass="contact-card-body"
 >

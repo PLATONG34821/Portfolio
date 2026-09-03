@@ -12,6 +12,7 @@
 </svelte:head>
 
 <main class="page-container">
+	<h1 class="sr-only">{m.pageTitle()}</h1>
 	<AsciiHero />
 	<ExperienceSection />
 	<SkillsSection />

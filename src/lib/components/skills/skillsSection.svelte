@@ -14,6 +14,7 @@
 			<TuiBox
 				title={m.toolsTitle()}
 				theme="cyan"
+				titleTag="h3"
 				class="quick-scan-box"
 				bodyClass="quick-scan-body"
 			>
@@ -32,6 +33,7 @@
 					<TuiBox
 						title={category.title}
 						theme="cyan"
+						titleTag="h3"
 						class={category.id === '04' ? 'cap-box full-frame' : 'cap-box'}
 						bodyClass={category.id === '04' ? 'cap-body full-frame-body' : 'cap-body'}
 					>

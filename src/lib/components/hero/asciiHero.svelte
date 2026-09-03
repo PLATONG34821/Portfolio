@@ -451,12 +451,12 @@
 
 <div bind:this={containerElement} class="ascii-scroll-container">
 	<div class="ascii-fixed-viewport">
-		<canvas bind:this={canvasElement} class="ascii-canvas"></canvas>
+		<canvas bind:this={canvasElement} class="ascii-canvas" aria-hidden="true"></canvas>
 
 		<pre
 			bind:this={overlayElement}
 			class="ascii-selectable-overlay"
-			aria-label="Figlet ASCII Header">{activeGridText}</pre>
+			aria-hidden="true">{activeGridText}</pre>
 
 		<div bind:this={langSwitcherElement} class="hero-lang-switcher" aria-label="Language selector">
 			<a

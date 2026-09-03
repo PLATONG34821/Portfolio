@@ -31,6 +31,7 @@
 				<TuiBox
 					title={m.selectedProjectsTitle()}
 					theme="amber"
+					titleTag="h3"
 					class="grid-box"
 					bodyClass="grid-box-body"
 				>
@@ -45,6 +46,7 @@
 				<TuiBox
 					title={m.awardsAndHonorsTitle()}
 					theme="amber"
+					titleTag="h3"
 					id="awards"
 					class="grid-box"
 					bodyClass="grid-box-body"
@@ -61,6 +63,7 @@
 			<TuiBox
 				title={m.openSourceAndSystemsTitle()}
 				theme="amber"
+				titleTag="h3"
 				class="full-frame-box"
 				bodyClass="oss-full-body"
 			>

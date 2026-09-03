@@ -52,6 +52,7 @@
 		padding?: string;
 		titlePrefix?: string;
 		titleSuffix?: string;
+		titleTag?: 'h3' | 'h4' | 'span';
 		id?: string;
 		class?: string;
 		bodyClass?: string;
@@ -69,6 +70,7 @@
 		padding,
 		titlePrefix = '',
 		titleSuffix = '',
+		titleTag = 'span',
 		id,
 		class: className = '',
 		bodyClass = '',
@@ -91,17 +93,19 @@
 	"
 >
 	<div class="tui-line-top">
-		<span class="tui-corner">+--</span>
-		<span class="tui-title">{titlePrefix}{title}{titleSuffix}</span>
-		<span class="tui-fill">{horizontalFill}</span>
+		<span class="tui-corner" aria-hidden="true">+--</span>
+		<svelte:element this={titleTag} class="tui-title">
+			{titlePrefix}{title}{titleSuffix}
+		</svelte:element>
+		<span class="tui-fill" aria-hidden="true">{horizontalFill}</span>
 		{#if topRightAction}
 			{@render topRightAction()}
 		{/if}
-		<span class="tui-corner">--+</span>
+		<span class="tui-corner" aria-hidden="true">--+</span>
 	</div>
 
 	<div class="tui-middle-row">
-		<div class="tui-side-col tui-side-left">
+		<div class="tui-side-col tui-side-left" aria-hidden="true">
 			{verticalBorderText}
 		</div>
 
@@ -111,12 +115,12 @@
 			{/if}
 		</div>
 
-		<div class="tui-side-col tui-side-right">
+		<div class="tui-side-col tui-side-right" aria-hidden="true">
 			{verticalBorderText}
 		</div>
 	</div>
 
-	<div class="tui-line-bot">
+	<div class="tui-line-bot" aria-hidden="true">
 		<span class="tui-corner">+--</span>
 		<span class="tui-fill">{horizontalFill}</span>
 		<span class="tui-corner">--+</span>
@@ -183,6 +187,9 @@
 		font-weight: 600;
 		font-size: 0.88rem;
 		padding: 0 0.5rem;
+		margin: 0;
+		font-family: inherit;
+		line-height: inherit;
 		letter-spacing: 0.02em;
 		user-select: text;
 		-webkit-user-select: text;

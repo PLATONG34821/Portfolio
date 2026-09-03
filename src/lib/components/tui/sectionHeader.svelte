@@ -32,11 +32,11 @@
 </script>
 
 <div class="section-header-row">
-	<div class="section-tag-wrap">
+	<h2 class="section-tag-wrap">
 		<span class="section-tag-prefix" style="color: {prefixColor};">//</span>
 		<span class="section-tag-title" style="color: {titleColor};">{tag}</span>
 		<span class="section-tag-sub" style="color: {subColor};">{title}</span>
-	</div>
+	</h2>
 </div>
 
 <style>
@@ -55,6 +55,10 @@
 		gap: 0.5rem;
 		font-size: 0.8rem;
 		font-weight: 600;
+		font-family: inherit;
+		line-height: inherit;
+		margin: 0;
+		padding: 0;
 		flex-wrap: wrap;
 		text-align: center;
 	}
