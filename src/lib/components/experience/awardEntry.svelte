@@ -27,7 +27,7 @@
 			onclick={openImage}
 			title={m.clickToViewResolution()}
 		>
-			<img src={award.certImage} alt={award.title} class="award-img" loading="lazy" />
+			<enhanced:img src={award.certImage} alt={award.title} class="award-img" loading="lazy" />
 			<span class="img-badge-overlay" aria-hidden="true">⤢</span>
 		</button>
 	{/if}

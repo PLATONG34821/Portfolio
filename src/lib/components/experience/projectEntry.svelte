@@ -61,7 +61,12 @@
 					onclick={() => openImage(project.certImage!)}
 					title={m.clickToExpand()}
 				>
-					<img src={project.certImage} alt={project.title} class="entry-media-img" loading="lazy" />
+					<enhanced:img
+						src={project.certImage}
+						alt={project.title}
+						class="entry-media-img"
+						loading="lazy"
+					/>
 					<span class="media-overlay-badge" aria-hidden="true">⤢</span>
 				</button>
 			</div>

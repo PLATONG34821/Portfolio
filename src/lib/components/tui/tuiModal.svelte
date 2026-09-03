@@ -88,7 +88,7 @@
 		{/snippet}
 
 		<div class="tui-modal-body">
-			<img src={image} alt={title} class="tui-cert-img" loading="eager" />
+			<enhanced:img src={image} alt={title} class="tui-cert-img" loading="eager" />
 		</div>
 	</TuiBox>
 </dialog>
