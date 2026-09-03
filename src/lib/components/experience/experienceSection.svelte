@@ -144,7 +144,7 @@
 		pointer-events: auto;
 	}
 
-	@media (max-width: 960px) {
+	@media (max-width: 1024px) {
 		.experience-section {
 			padding: 16rem 1.25rem 2.5rem;
 		}
@@ -164,7 +164,7 @@
 		align-items: stretch;
 	}
 
-	@media (max-width: 960px) {
+	@media (max-width: 1024px) {
 		.experience-symmetric-grid {
 			grid-template-columns: 1fr;
 			gap: 1.25rem;
@@ -200,7 +200,7 @@
 		height: 100%;
 	}
 
-	@media (max-width: 580px) {
+	@media (max-width: 640px) {
 		.awards-subgrid {
 			grid-template-columns: 1fr;
 		}

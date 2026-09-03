@@ -186,7 +186,7 @@
 		transform: scale(1);
 	}
 
-	@media (max-width: 600px) {
+	@media (max-width: 640px) {
 		.project-content-grid.has-media {
 			display: flex;
 			flex-direction: column;

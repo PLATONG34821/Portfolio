@@ -82,7 +82,7 @@
 		}
 	}
 
-	@media (max-width: 680px) {
+	@media (max-width: 768px) {
 		.tui-grid-3col {
 			grid-template-columns: 1fr;
 			gap: 1rem;
@@ -135,7 +135,7 @@
 		gap: 0.85rem;
 	}
 
-	@media (max-width: 1100px) {
+	@media (max-width: 1024px) {
 		:global(.cap-body.full-frame-body) {
 			grid-template-columns: repeat(2, minmax(0, 1fr));
 		}
