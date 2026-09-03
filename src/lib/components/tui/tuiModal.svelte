@@ -1,4 +1,6 @@
 <script lang="ts">
+	import { onMount } from 'svelte';
+	import { scale } from 'svelte/transition';
 	import * as m from '$lib/paraglide/messages';
 	import TuiBox, { type TuiTheme } from './tuiBox.svelte';
 
@@ -25,97 +27,90 @@
 		maxWidth = '860px',
 		onClose
 	}: Props = $props();
+
+	let dialogElement = $state<HTMLDialogElement | null>(null);
+
+	onMount(() => {
+		dialogElement?.showModal();
+		return () => {
+			if (dialogElement?.open) {
+				dialogElement.close();
+			}
+		};
+	});
+
+	function handleDialogClick(e: MouseEvent) {
+		if (!dialogElement) return;
+		const rect = dialogElement.getBoundingClientRect();
+		const isOutside =
+			e.clientX < rect.left ||
+			e.clientX > rect.right ||
+			e.clientY < rect.top ||
+			e.clientY > rect.bottom;
+		if (isOutside || e.target === dialogElement) {
+			onClose();
+		}
+	}
 </script>
 
-<div
-	class="tui-modal-backdrop"
-	role="dialog"
-	aria-modal="true"
-	tabindex="-1"
-	onclick={onClose}
-	onkeydown={(e) => e.key === 'Escape' && onClose()}
+<dialog
+	bind:this={dialogElement}
+	class="tui-modal-dialog"
+	style="--modal-max-width: {maxWidth};"
+	oncancel={(e) => {
+		e.preventDefault();
+		onClose();
+	}}
+	onclick={handleDialogClick}
+	transition:scale={{ duration: 150, start: 0.95 }}
 >
-	<!-- svelte-ignore a11y_click_events_have_key_events -->
-	<!-- svelte-ignore a11y_no_noninteractive_element_interactions -->
-	<div
-		class="tui-modal-dialog"
-		style="max-width: {maxWidth};"
-		onclick={(e) => e.stopPropagation()}
-		role="document"
+	<TuiBox
+		{title}
+		{theme}
+		{titleColor}
+		{borderColor}
+		{cornerColor}
+		{bgColor}
+		padding="0.75rem 1rem"
+		class="modal-box"
+		bodyClass="modal-body-pad"
 	>
-		<TuiBox
-			{title}
-			{theme}
-			{titleColor}
-			{borderColor}
-			{cornerColor}
-			{bgColor}
-			padding="0.75rem 1rem"
-			class="modal-box"
-			bodyClass="modal-body-pad"
-		>
-			{#snippet topRightAction()}
-				<button
-					type="button"
-					class="tui-modal-close-btn"
-					onclick={onClose}
-					title={m.closeModal()}
-					aria-label={m.closeModal()}
-				>
-					[x]
-				</button>
-			{/snippet}
+		{#snippet topRightAction()}
+			<button
+				type="button"
+				class="tui-modal-close-btn"
+				onclick={onClose}
+				title={m.closeModal()}
+				aria-label={m.closeModal()}
+			>
+				[x]
+			</button>
+		{/snippet}
 
-			<div class="tui-modal-body">
-				<img src={image} alt={title} class="tui-cert-img" loading="eager" />
-			</div>
-		</TuiBox>
-	</div>
-</div>
+		<div class="tui-modal-body">
+			<img src={image} alt={title} class="tui-cert-img" loading="eager" />
+		</div>
+	</TuiBox>
+</dialog>
 
 <style>
-	.tui-modal-backdrop {
-		position: fixed;
-		top: 0;
-		left: 0;
-		width: 100vw;
-		height: 100vh;
+	.tui-modal-dialog {
+		border: none;
+		padding: 1.5rem;
+		background: transparent;
+		color: inherit;
+		max-width: min(calc(100vw - 2rem), var(--modal-max-width, 860px));
+		width: 100%;
+		margin: auto;
+		overflow: visible;
+		font-family:
+			ui-monospace, 'SF Mono', 'Cascadia Code', 'Fira Code', Menlo, Monaco, Consolas, monospace;
+	}
+
+	.tui-modal-dialog::backdrop {
 		background: rgba(0, 0, 0, 0.92);
 		backdrop-filter: blur(8px);
 		-webkit-backdrop-filter: blur(8px);
-		z-index: 100;
-		display: flex;
-		align-items: center;
-		justify-content: center;
-		padding: 1.5rem;
-		font-family:
-			ui-monospace, 'SF Mono', 'Cascadia Code', 'Fira Code', Menlo, Monaco, Consolas, monospace;
-		animation: modalFadeIn 0.15s ease-out;
-	}
-
-	@keyframes modalFadeIn {
-		from {
-			opacity: 0;
-		}
-		to {
-			opacity: 1;
-		}
-	}
-
-	.tui-modal-dialog {
-		width: 100%;
-		animation: modalPopIn 0.2s cubic-bezier(0.16, 1, 0.3, 1);
-	}
-
-	@keyframes modalPopIn {
-		from {
-			opacity: 0;
-			transform: scale(0.95) translateY(10px);
-		}
-		to {
-			opacity: 1;
-			transform: scale(1) translateY(0);
-		}
 	}
 
 	:global(.modal-body-pad) {
@@ -160,7 +155,7 @@
 	}
 
 	@media (max-width: 640px) {
-		.tui-modal-backdrop {
+		.tui-modal-dialog {
 			padding: 0.75rem;
 		}
 
