@@ -125,6 +125,7 @@
 					<span class="section-tag-title">SECTION 01</span>
 					<span class="section-tag-sub">EXPERIENCE & AWARDS</span>
 				</div>
+				<div class="section-header-divider">{'┄'.repeat(250)}</div>
 			</div>
 
 			<!-- TOP ROW: Symmetrical 2-Column Grid (Selected Projects & Awards) -->
@@ -292,10 +293,22 @@
 	/* Section Header Row with Tag at Left */
 	.section-header-row {
 		display: flex;
-		justify-content: flex-start;
-		align-items: baseline;
-		padding: 0 0.25rem 0.5rem;
-		border-bottom: 1px dashed #292524;
+		flex-direction: column;
+		gap: 0.5rem;
+		padding: 0 0.25rem 0;
+	}
+
+	.section-header-divider {
+		width: 100%;
+		overflow: hidden;
+		white-space: nowrap;
+		letter-spacing: 0;
+		font-family: inherit;
+		font-size: 0.8rem;
+		line-height: 1;
+		color: #292524;
+		user-select: text;
+		-webkit-user-select: text;
 	}
 
 	.section-tag-wrap {

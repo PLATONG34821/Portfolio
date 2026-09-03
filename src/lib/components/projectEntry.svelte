@@ -3,10 +3,13 @@
 
 	interface Props {
 		project: Project;
+		showDivider?: boolean;
 		onOpenCert?: (title: string, image: string) => void;
 	}
 
-	let { project, onOpenCert }: Props = $props();
+	let { project, showDivider = true, onOpenCert }: Props = $props();
+
+	const dividerText = '-'.repeat(250);
 </script>
 
 <div class="project-entry" class:has-media={!!project.certImage}>
@@ -91,6 +94,10 @@
 			</button>
 		</div>
 	{/if}
+
+	{#if showDivider}
+		<div class="entry-divider">{dividerText}</div>
+	{/if}
 </div>
 
 <style>
@@ -98,17 +105,29 @@
 		display: flex;
 		flex-direction: column;
 		gap: 0.45rem;
-		padding-bottom: 0.85rem;
-		border-bottom: 1px dashed #27272a;
 		font-family:
 			ui-monospace, 'SF Mono', 'Cascadia Code', 'Fira Code', Menlo, Monaco, Consolas, monospace;
 		width: 100%;
 		min-width: 0;
 	}
 
-	.project-entry:last-child {
-		padding-bottom: 0;
-		border-bottom: none;
+	.entry-divider {
+		grid-column: 1 / -1;
+		width: 100%;
+		overflow: hidden;
+		white-space: nowrap;
+		letter-spacing: 0;
+		font-family: inherit;
+		font-size: 0.82rem;
+		line-height: 1;
+		color: #27272a;
+		padding-top: 0.45rem;
+		user-select: text;
+		-webkit-user-select: text;
+	}
+
+	.project-entry:last-child .entry-divider {
+		display: none;
 	}
 
 	.project-entry.has-media {
