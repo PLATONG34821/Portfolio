@@ -44,17 +44,17 @@
 		{
 			faceColor: [255, 255, 255],
 			outlineColor: [63, 63, 70],
-			shadowColor: [255, 255, 255, 0.65]
+			shadowColor: [255, 255, 255, 0.8]
 		},
 		{
 			faceColor: [250, 204, 21], // #facc15 (Pure Gold)
 			outlineColor: [120, 94, 47], // #785e2f (Warm Bronze)
-			shadowColor: [251, 191, 36, 0.65] // #fbbf24 glow
+			shadowColor: [251, 191, 36, 0.85] // #fbbf24 glow
 		},
 		{
 			faceColor: [56, 189, 248], // #38bdf8 (Cyber Cyan)
 			outlineColor: [30, 58, 95], // #1e3a5f (Midnight Cyber Slate)
-			shadowColor: [56, 189, 248, 0.7] // #38bdf8 glow
+			shadowColor: [56, 189, 248, 0.9] // #38bdf8 glow
 		}
 	];
 
@@ -359,11 +359,13 @@
 				if (type === 'shadow') {
 					context.fillStyle = activeFaceFill;
 					context.shadowColor = activeShadowGlow;
-					context.shadowBlur = width < 640 ? 3 : 6;
+					context.shadowBlur = width < 640 ? 8 : 16;
+					context.shadowOffsetY = width < 640 ? 1 : 2;
 				} else {
 					context.fillStyle = activeOutlineFill;
-					context.shadowColor = 'transparent';
-					context.shadowBlur = 0;
+					context.shadowColor = 'rgba(0, 0, 0, 0.9)';
+					context.shadowBlur = width < 640 ? 4 : 8;
+					context.shadowOffsetY = width < 640 ? 1 : 2;
 				}
 
 				context.fillText(char, pixelX, pixelY);
@@ -439,6 +441,7 @@
 		user-select: none;
 		-webkit-user-select: none;
 		pointer-events: none;
+		filter: drop-shadow(0 6px 20px rgba(0, 0, 0, 0.95)) drop-shadow(0 2px 6px rgba(0, 0, 0, 0.85));
 	}
 
 	.ascii-selectable-overlay {
