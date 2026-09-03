@@ -57,6 +57,8 @@
 	bind:this={dialogElement}
 	class="tui-modal-dialog"
 	style="--modal-max-width: {maxWidth};"
+	aria-modal="true"
+	aria-label={title}
 	oncancel={(e) => {
 		e.preventDefault();
 		onClose();

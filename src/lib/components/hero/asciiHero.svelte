@@ -39,12 +39,14 @@
 
 	let handleResize: (() => void) | null = null;
 	const onWindowResize = () => handleResize?.();
-	const onWindowScroll = () => {
-		sessionStorage.setItem('portfolio_scroll_y', String(window.scrollY));
-	};
 
 	function switchLocale(e: MouseEvent, targetLocale: Locale) {
 		e.preventDefault();
+		try {
+			sessionStorage.setItem('portfolio_scroll_y', String(window.scrollY));
+		} catch {
+			// private browsing / sandboxed — navigate anyway
+		}
 		setLocale(targetLocale);
 	}
 
@@ -71,7 +73,12 @@
 	onMount(() => {
 		if (!canvasElement) return;
 
-		const savedScrollY = Number(sessionStorage.getItem('portfolio_scroll_y') || '0');
+		let savedScrollY = 0;
+		try {
+			savedScrollY = Number(sessionStorage.getItem('portfolio_scroll_y') || '0');
+		} catch {
+			// private browsing / sandboxed — start from top
+		}
 		if (savedScrollY > 0) {
 			window.scrollTo(0, savedScrollY);
 		}
@@ -447,7 +454,7 @@
 	});
 </script>
 
-<svelte:window onresize={onWindowResize} onscroll={onWindowScroll} />
+<svelte:window onresize={onWindowResize} />
 
 <div bind:this={containerElement} class="ascii-scroll-container">
 	<div class="ascii-fixed-viewport">

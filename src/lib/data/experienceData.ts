@@ -1,5 +1,13 @@
 import * as m from '$lib/paraglide/messages';
 
+const certModules = import.meta.glob<{ default: string }>(
+	'$lib/assets/certs/*.webp',
+	{ eager: true, query: { enhanced: true } }
+);
+function cert(name: string): string {
+	return certModules[`$lib/assets/certs/${name}`]?.default ?? '';
+}
+
 export interface ProjectLink {
 	label: string;
 	url: string;
@@ -68,13 +76,13 @@ const createAward = (
 
 export const coreProjects: Project[] = [
 	createProject('01', m.projectHllcTitle, m.projectHllcSummary, m.projectHllcMetrics, {
-		certImage: '/certs/hllcHomepage.webp',
+		certImage: cert('hllcHomepage.webp'),
 		links: () => [
 			{
 				label: m.projectHllcLinkPreview(),
 				url: '/certs/hllcHomepage.webp',
 				isCertModal: true,
-				certImage: '/certs/hllcHomepage.webp'
+				certImage: cert('hllcHomepage.webp')
 			},
 			{ label: 'App Store', url: 'https://apps.apple.com/th/app/hllc/id6748238190' },
 			{
@@ -85,25 +93,25 @@ export const coreProjects: Project[] = [
 		]
 	}),
 	createProject('02', m.projectTjsifTitle, m.projectTjsifSummary, m.projectTjsifMetrics, {
-		certImage: '/certs/tjsif_booth.webp',
+		certImage: cert('tjsif_booth.webp'),
 		links: () => [
 			{
 				label: m.projectTjsifLinkCert(),
 				url: '/certs/tjsif_cert.webp',
 				isCertModal: true,
-				certImage: '/certs/tjsif_cert.webp'
+				certImage: cert('tjsif_cert.webp')
 			},
 			{
 				label: m.projectTjsifLinkTrophy(),
 				url: '/certs/tjsif_stage.webp',
 				isCertModal: true,
-				certImage: '/certs/tjsif_stage.webp'
+				certImage: cert('tjsif_stage.webp')
 			},
 			{
 				label: m.projectTjsifLinkBooth(),
 				url: '/certs/tjsif_booth.webp',
 				isCertModal: true,
-				certImage: '/certs/tjsif_booth.webp'
+				certImage: cert('tjsif_booth.webp')
 			},
 			{
 				label: m.projectTjsifLinkReport(),
@@ -112,30 +120,30 @@ export const coreProjects: Project[] = [
 		]
 	}),
 	createProject('03', m.projectNsc25Title, m.projectNsc25Summary, m.projectNsc25Metrics, {
-		certImage: '/certs/nsc25_booth.webp',
+		certImage: cert('nsc25_booth.webp'),
 		links: () => [
 			{
 				label: m.projectNsc25LinkCert(),
 				url: '/certs/nsc25_cert.webp',
 				isCertModal: true,
-				certImage: '/certs/nsc25_cert.webp'
+				certImage: cert('nsc25_cert.webp')
 			},
 			{
 				label: m.projectNsc25LinkPhoto(),
 				url: '/certs/nsc25_booth.webp',
 				isCertModal: true,
-				certImage: '/certs/nsc25_booth.webp'
+				certImage: cert('nsc25_booth.webp')
 			}
 		]
 	}),
 	createProject('04', m.projectPolytoneTitle, m.projectPolytoneSummary, m.projectPolytoneMetrics, {
-		certImage: '/certs/polyTonePreview.webp',
+		certImage: cert('polyTonePreview.webp'),
 		links: () => [
 			{
 				label: m.projectPolytoneLinkPreview(),
 				url: '/certs/polyTonePreview.webp',
 				isCertModal: true,
-				certImage: '/certs/polyTonePreview.webp'
+				certImage: cert('polyTonePreview.webp')
 			},
 			{ label: m.projectPolytoneLinkLive(), url: 'https://polytone.pages.dev/' }
 		]
@@ -184,25 +192,25 @@ export const ossProjects: Project[] = [
 
 export const awards: Award[] = [
 	createAward('01', '2024', m.award4Title, m.award4Subtitle, {
-		certImage: '/certs/samsung_cert.webp'
+		certImage: cert('samsung_cert.webp')
 	}),
 	createAward('02', '2024', m.award5Title, m.award5Subtitle, {
-		certImage: '/certs/borntodev_cert.webp'
+		certImage: cert('borntodev_cert.webp')
 	}),
 	createAward('03', '2023', m.award1Title, m.award1Subtitle, {
 		isHighlighted: true,
-		certImage: '/certs/gold_cert.webp'
+		certImage: cert('gold_cert.webp')
 	}),
 	createAward('04', '2023', m.award3Title, m.award3Subtitle, {
 		isHighlighted: true,
-		certImage: '/certs/nsc25_cert.webp'
+		certImage: cert('nsc25_cert.webp')
 	}),
 	createAward('05', '2022', m.award6Title, m.award6Subtitle, {
 		isHighlighted: true,
-		certImage: '/certs/tjsif_stage.webp'
+		certImage: cert('tjsif_stage.webp')
 	}),
 	createAward('06', '2022', m.award2Title, m.award2Subtitle, {
-		certImage: '/certs/silver_cert.webp'
+		certImage: cert('silver_cert.webp')
 	})
 ];
 
