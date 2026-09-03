@@ -90,7 +90,7 @@
 				title="Click to expand full resolution"
 			>
 				<img src={project.certImage} alt={project.title} class="entry-media-img" loading="lazy" />
-				<span class="media-overlay-badge">⤢ Full Res</span>
+				<span class="media-overlay-badge" aria-hidden="true">⤢</span>
 			</button>
 		</div>
 	{/if}
@@ -330,16 +330,29 @@
 
 	.media-overlay-badge {
 		position: absolute;
-		bottom: 0.3rem;
-		right: 0.3rem;
-		background: rgba(9, 9, 11, 0.92);
+		bottom: 0.35rem;
+		right: 0.35rem;
+		background: rgba(9, 9, 11, 0.9);
 		color: #fbbf24;
 		font-family: inherit;
-		font-size: 0.65rem;
-		font-weight: 600;
-		padding: 0.15rem 0.35rem;
+		font-size: 0.8rem;
+		font-weight: 700;
+		line-height: 1;
+		padding: 0.25rem 0.35rem;
 		border-radius: 3px;
 		border: 1px solid #785e2f;
+		user-select: none;
+		pointer-events: none;
+		opacity: 0;
+		transform: scale(0.85);
+		transition:
+			opacity 0.15s ease,
+			transform 0.15s ease;
+	}
+
+	.entry-media-btn:hover .media-overlay-badge {
+		opacity: 1;
+		transform: scale(1);
 	}
 
 	@media (max-width: 600px) {

@@ -18,7 +18,7 @@
 			title="Click to view full resolution"
 		>
 			<img src={award.certImage} alt={award.title} class="award-img" loading="lazy" />
-			<span class="img-badge-overlay">⤢ Full Res</span>
+			<span class="img-badge-overlay" aria-hidden="true">⤢</span>
 		</button>
 	{/if}
 
@@ -114,16 +114,27 @@
 		position: absolute;
 		bottom: 0.35rem;
 		right: 0.35rem;
-		background: rgba(9, 9, 11, 0.92);
+		background: rgba(9, 9, 11, 0.9);
 		color: #fbbf24;
 		font-family: inherit;
-		font-size: 0.68rem;
-		font-weight: 600;
-		padding: 0.15rem 0.4rem;
+		font-size: 0.8rem;
+		font-weight: 700;
+		line-height: 1;
+		padding: 0.25rem 0.35rem;
 		border-radius: 3px;
 		border: 1px solid #785e2f;
 		user-select: none;
 		pointer-events: none;
+		opacity: 0;
+		transform: scale(0.85);
+		transition:
+			opacity 0.15s ease,
+			transform 0.15s ease;
+	}
+
+	.award-img-btn:hover .img-badge-overlay {
+		opacity: 1;
+		transform: scale(1);
 	}
 
 	.award-body {
