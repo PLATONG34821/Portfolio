@@ -26,6 +26,7 @@
 		id?: string;
 		class?: string;
 		bodyClass?: string;
+		topRightAction?: Snippet;
 		children?: Snippet;
 	}
 
@@ -42,6 +43,7 @@
 		id,
 		class: className = '',
 		bodyClass = '',
+		topRightAction,
 		children
 	}: Props = $props();
 
@@ -77,6 +79,23 @@
 				return titleColor;
 		}
 	});
+
+	// Use solid box-drawing '─' when '-' is given so the horizontal line connects seamlessly without gaps
+	const resolvedTopChar = $derived.by(() => (activeBox.top === '-' ? '─' : activeBox.top));
+	const resolvedBotChar = $derived.by(() => (activeBox.bottom === '-' ? '─' : activeBox.bottom));
+
+	// Fill repeated characters across the full width
+	const horizontalFillTop = $derived.by(() => resolvedTopChar.repeat(250));
+	const horizontalFillBot = $derived.by(() => resolvedBotChar.repeat(250));
+
+	// Real text characters for vertical borders so they can be selected / highlighted
+	const verticalLineCount = 200;
+	const leftBorderText = $derived.by(() =>
+		Array(verticalLineCount).fill(activeBox.left).join('\n')
+	);
+	const rightBorderText = $derived.by(() =>
+		Array(verticalLineCount).fill(activeBox.right).join('\n')
+	);
 </script>
 
 <div
@@ -92,26 +111,39 @@
 >
 	<!-- Top Line with Title -->
 	<div class="tui-line-top">
-		<span class="tui-corner">{activeBox.topLeft}{activeBox.top}{activeBox.top}</span>
+		<span class="tui-corner">{activeBox.topLeft}{resolvedTopChar}{resolvedTopChar}</span>
 		<span class="tui-title">
 			{titlePrefix}{title}{titleSuffix}
 		</span>
-		<span class="tui-fill">{activeBox.top}</span>
-		<span class="tui-corner">{activeBox.top}{activeBox.top}{activeBox.topRight}</span>
+		<span class="tui-fill">{horizontalFillTop}</span>
+		{#if topRightAction}
+			{@render topRightAction()}
+		{/if}
+		<span class="tui-corner">{resolvedTopChar}{resolvedTopChar}{activeBox.topRight}</span>
 	</div>
 
-	<!-- Box Body Content -->
-	<div class="tui-body {bodyClass}">
-		{#if children}
-			{@render children()}
-		{/if}
+	<!-- Box Middle Row with Real Text Vertical Borders -->
+	<div class="tui-middle-row">
+		<div class="tui-side-col tui-side-left">
+			{leftBorderText}
+		</div>
+
+		<div class="tui-body {bodyClass}">
+			{#if children}
+				{@render children()}
+			{/if}
+		</div>
+
+		<div class="tui-side-col tui-side-right">
+			{rightBorderText}
+		</div>
 	</div>
 
 	<!-- Bottom Line -->
 	<div class="tui-line-bot">
-		<span class="tui-corner">{activeBox.bottomLeft}{activeBox.bottom}{activeBox.bottom}</span>
-		<span class="tui-fill">{activeBox.bottom}</span>
-		<span class="tui-corner">{activeBox.bottom}{activeBox.bottom}{activeBox.bottomRight}</span>
+		<span class="tui-corner">{activeBox.bottomLeft}{resolvedBotChar}{resolvedBotChar}</span>
+		<span class="tui-fill">{horizontalFillBot}</span>
+		<span class="tui-corner">{resolvedBotChar}{resolvedBotChar}{activeBox.bottomRight}</span>
 	</div>
 </div>
 
@@ -120,7 +152,10 @@
 		display: flex;
 		flex-direction: column;
 		height: 100%;
-		background: transparent;
+		background: var(--tui-bg-color, transparent);
+		border: none;
+		outline: none;
+		box-shadow: none;
 		user-select: text;
 		-webkit-user-select: text;
 		font-family:
@@ -135,6 +170,9 @@
 		line-height: 1;
 		color: var(--tui-border-color, #27272a);
 		white-space: nowrap;
+		overflow: hidden;
+		border: none;
+		outline: none;
 		user-select: text;
 		-webkit-user-select: text;
 	}
@@ -144,12 +182,14 @@
 		font-weight: 400;
 		user-select: text;
 		-webkit-user-select: text;
+		white-space: nowrap;
 	}
 
 	.tui-fill {
 		flex-grow: 1;
 		overflow: hidden;
-		letter-spacing: -0.05em;
+		white-space: nowrap;
+		letter-spacing: 0;
 		color: var(--tui-border-color, #27272a);
 		user-select: text;
 		-webkit-user-select: text;
@@ -163,18 +203,61 @@
 		letter-spacing: 0.02em;
 		user-select: text;
 		-webkit-user-select: text;
+		white-space: nowrap;
+	}
+
+	.tui-middle-row {
+		display: flex;
+		flex-direction: row;
+		position: relative;
+		flex-grow: 1;
+		width: 100%;
+		overflow: hidden;
+		border: none;
+		outline: none;
+	}
+
+	.tui-side-col {
+		position: absolute;
+		top: 0;
+		bottom: 0;
+		width: 1ch;
+		overflow: hidden;
+		white-space: pre;
+		font-family: inherit;
+		font-size: 0.88rem;
+		line-height: 1;
+		color: var(--tui-border-color, #27272a);
+		border: none;
+		outline: none;
+		user-select: text;
+		-webkit-user-select: text;
+		pointer-events: auto;
+		z-index: 2;
+	}
+
+	.tui-side-left {
+		left: 0;
+		text-align: left;
+	}
+
+	.tui-side-right {
+		right: 0;
+		text-align: right;
 	}
 
 	.tui-body {
-		border-left: 1px solid var(--tui-border-color, #27272a);
-		border-right: 1px solid var(--tui-border-color, #27272a);
-		background: var(--tui-bg-color, transparent);
+		background: transparent;
 		padding: var(--tui-body-padding, 1.25rem 1.4rem);
 		display: flex;
 		flex-direction: column;
 		flex-grow: 1;
+		margin: 0 1ch;
+		width: calc(100% - 2ch);
+		box-sizing: border-box;
 		gap: 1.5rem;
-		margin: 0 1px;
+		border: none;
+		outline: none;
 		user-select: text;
 		-webkit-user-select: text;
 	}

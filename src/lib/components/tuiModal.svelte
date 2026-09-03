@@ -17,9 +17,9 @@
 		title,
 		image,
 		boxStyle = 'classic',
-		titleColor = 'coral',
-		borderColor = '#3f3f46',
-		cornerColor = '#52525b',
+		titleColor = 'amber',
+		borderColor = '#785e2f',
+		cornerColor = '#fbbf24',
 		bgColor = '#09090b',
 		maxWidth = '860px',
 		onClose
@@ -49,21 +49,24 @@
 			{borderColor}
 			{cornerColor}
 			{bgColor}
-			padding="1rem 1.25rem"
+			padding="0.75rem 1rem"
 			class="modal-box"
 			bodyClass="modal-body-pad"
 		>
+			{#snippet topRightAction()}
+				<button
+					type="button"
+					class="tui-modal-close-btn"
+					onclick={onClose}
+					title="Close (ESC)"
+					aria-label="Close modal"
+				>
+					[x]
+				</button>
+			{/snippet}
+
 			<div class="tui-modal-body">
 				<img src={image} alt={title} class="tui-cert-img" loading="eager" />
-			</div>
-			<div class="tui-modal-footer">
-				<span class="footer-text">&gt; Official Certificate Record</span>
-				<div class="tui-modal-actions">
-					<a href={image} target="_blank" rel="external noreferrer" class="text-link">
-						Open Full-Res ↗
-					</a>
-					<button type="button" class="cli-close-btn" onclick={onClose}> Close [ESC ×] </button>
-				</div>
 			</div>
 		</TuiBox>
 	</div>
@@ -76,7 +79,7 @@
 		left: 0;
 		width: 100vw;
 		height: 100vh;
-		background: rgba(0, 0, 0, 0.9);
+		background: rgba(0, 0, 0, 0.92);
 		backdrop-filter: blur(8px);
 		-webkit-backdrop-filter: blur(8px);
 		z-index: 100;
@@ -90,83 +93,48 @@
 
 	.tui-modal-dialog {
 		width: 100%;
+		box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.95);
 	}
 
 	:global(.modal-body-pad) {
-		gap: 1rem;
+		gap: 0.5rem;
 	}
 
 	.tui-modal-body {
-		padding: 0.5rem 0;
+		padding: 0.25rem 0;
 		display: flex;
 		justify-content: center;
 		align-items: center;
-		max-height: 70vh;
+		max-height: 75vh;
 		overflow-y: auto;
 	}
 
 	.tui-cert-img {
 		max-width: 100%;
-		max-height: 65vh;
+		max-height: 70vh;
 		object-fit: contain;
-		border-radius: 4px;
-		border: 1px solid #27272a;
+		display: block;
+		border-radius: 0;
+		border: 1px solid var(--tui-border-color, #382f1d);
 	}
 
-	.tui-modal-footer {
-		display: flex;
-		justify-content: space-between;
-		align-items: center;
-		flex-wrap: wrap;
-		gap: 1rem;
-		padding-top: 0.5rem;
-		border-top: 1px solid #1f1f23;
-		font-size: 0.78rem;
-	}
-
-	.footer-text {
-		color: #71717a;
-	}
-
-	.tui-modal-actions {
-		display: flex;
-		align-items: center;
-		gap: 1rem;
-	}
-
-	.text-link {
-		background: transparent !important;
-		border: none !important;
-		padding: 0 !important;
-		margin: 0 !important;
-		color: #38bdf8 !important;
-		font-family: inherit;
-		font-size: 0.8rem;
-		font-weight: 500;
-		text-decoration: none;
-		cursor: pointer;
-		display: inline-flex;
-		align-items: center;
-		transition: color 0.15s ease;
-	}
-
-	.text-link:hover {
-		color: #ffffff !important;
-		text-decoration: underline !important;
-	}
-
-	.cli-close-btn {
+	.tui-modal-close-btn {
 		background: transparent;
 		border: none;
 		color: #f87171;
 		font-family: inherit;
-		font-size: 0.78rem;
-		font-weight: 600;
+		font-size: 0.88rem;
+		font-weight: 700;
 		cursor: pointer;
-		padding: 0;
+		padding: 0 0.25rem;
+		line-height: 1;
+		transition:
+			color 0.15s ease,
+			transform 0.1s ease;
 	}
 
-	.cli-close-btn:hover {
-		text-decoration: underline;
+	.tui-modal-close-btn:hover {
+		color: #ef4444;
+		text-shadow: 0 0 8px rgba(239, 68, 68, 0.4);
 	}
 </style>
