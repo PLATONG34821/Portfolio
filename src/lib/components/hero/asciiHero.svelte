@@ -268,6 +268,19 @@
 
 		ScrollTrigger.refresh();
 
+		// Sync initial scroll progress immediately so reload while scrolled doesn't fast-forward
+		heroProgress = heroTrigger.progress;
+		skillsProgress = skillsTrigger.progress;
+		contactProgress = contactTrigger.progress;
+		updateTargetProgress();
+		currentProgress = targetProgress;
+
+		if (footerHintElement) {
+			const opacity = Math.max(0, 1 - heroProgress * 2.5);
+			footerHintElement.style.opacity = `${opacity}`;
+			footerHintElement.style.pointerEvents = opacity <= 0.05 ? 'none' : 'auto';
+		}
+
 		const handleResize = () => {
 			initSimulation();
 			ScrollTrigger.refresh();
@@ -280,6 +293,7 @@
 		};
 
 		let lastTime = performance.now();
+		let isFirstFrame = true;
 
 		const render = (now: number) => {
 			const delta = Math.min(32, now - lastTime);
@@ -290,13 +304,21 @@
 				return;
 			}
 
+			if (isFirstFrame) {
+				isFirstFrame = false;
+				heroProgress = heroTrigger.progress;
+				skillsProgress = skillsTrigger.progress;
+				contactProgress = contactTrigger.progress;
+				updateTargetProgress();
+				currentProgress = targetProgress;
+			}
+
 			const progressDiff = Math.abs(targetProgress - currentProgress);
 			if (progressDiff > 0.0001) {
 				currentProgress += (targetProgress - currentProgress) * 0.18;
 				isDirty = true;
-			} else if (isDirty) {
+			} else {
 				currentProgress = targetProgress;
-				isDirty = false;
 			}
 
 			// Multi-stage progression:
@@ -424,6 +446,7 @@
 
 			context.globalAlpha = 1.0;
 			context.restore();
+			isDirty = false;
 			animationFrameId = requestAnimationFrame(render);
 		};
 
