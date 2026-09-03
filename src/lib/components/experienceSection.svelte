@@ -32,87 +32,76 @@
 
 <section class="experience-section" class:is-revealed={isRevealed} id="experience">
 	<div class="content-container">
-		<!-- SECTION 01: SELECTED PROJECTS & RECOGNITION (GOLD THEME) -->
+		<!-- SECTION 01: SYMMETRICAL 2-COLUMN EXPERIENCE GRID (EQUAL HEIGHT BOXES WITHOUT EMPTY SPACE) -->
 		<div class="section-block" id="projects">
-			<div class="two-column-layout">
-				<!-- LEFT COLUMN: Selected Projects & Open Source Systems -->
-				<div class="column-stack">
-					<!-- Box 1: Core Production Systems -->
-					<TuiBox
-						title="Selected Projects"
-						titleColor="amber"
-						borderColor="#382f1d"
-						cornerColor="#785e2f"
-					>
+			<div class="experience-symmetric-grid">
+				<!-- ROW 1, COL 1: Selected Projects -->
+				<TuiBox
+					title="Selected Projects"
+					titleColor="amber"
+					borderColor="#382f1d"
+					cornerColor="#785e2f"
+					class="grid-box"
+					bodyClass="grid-box-body"
+				>
+					<div class="projects-list">
 						{#each coreProjects as project (project.id)}
 							<ProjectEntry {project} onOpenCert={openCert} />
 						{/each}
-					</TuiBox>
+					</div>
+				</TuiBox>
 
-					<!-- Box 2: Open Source & Research Systems -->
-					<TuiBox
-						title="Open Source & Systems"
-						titleColor="amber"
-						borderColor="#382f1d"
-						cornerColor="#785e2f"
-					>
-						{#each ossProjects as project (project.id)}
-							<ProjectEntry {project} onOpenCert={openCert} />
-						{/each}
-					</TuiBox>
-				</div>
-
-				<!-- RIGHT COLUMN: Awards & Certifications -->
-				<div class="column-stack">
-					<!-- Box 3: Awards & Recognition -->
-					<TuiBox
-						title="Awards & Honors"
-						titleColor="amber"
-						borderColor="#382f1d"
-						cornerColor="#785e2f"
-						id="awards"
-					>
+				<!-- ROW 1, COL 2: Awards & Honors -->
+				<TuiBox
+					title="Awards & Honors"
+					titleColor="amber"
+					borderColor="#382f1d"
+					cornerColor="#785e2f"
+					id="awards"
+					class="grid-box"
+					bodyClass="grid-box-body"
+				>
+					<div class="awards-subgrid">
 						{#each awards as award (award.id)}
 							<AwardEntry {award} onOpenCert={openCert} />
 						{/each}
-					</TuiBox>
+					</div>
+				</TuiBox>
 
-					<!-- Box 4: Academic Certifications -->
-					<TuiBox
-						title="Academic Certifications"
-						titleColor="amber"
-						borderColor="#382f1d"
-						cornerColor="#785e2f"
-						id="certifications"
-					>
+				<!-- ROW 2, COL 1: Open Source & Systems -->
+				<TuiBox
+					title="Open Source & Systems"
+					titleColor="amber"
+					borderColor="#382f1d"
+					cornerColor="#785e2f"
+					class="grid-box"
+					bodyClass="grid-box-body"
+				>
+					<div class="oss-subgrid">
+						{#each ossProjects as project (project.id)}
+							<ProjectEntry {project} onOpenCert={openCert} />
+						{/each}
+					</div>
+				</TuiBox>
+
+				<!-- ROW 2, COL 2: Academic Certifications -->
+				<TuiBox
+					title="Academic Certifications"
+					titleColor="amber"
+					borderColor="#382f1d"
+					cornerColor="#785e2f"
+					id="certifications"
+					class="grid-box"
+					bodyClass="grid-box-body"
+				>
+					<div class="certs-subgrid">
 						{#each certifications as cert (cert.code)}
 							<CertEntry {cert} />
 						{/each}
-					</TuiBox>
-				</div>
+					</div>
+				</TuiBox>
 			</div>
 		</div>
-
-		<!-- Operator Status Box -->
-		<TuiBox
-			title="Operator Session"
-			titleColor="amber"
-			borderColor="#382f1d"
-			cornerColor="#785e2f"
-			class="footer-box"
-			bodyClass="footer-body"
-		>
-			<span class="footer-text">Operator: Thanaphum Masayamas</span>
-			<span class="footer-text">Status: Active ({new Date().getFullYear()})</span>
-			<a
-				href="https://github.com/PLATONG34821"
-				target="_blank"
-				rel="external noreferrer"
-				class="text-link"
-			>
-				GitHub Profile ↗
-			</a>
-		</TuiBox>
 	</div>
 </section>
 
@@ -139,7 +128,7 @@
 		background: linear-gradient(
 			to bottom,
 			rgba(0, 0, 0, 1) 0%,
-			rgba(0, 0, 0, 1) 180px,
+			rgba(0, 0, 1) 180px,
 			rgba(0, 0, 0, 0.85) 200px,
 			rgba(0, 0, 0, 0.35) 220px,
 			transparent 220px
@@ -169,7 +158,7 @@
 	}
 
 	.content-container {
-		max-width: 1160px;
+		max-width: 1180px;
 		margin: 0 auto;
 		display: flex;
 		flex-direction: column;
@@ -182,51 +171,80 @@
 		gap: 2rem;
 	}
 
-	.two-column-layout {
+	/* Symmetrical 2-Column Desktop Grid with Strict Equal Heights */
+	.experience-symmetric-grid {
 		display: grid;
-		grid-template-columns: repeat(auto-fit, minmax(460px, 1fr));
-		gap: 1.5rem;
-		align-items: start;
+		grid-template-columns: repeat(2, minmax(0, 1fr));
+		gap: 1.75rem;
+		align-items: stretch;
 	}
 
-	.column-stack {
+	@media (max-width: 960px) {
+		.experience-symmetric-grid {
+			grid-template-columns: 1fr;
+		}
+	}
+
+	:global(.grid-box) {
+		width: 100%;
+		height: 100%;
 		display: flex;
 		flex-direction: column;
-		gap: 1.5rem;
 	}
 
-	:global(.footer-body) {
-		flex-direction: row;
-		justify-content: space-between;
-		align-items: center;
-		flex-wrap: wrap;
-		gap: 1rem;
-		padding: 0.5rem 1.15rem;
+	:global(.grid-box-body) {
+		display: flex;
+		flex-direction: column;
+		flex-grow: 1;
+		height: 100%;
 	}
 
-	.footer-text {
-		color: #78716c;
-		font-size: 0.76rem;
+	.projects-list {
+		display: flex;
+		flex-direction: column;
+		gap: 0.85rem;
+		height: 100%;
 	}
 
-	.text-link {
-		background: transparent !important;
-		border: none !important;
-		padding: 0 !important;
-		margin: 0 !important;
-		color: #fbbf24 !important; /* Gold Link */
-		font-family: inherit;
-		font-size: 0.78rem;
-		font-weight: 500;
-		text-decoration: none;
-		cursor: pointer;
-		display: inline-flex;
-		align-items: center;
-		transition: color 0.15s ease;
+	/* Awards Subgrid: Symmetrical 2-Column Cards packed with NO empty space */
+	.awards-subgrid {
+		display: grid;
+		grid-template-columns: repeat(2, minmax(0, 1fr));
+		gap: 0.75rem;
+		height: 100%;
 	}
 
-	.text-link:hover {
-		color: #ffffff !important;
-		text-decoration: underline !important;
+	@media (max-width: 580px) {
+		.awards-subgrid {
+			grid-template-columns: 1fr;
+		}
+	}
+
+	/* OSS Subgrid: Balanced 2-Column Grid */
+	.oss-subgrid {
+		display: grid;
+		grid-template-columns: repeat(2, minmax(0, 1fr));
+		gap: 1.15rem;
+		height: 100%;
+	}
+
+	@media (max-width: 580px) {
+		.oss-subgrid {
+			grid-template-columns: 1fr;
+		}
+	}
+
+	/* Academic Certifications Subgrid: Balanced 2-Column Grid */
+	.certs-subgrid {
+		display: grid;
+		grid-template-columns: repeat(2, minmax(0, 1fr));
+		gap: 0.75rem 1.15rem;
+		height: 100%;
+	}
+
+	@media (max-width: 580px) {
+		.certs-subgrid {
+			grid-template-columns: 1fr;
+		}
 	}
 </style>

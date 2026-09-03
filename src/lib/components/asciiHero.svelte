@@ -4,7 +4,8 @@
 		generateFigletArt,
 		extractFigletPoints,
 		createMultiStageFigletParticles,
-		type MultiStageFigletParticle
+		type MultiStageFigletParticle,
+		type FigletPoint
 	} from '$lib/ascii/variableAscii';
 
 	interface Props {
@@ -23,6 +24,62 @@
 
 	let containerElement = $state<HTMLElement | null>(null);
 	let canvasElement = $state<HTMLCanvasElement | null>(null);
+	let overlayElement = $state<HTMLPreElement | null>(null);
+
+	let activeGridText = $state('');
+
+	// Theme color palette per stage:
+	// Stage 0: Pure Silver / White
+	// Stage 1: Radiant Gold / Amber (Experience Section Theme)
+	// Stage 2: Cyber Cyan (Skills Section Theme)
+	interface StageTheme {
+		faceColor: [number, number, number]; // [r, g, b]
+		outlineColor: [number, number, number]; // [r, g, b]
+		shadowColor: [number, number, number, number]; // [r, g, b, a]
+	}
+
+	const stageThemes: StageTheme[] = [
+		{
+			faceColor: [255, 255, 255],
+			outlineColor: [63, 63, 70],
+			shadowColor: [255, 255, 255, 0.65]
+		},
+		{
+			faceColor: [250, 204, 21], // #facc15 (Pure Gold)
+			outlineColor: [120, 94, 47], // #785e2f (Warm Bronze)
+			shadowColor: [251, 191, 36, 0.65] // #fbbf24 glow
+		},
+		{
+			faceColor: [56, 189, 248], // #38bdf8 (Cyber Cyan)
+			outlineColor: [30, 58, 95], // #1e3a5f (Midnight Cyber Slate)
+			shadowColor: [56, 189, 248, 0.7] // #38bdf8 glow
+		}
+	];
+
+	const lerp = (a: number, b: number, t: number) => a + (b - a) * t;
+
+	const interpolateColor = (
+		c1: [number, number, number],
+		c2: [number, number, number],
+		t: number
+	): string => {
+		const r = Math.round(lerp(c1[0], c2[0], t));
+		const g = Math.round(lerp(c1[1], c2[1], t));
+		const b = Math.round(lerp(c1[2], c2[2], t));
+		return `rgb(${r}, ${g}, ${b})`;
+	};
+
+	const interpolateRgba = (
+		c1: [number, number, number, number],
+		c2: [number, number, number, number],
+		t: number
+	): string => {
+		const r = Math.round(lerp(c1[0], c2[0], t));
+		const g = Math.round(lerp(c1[1], c2[1], t));
+		const b = Math.round(lerp(c1[2], c2[2], t));
+		const a = +lerp(c1[3], c2[3], t).toFixed(3);
+		return `rgba(${r}, ${g}, ${b}, ${a})`;
+	};
 
 	onMount(() => {
 		if (!canvasElement) return;
@@ -33,6 +90,22 @@
 		let currentRows = 38;
 		let maxArtHeight = 19;
 		let endTextLinesCount = 9;
+
+		let gridTextA = '';
+		let gridTextB = '';
+		let gridTextC = '';
+
+		const buildGridString = (points: FigletPoint[], cols: number, rows: number): string => {
+			const grid: string[][] = Array.from({ length: rows }, () =>
+				Array.from({ length: cols }, () => ' ')
+			);
+			for (const pt of points) {
+				if (pt.y >= 0 && pt.y < rows && pt.x >= 0 && pt.x < cols) {
+					grid[pt.y][pt.x] = pt.char;
+				}
+			}
+			return grid.map((r) => r.join('')).join('\n');
+		};
 
 		const initSimulation = () => {
 			if (!canvasElement) return;
@@ -66,6 +139,12 @@
 			const pointsC = extractFigletPoints(linesC, currentCols, currentRows);
 
 			particles = createMultiStageFigletParticles([pointsA, pointsB, pointsC]);
+
+			gridTextA = buildGridString(pointsA, currentCols, currentRows);
+			gridTextB = buildGridString(pointsB, currentCols, currentRows);
+			gridTextC = buildGridString(pointsC, currentCols, currentRows);
+
+			activeGridText = gridTextA;
 		};
 
 		initSimulation();
@@ -131,6 +210,15 @@
 			// Smooth scroll interpolation
 			currentProgress += (targetProgress - currentProgress) * 0.16;
 
+			// Update selectable text layer to match current stage
+			if (currentProgress < 0.5) {
+				if (activeGridText !== gridTextA) activeGridText = gridTextA;
+			} else if (currentProgress < 1.5) {
+				if (activeGridText !== gridTextB) activeGridText = gridTextB;
+			} else {
+				if (activeGridText !== gridTextC) activeGridText = gridTextC;
+			}
+
 			// Multi-stage progression:
 			// Stage 0 -> 1 (0.0 to 1.0): THANAPHUM -> EXPERIENCE (with slide to top)
 			// Stage 1 -> 2 (1.0 to 2.0): EXPERIENCE -> SKILLS (docked at sticky top)
@@ -153,12 +241,23 @@
 			const midDispersal = Math.sin(t * Math.PI);
 			const dispersionFactor = Math.pow(midDispersal, 1.8);
 
+			// Interpolate theme colors smoothly across stages
+			const currentTheme = stageThemes[stageIdx];
+			const nextTheme = stageThemes[stageIdx + 1] || currentTheme;
+			const activeFaceFill = interpolateColor(currentTheme.faceColor, nextTheme.faceColor, t);
+			const activeOutlineFill = interpolateColor(
+				currentTheme.outlineColor,
+				nextTheme.outlineColor,
+				t
+			);
+			const activeShadowGlow = interpolateRgba(currentTheme.shadowColor, nextTheme.shadowColor, t);
+
 			// Clear canvas transparently so content underneath flows through
 			context.save();
 			context.scale(dpr, dpr);
 			context.clearRect(0, 0, width, height);
 
-			// Calculate original crisp font sizing (no shrinking)
+			// Calculate original crisp font sizing
 			const baseFontSize = Math.min(
 				Math.floor((width * 0.94) / (currentCols * 0.6)),
 				Math.floor((height * 0.8) / (currentRows * 1.15))
@@ -178,11 +277,21 @@
 			const stickyOriginY = targetLetterTop - endArtTopRow * cellHeight;
 			const originY = centerY + (stickyOriginY - centerY) * slideT;
 
+			// Position selectable transparent text overlay precisely over the canvas grid
+			if (overlayElement) {
+				overlayElement.style.left = `${originX}px`;
+				overlayElement.style.top = `${originY}px`;
+				overlayElement.style.width = `${gridPixelWidth}px`;
+				overlayElement.style.height = `${gridPixelHeight}px`;
+				overlayElement.style.fontSize = `${fontSize}px`;
+				overlayElement.style.lineHeight = `${cellHeight}px`;
+			}
+
 			context.font = `600 ${fontSize}px ui-monospace, "SF Mono", Menlo, Monaco, Consolas, monospace`;
 			context.textAlign = 'center';
 			context.textBaseline = 'middle';
 
-			// Render all particles with subpixel precision
+			// Render all particles with subpixel precision and dynamic stage-theme colors
 			for (let i = 0; i < particles.length; i++) {
 				const p = particles[i];
 				const targetA = p.targets[stageIdx];
@@ -210,11 +319,11 @@
 				context.globalAlpha = Math.max(0, Math.min(1, alpha));
 
 				if (type === 'shadow') {
-					context.fillStyle = '#ffffff';
-					context.shadowColor = 'rgba(255, 255, 255, 0.65)';
+					context.fillStyle = activeFaceFill;
+					context.shadowColor = activeShadowGlow;
 					context.shadowBlur = 6;
 				} else {
-					context.fillStyle = '#393939';
+					context.fillStyle = activeOutlineFill;
 					context.shadowColor = 'transparent';
 					context.shadowBlur = 0;
 				}
@@ -238,9 +347,15 @@
 </script>
 
 <div bind:this={containerElement} class="ascii-scroll-container">
-	<!-- Fixed fullscreen canvas locked in viewport -->
+	<!-- Fixed fullscreen viewport -->
 	<div class="ascii-fixed-viewport">
 		<canvas bind:this={canvasElement} class="ascii-canvas"></canvas>
+
+		<!-- Selectable transparent text layer for native highlighting/copying -->
+		<pre
+			bind:this={overlayElement}
+			class="ascii-selectable-overlay"
+			aria-label="Figlet ASCII Header">{activeGridText}</pre>
 
 		<!-- Floating scroll hint -->
 		<div class="ascii-footer-hint" style="opacity: {Math.max(0, 1 - scrollProgress * 2.5)};">
@@ -278,7 +393,29 @@
 		width: 100vw;
 		height: 100vh;
 		background: transparent;
-		user-select: none;
+	}
+
+	.ascii-selectable-overlay {
+		position: absolute;
+		margin: 0;
+		padding: 0;
+		color: transparent;
+		caret-color: #fbbf24;
+		font-family: ui-monospace, 'SF Mono', Menlo, Monaco, Consolas, monospace;
+		font-weight: 600;
+		white-space: pre;
+		overflow: hidden;
+		user-select: text;
+		-webkit-user-select: text;
+		pointer-events: auto;
+		cursor: text;
+		z-index: 60;
+		background: transparent;
+	}
+
+	.ascii-selectable-overlay::selection {
+		background: rgba(251, 191, 36, 0.45);
+		color: #ffffff;
 	}
 
 	.ascii-footer-hint {

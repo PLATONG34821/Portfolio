@@ -119,8 +119,10 @@
 	.tui-box {
 		display: flex;
 		flex-direction: column;
+		height: 100%;
 		background: transparent;
-		user-select: none;
+		user-select: text;
+		-webkit-user-select: text;
 		font-family:
 			ui-monospace, 'SF Mono', 'Cascadia Code', 'Fira Code', Menlo, Monaco, Consolas, monospace;
 	}
@@ -162,8 +164,10 @@
 		padding: var(--tui-body-padding, 1.25rem 1.4rem);
 		display: flex;
 		flex-direction: column;
+		flex-grow: 1;
 		gap: 1.5rem;
 		margin: 0 1px;
 		user-select: text;
+		-webkit-user-select: text;
 	}
 </style>

@@ -84,7 +84,7 @@ export const coreProjects: Project[] = [
 		metrics: 'Forum: Thailand 🇹🇭 × Japan 🇯🇵 Student ICT Fair • Embedded IoT & Flow Sensors',
 		tags: ['Embedded Systems', 'IoT Hardware', 'Research Paper', 'Sensors'],
 		githubUrl: '/certs/tjsif_cert.jpg',
-		certImage: '/certs/tjsif_cert.jpg',
+		certImage: '/certs/tjsif_booth.jpg',
 		links: [
 			{
 				label: 'Certificate',
@@ -112,17 +112,19 @@ export const coreProjects: Project[] = [
 	},
 	{
 		id: '03',
-		title: 'NSC 25 — Auto-Silkworm Reeling Frame',
-		subtitle: 'Biological Gravitropism Control System',
+		title:
+			'NSC 25 — Automated Silkworm Silk Spinning Frame for Uniform Sheet Production via Gravitropic Response',
+		subtitle:
+			'Controlling Silkworm Silk Spinning Uniformity for Silk Sheet Production via Biological Gravitropism',
 		category: 'National Contest Finalist',
 		year: '2023',
 		isFeatured: true,
 		summary:
-			'Automated uniform silk reeling system utilizing biological gravitropism response. Funded grantee in the 25th National Software Contest.',
+			'Automated frame system engineered to control the uniformity of silkworm silk spinning for silk sheet production by applying biological gravitropic behavioral response. Funded grantee in the 25th National Software Contest (NSC 25 @ CMU).',
 		metrics: 'Contest: 25th National Software Contest (NSC 25 Grantee @ CMU)',
 		tags: ['Embedded Automation', 'Biological Control', 'NSC 25', 'Hardware IoT'],
 		githubUrl: '/certs/nsc25_cert.jpg',
-		certImage: '/certs/nsc25_cert.jpg',
+		certImage: '/certs/nsc25_booth.png',
 		links: [
 			{
 				label: 'NSC 25 Certificate',
@@ -271,13 +273,6 @@ export const awards: Award[] = [
 		year: '2022',
 		isHighlighted: true,
 		certImage: '/certs/tjsif_stage.png'
-	},
-	{
-		id: '07',
-		title: 'Student of Excellence "Khon Dee Sri Damrong"',
-		subtitle: 'Honorary award for public service devotion (โรงเรียนดํารงราษฎร์สงเคราะห์ 2567)',
-		badge: 'Honor Roll',
-		year: '2024'
 	}
 ];
 
@@ -474,8 +469,8 @@ export const capabilityCategories: CapabilityCategory[] = [
 			},
 			{
 				skill: 'Civic Software & Leadership',
-				level: 'Honor Roll Award',
-				evidence: 'Student of Excellence "Khon Dee Sri Damrong 2567" & damrong_pitakphong portal',
+				level: 'Civic Project',
+				evidence: 'damrong_pitakphong civic portal & student governance systems',
 				focus: 'Digital services for student governance, cross-functional team coordination',
 				isHighlighted: true
 			}
