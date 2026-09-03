@@ -328,166 +328,178 @@ export const certifications: Certification[] = [
 export const capabilityCategories: CapabilityCategory[] = [
 	{
 		id: '01',
-		title: 'Frontend & UI Architecture',
+		title: 'Languages & Core Runtimes',
 		items: [
 			{
-				skill: 'Svelte 5 / SvelteKit',
-				level: 'Advanced (Production)',
-				evidence: 'HLLC 2026 (4.4k users), polyTone, Study-Schedule, GroupPlan, pt-chord',
-				focus: 'Runes state engine, server SSR/CSR hydration, dynamic routing & endpoints',
+				skill: 'TypeScript',
+				level: 'Production',
+				evidence: 'HLLC 2026 (4.4k users), polyTone, 9+ repositories',
+				focus: 'Strict compile-time verification, generics, runes state typing',
 				isHighlighted: true
 			},
 			{
-				skill: 'TypeScript & JavaScript',
+				skill: 'SQL (PostgreSQL / MySQL)',
 				level: 'Advanced',
-				evidence: 'Strict type safety across 9 repositories, Canvas 2D pipelines, Project-DSM',
-				focus: 'Strict compile-time verification, browser DOM manipulation, modular architecture',
+				evidence: 'Relational database schemas, query optimization',
+				focus: 'Complex joins, indexing strategies, transactions, constraints',
 				isHighlighted: true
 			},
 			{
-				skill: 'HTML5 Canvas 2D & DSP Audio',
+				skill: 'Java',
 				level: 'Proficient',
-				evidence: 'Study-Schedule (4K wallpaper renderer), polyTone (Guitar IR DSP engine)',
-				focus: 'Offscreen pixel rendering, Web Audio nodes, Impulse Response convolution'
+				evidence: 'OOP architecture, server event handling, backend services',
+				focus: 'Object-oriented design patterns, concurrency, robust services'
 			},
 			{
-				skill: 'Astro & Jamstack Web',
+				skill: 'Python',
 				level: 'Proficient',
-				evidence: 'pt-blog (Content collections, Markdown compile pipeline, asset optimizer)',
-				focus: 'Zero-JS static site generation, fast edge delivery, content collections'
+				evidence: 'Data processing pipelines, automation tooling',
+				focus: 'Automation scripting, data transformation, backend utilities'
 			},
 			{
-				skill: 'Web App Competition Mastery',
-				level: 'Gold Medalist',
-				evidence: 'Gold Medal (71st) & Silver Medal (70th) National Student Arts & Crafts',
-				focus: 'Rapid frontend prototyping, UI design systems, real-time client state',
-				isHighlighted: true
+				skill: 'Bash / Shell',
+				level: 'Proficient',
+				evidence: 'Linux cluster orchestration, container entrypoints',
+				focus: 'Deployment automation, server management, CLI workflows'
 			}
 		]
 	},
 	{
 		id: '02',
-		title: 'Backend, Cloud & Data Infrastructure',
+		title: 'Frameworks & Web Architecture',
 		items: [
 			{
-				skill: 'High-Concurrency System Design',
+				skill: 'Svelte 5 / SvelteKit',
 				level: 'Production Scale',
-				evidence: 'HLLC 2026 API architecture serving 4,400+ simultaneous orientation students',
-				focus: 'Traffic spike mitigation, session state synchronization, mobile/web endpoints',
+				evidence: 'HLLC 2026 (4.4k concurrent users), polyTone',
+				focus: 'Runes state engine, SSR/CSR hydration, dynamic endpoints',
 				isHighlighted: true
 			},
 			{
-				skill: 'Supabase Cloud & PostgreSQL',
+				skill: 'React & Next.js',
 				level: 'Proficient',
-				evidence: 'polyTone (Relational schema, realtime subscriptions, cloud storage buckets)',
-				focus: 'Relational table design, row-level security policies, object storage'
-			},
-			{
-				skill: 'Java & Game Server Plugins',
-				level: 'Proficient',
-				evidence: 'PT-Story, PT-Spawn, PT-Warp (Paper 1.20.4 OOP architecture & event loop)',
-				focus: 'Object-oriented event listeners, multi-player state, server packet handlers'
-			},
-			{
-				skill: 'Python & R Data Analytics',
-				level: 'Certified',
-				evidence: 'ThaiMOOC Python for Data Science (RMUTT) & R Data Analysis (SKRU)',
-				focus: 'Data transformation, statistical summary matrices, tabular processing'
-			},
-			{
-				skill: 'Software Engineering Principles',
-				level: 'Certified (MFU)',
-				evidence: 'MFU-SE, MFU-PROG, MFU-OOP Academic Specializations (Mae Fah Luang Univ)',
-				focus: 'Design patterns, software lifecycle, encapsulation, robust code design',
+				evidence: 'Modern component architecture, SSR/CSR, ecosystem tooling',
+				focus: 'Component lifecycle, hooks, state management, SPA routing',
 				isHighlighted: true
+			},
+			{
+				skill: 'Node.js & Express / Web APIs',
+				level: 'Proficient',
+				evidence: 'HLLC 2026 backend endpoints, Bun/Vite tooling',
+				focus: 'RESTful API handlers, middleware, request validation',
+				isHighlighted: true
+			},
+			{
+				skill: 'Tailwind CSS & UI Systems',
+				level: 'Advanced',
+				evidence: 'Production web apps, design system architecture',
+				focus: 'Responsive utility-first layouts, dark mode, design tokens',
+				isHighlighted: true
+			},
+			{
+				skill: 'Astro & Jamstack',
+				level: 'Proficient',
+				evidence: 'pt-blog content collections, asset optimizer pipeline',
+				focus: 'Zero-JS static generation, edge distribution, fast delivery'
 			}
 		]
 	},
 	{
 		id: '03',
-		title: 'DevOps, Clustering & Edge Systems',
+		title: 'Databases, APIs & Cloud',
 		items: [
 			{
-				skill: 'Docker & Docker Swarm',
-				level: 'Proficient',
-				evidence: 'Portable-Hybrid-Arch-Docker-Swarm-Cluster (Multi-node swarm orchestration)',
-				focus: 'Service stack composition, container overlays, automated restart policies',
+				skill: 'PostgreSQL',
+				level: 'Production',
+				evidence: 'polyTone relational database schemas',
+				focus: 'Relational modeling, indexing, foreign keys, transaction safety',
 				isHighlighted: true
 			},
 			{
-				skill: 'Heterogeneous Multi-Arch (x86/ARM)',
+				skill: 'MySQL / MariaDB',
 				level: 'Proficient',
-				evidence: 'Hybrid cluster combining x86_64 servers & ARM64 edge nodes (Pi/Rockchip)',
-				focus: 'Cross-platform container images, resource balancing, edge node telemetry'
+				evidence: 'Relational data modeling, schema migrations',
+				focus: 'ACID transactions, relational joins, query optimization',
+				isHighlighted: true
 			},
 			{
-				skill: 'Reverse Proxy & High Availability',
+				skill: 'Redis',
 				level: 'Proficient',
-				evidence: 'Automated SSL termination, failover routing, zero-downtime stacks',
-				focus: 'TLS certificates, dynamic reverse proxying, traffic routing'
+				evidence: 'In-memory caching and session state management',
+				focus: 'Cache-aside patterns, key-value stores, session handling, rate limits',
+				isHighlighted: true
 			},
 			{
-				skill: 'Linux Administration & Scripting',
+				skill: 'MongoDB',
 				level: 'Proficient',
-				evidence: 'Debian/Alpine homelab setups, Bash automation, CMDEdge Windows CLI',
-				focus: 'Systemd management, shell scripting, environment configuration'
+				evidence: 'NoSQL document storage, JSON data modeling',
+				focus: 'Document schemas, aggregation pipelines, flexible data structures'
+			},
+			{
+				skill: 'Supabase Cloud',
+				level: 'Production',
+				evidence: 'polyTone live user platform',
+				focus: 'PostgreSQL BaaS, Auth, Realtime engine, Row Level Security (RLS)',
+				isHighlighted: true
+			},
+			{
+				skill: 'RESTful API Design & ORMs',
+				level: 'Production Scale',
+				evidence: 'HLLC 2026 serving 4,400+ simultaneous students',
+				focus: 'High-concurrency endpoints, request validation, ORM mapping (Prisma/Drizzle)',
+				isHighlighted: true
 			}
 		]
 	},
 	{
 		id: '04',
-		title: 'Embedded IoT & Hardware Automation',
+		title: 'DevOps, Cloud & Systems Infrastructure',
 		items: [
 			{
-				skill: 'Biological Gravitropism Control',
-				level: 'National Grant Winner',
-				evidence: 'NSC 25 Funded Grantee — Automated silkworm reeling with motor drivers',
-				focus: 'Sensory feedback loops, stepper motor driver tuning, automated biological reeling',
+				skill: 'Docker & Docker Swarm',
+				level: 'Production',
+				evidence: 'Portable Hybrid-Arch Swarm Cluster (x86_64 + ARM64)',
+				focus: 'Multi-node service composition, overlays, automated restart policies',
 				isHighlighted: true
 			},
 			{
-				skill: 'Smart Medical Hardware & Sensors',
-				level: 'Intl Trophy Award',
-				evidence: 'TJ-SIF 2022 — IV Stand embedded telemetry presented to Thailand-Japan forum',
-				focus: 'Infusion drop rate sensors, microcontroller telemetry, English oral presentation',
+				skill: 'CI/CD & GitHub Actions',
+				level: 'Production',
+				evidence: 'Automated test pipelines, Docker image builds & deployments',
+				focus: 'Continuous integration, branch protection, automated releases',
 				isHighlighted: true
 			},
 			{
-				skill: 'Vehicle Telemetry & Road Safety',
+				skill: 'Linux Administration',
 				level: 'Proficient',
-				evidence: 'Project-DSM — GPS real-time positioning & accelerometer driver safety tracking',
-				focus: 'GPS NMEA stream parsing, G-force threshold analysis, safety metrics'
-			},
-			{
-				skill: 'IoT Sensor Foundations',
-				level: 'Certified',
-				evidence: 'ThaiMOOC Internet of Things Fundamentals (Prince of Songkla Univ)',
-				focus: 'Analog/digital signal acquisition, wireless protocols, IoT architectures'
-			}
-		]
-	},
-	{
-		id: '05',
-		title: 'Competitive Problem Solving & Leadership',
-		items: [
-			{
-				skill: 'Competitive Algorithms & Coding',
-				level: 'Top 3.6% Nationwide',
-				evidence: 'BornToDev DevLab 3 Nationwide Contest (Rank #1,152 out of 31,905 developers)',
-				focus: 'Data structures, algorithm complexity, rapid debugging under constraints',
+				evidence: 'Debian/Alpine dedicated server homelab cluster',
+				focus: 'Systemd management, SSH hardening, automated backups, shell scripts',
 				isHighlighted: true
 			},
 			{
-				skill: 'Product Design & Design Thinking',
-				level: 'Finalist',
-				evidence: 'Samsung Solve for Tomorrow 2024 shortlisted innovation & workshop',
-				focus: 'User empathy modeling, iterative prototyping, pitch presentation'
+				skill: 'Nginx & Reverse Proxy',
+				level: 'Proficient',
+				evidence: 'Automated SSL termination, failover routing stacks',
+				focus: 'TLS certificates, dynamic reverse proxying, load balancing, rate limiting',
+				isHighlighted: true
 			},
 			{
-				skill: 'Civic Software & Leadership',
-				level: 'Civic Project',
-				evidence: 'damrong_pitakphong civic portal & student governance systems',
-				focus: 'Digital services for student governance, cross-functional team coordination',
+				skill: 'Cloudflare & Edge CDN',
+				level: 'Proficient',
+				evidence: 'Cloudflare Pages & DNS production deployments',
+				focus: 'Edge caching, DNS management, DDoS mitigation, asset optimization'
+			},
+			{
+				skill: 'Kubernetes (K8s)',
+				level: 'Working Knowledge',
+				evidence: 'Container workload orchestration and pod management',
+				focus: 'Deployments, services, ingress routing, container scheduling'
+			},
+			{
+				skill: 'Git & GitHub Workflows',
+				level: 'Standard Practice',
+				evidence: 'Version control across 12+ public and private repositories',
+				focus: 'Atomic commits, PR reviews, CI verification pipelines',
 				isHighlighted: true
 			}
 		]
