@@ -443,6 +443,7 @@
 		};
 
 		gsap.ticker.add(render);
+		render();
 
 		return () => {
 			handleResize = null;

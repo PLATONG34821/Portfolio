@@ -28,11 +28,24 @@
 			cleanup();
 		};
 
-		const timer = setTimeout(enableImages, 2500);
+		const idleId =
+			'requestIdleCallback' in window
+				? (
+						window as Window & {
+							requestIdleCallback: (cb: () => void, opts?: { timeout: number }) => number;
+						}
+					).requestIdleCallback(enableImages, { timeout: 800 })
+				: setTimeout(enableImages, 500);
 
 		const cleanup = () => {
 			window.removeEventListener('scroll', enableImages);
-			clearTimeout(timer);
+			if ('cancelIdleCallback' in window && typeof idleId === 'number') {
+				(window as Window & { cancelIdleCallback: (id: number) => void }).cancelIdleCallback(
+					idleId
+				);
+			} else {
+				clearTimeout(idleId as unknown as NodeJS.Timeout);
+			}
 		};
 
 		window.addEventListener('scroll', enableImages, { passive: true, once: true });
