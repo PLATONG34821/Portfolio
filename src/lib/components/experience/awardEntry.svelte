@@ -6,9 +6,10 @@
 	interface Props {
 		award: Award;
 		onOpenCert?: (title: string, image: string) => void;
+		loadImages?: boolean;
 	}
 
-	let { award, onOpenCert }: Props = $props();
+	let { award, onOpenCert, loadImages = false }: Props = $props();
 
 	const openImage = () => onOpenCert?.(award.title, award.certImage!);
 </script>
@@ -27,7 +28,17 @@
 			onclick={openImage}
 			title={m.clickToViewResolution()}
 		>
-			<enhanced:img src={award.certImage} alt={award.title} class="award-img" loading="lazy" />
+			{#if loadImages}
+				<enhanced:img
+					src={award.certImage}
+					alt={award.title}
+					class="award-img"
+					loading="lazy"
+					decoding="async"
+					fetchpriority="low"
+					sizes="(max-width: 640px) 90vw, 280px"
+				/>
+			{/if}
 			<span class="img-badge-overlay" aria-hidden="true">⤢</span>
 		</button>
 	{/if}

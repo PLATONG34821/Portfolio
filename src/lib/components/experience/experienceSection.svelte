@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { onMount } from 'svelte';
 	import * as m from '$lib/paraglide/messages';
 	import TuiBox from '$lib/components/tui/tuiBox.svelte';
 	import TuiModal from '$lib/components/tui/tuiModal.svelte';
@@ -8,9 +9,35 @@
 	import { coreProjects, ossProjects, awards } from '$lib/data/experienceData';
 
 	let activeCertModal: { title: string; image: string } | null = $state(null);
+	let loadImages = $state(false);
 
-	const openCert = (title: string, image: string) => (activeCertModal = { title, image });
+	const openCert = (title: string, image: string) => {
+		loadImages = true;
+		activeCertModal = { title, image };
+	};
 	const closeCert = () => (activeCertModal = null);
+
+	onMount(() => {
+		if (window.scrollY > 50) {
+			loadImages = true;
+			return;
+		}
+
+		const enableImages = () => {
+			loadImages = true;
+			cleanup();
+		};
+
+		const timer = setTimeout(enableImages, 2500);
+
+		const cleanup = () => {
+			window.removeEventListener('scroll', enableImages);
+			clearTimeout(timer);
+		};
+
+		window.addEventListener('scroll', enableImages, { passive: true, once: true });
+		return cleanup;
+	});
 </script>
 
 <div class="top-fade-curtain" aria-hidden="true"></div>
@@ -37,7 +64,7 @@
 				>
 					<div class="projects-list">
 						{#each coreProjects as project (project.id)}
-							<ProjectEntry {project} onOpenCert={openCert} />
+							<ProjectEntry {project} onOpenCert={openCert} {loadImages} />
 						{/each}
 					</div>
 				</TuiBox>
@@ -53,7 +80,7 @@
 				>
 					<div class="awards-subgrid">
 						{#each awards as award (award.id)}
-							<AwardEntry {award} onOpenCert={openCert} />
+							<AwardEntry {award} onOpenCert={openCert} {loadImages} />
 						{/each}
 					</div>
 				</TuiBox>
@@ -69,7 +96,7 @@
 			>
 				<div class="oss-subgrid">
 					{#each ossProjects as project (project.id)}
-						<ProjectEntry {project} onOpenCert={openCert} />
+						<ProjectEntry {project} onOpenCert={openCert} {loadImages} />
 					{/each}
 				</div>
 			</TuiBox>

@@ -1,7 +1,7 @@
 <script lang="ts">
 	import * as m from '$lib/paraglide/messages';
 	import TuiBox from '$lib/components/tui/tuiBox.svelte';
-	import { Link } from 'phosphor-svelte';
+	import Link from 'phosphor-svelte/lib/Link';
 	import { contactProfile, getContactChannels } from '$lib/data/contactData';
 
 	interface Props {

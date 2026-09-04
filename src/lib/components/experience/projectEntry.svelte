@@ -2,14 +2,15 @@
 	import * as m from '$lib/paraglide/messages';
 	import type { Project } from '$lib/data/experienceData';
 	import TuiBox from '$lib/components/tui/tuiBox.svelte';
-	import { Link } from 'phosphor-svelte';
+	import Link from 'phosphor-svelte/lib/Link';
 
 	interface Props {
 		project: Project;
 		onOpenCert?: (title: string, image: string) => void;
+		loadImages?: boolean;
 	}
 
-	let { project, onOpenCert }: Props = $props();
+	let { project, onOpenCert, loadImages = false }: Props = $props();
 
 	const openImage = (img: string) => onOpenCert?.(project.title, img);
 </script>
@@ -61,12 +62,17 @@
 					onclick={() => openImage(project.certImage!)}
 					title={m.clickToExpand()}
 				>
-					<enhanced:img
-						src={project.certImage}
-						alt={project.title}
-						class="entry-media-img"
-						loading="lazy"
-					/>
+					{#if loadImages}
+						<enhanced:img
+							src={project.certImage}
+							alt={project.title}
+							class="entry-media-img"
+							loading="lazy"
+							decoding="async"
+							fetchpriority="low"
+							sizes="140px"
+						/>
+					{/if}
 					<span class="media-overlay-badge" aria-hidden="true">⤢</span>
 				</button>
 			</div>

@@ -90,7 +90,14 @@
 		{/snippet}
 
 		<div class="tui-modal-body">
-			<enhanced:img src={image} alt={title} class="tui-cert-img" loading="eager" />
+			<enhanced:img
+				src={image}
+				alt={title}
+				class="tui-cert-img"
+				loading="eager"
+				decoding="async"
+				sizes="(max-width: 860px) 90vw, 860px"
+			/>
 		</div>
 	</TuiBox>
 </dialog>
