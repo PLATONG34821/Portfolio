@@ -1,9 +1,9 @@
 import * as m from '$lib/paraglide/messages';
 
-const certModules = import.meta.glob<{ default: string }>(
-	'../assets/certs/*.webp',
-	{ eager: true, query: { enhanced: true } }
-);
+const certModules = import.meta.glob<{ default: string }>('../assets/certs/*.webp', {
+	eager: true,
+	query: { enhanced: true }
+});
 function cert(name: string): string {
 	return certModules[`../assets/certs/${name}`]?.default ?? '';
 }
@@ -213,4 +213,3 @@ export const awards: Award[] = [
 		certImage: cert('silver_cert.webp')
 	})
 ];
-
