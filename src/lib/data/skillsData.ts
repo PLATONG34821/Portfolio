@@ -65,6 +65,12 @@ export const capabilityCategories: CapabilityCategory[] = [
 			true
 		),
 		createSkill(
+			'Go',
+			'HLLC 2026 gateway & real-time chat services (Fiber v3)',
+			m.skillFocusGo,
+			true
+		),
+		createSkill(
 			'SQL (PostgreSQL / MySQL)',
 			'Relational database schemas, query optimization',
 			m.skillFocusSql,
@@ -85,25 +91,25 @@ export const capabilityCategories: CapabilityCategory[] = [
 	createCategory('02', m.skillCategoryFrameworks, [
 		createSkill(
 			'Svelte 5 / SvelteKit',
-			'HLLC 2026 (4.4k concurrent users), polyTone',
+			'polyTone, Study-Schedule, GroupPlan, Portfolio',
 			m.skillFocusSvelte,
 			true
 		),
 		createSkill(
 			'React & Next.js',
-			'Modern component architecture, SSR/CSR, ecosystem tooling',
+			'HLLC 2026 admin dashboard, student web, React Native (Expo)',
 			m.skillFocusReact,
 			true
 		),
 		createSkill(
 			'Node.js & Express / Web APIs',
-			'HLLC 2026 backend endpoints, Bun/Vite tooling',
+			'Web APIs, fullstack toolchains, Bun/Vite tooling',
 			m.skillFocusNode,
 			true
 		),
 		createSkill(
 			'Tailwind CSS & UI Systems',
-			'Production web apps, design system architecture',
+			'polyTone, Study-Schedule, GroupPlan, HLLC Admin (Tailwind 4)',
 			m.skillFocusTailwind,
 			true
 		),
@@ -121,12 +127,22 @@ export const capabilityCategories: CapabilityCategory[] = [
 			m.skillFocusMysql,
 			true
 		),
-		createSkill('Redis', 'In-memory caching and session state management', m.skillFocusRedis, true),
-		createSkill('MongoDB', 'NoSQL document storage, JSON data modeling', m.skillFocusMongo),
-		createSkill('Supabase Cloud', 'polyTone live user platform', m.skillFocusSupabase, true),
+		createSkill(
+			'Redis',
+			'HLLC 2026 in-memory caching, session state & rate limits',
+			m.skillFocusRedis,
+			true
+		),
+		createSkill('MongoDB', 'HLLC 2026 document schemas & persistence', m.skillFocusMongo, true),
+		createSkill(
+			'Supabase Cloud',
+			'polyTone, TAKE ELE real-time data & auth',
+			m.skillFocusSupabase,
+			true
+		),
 		createSkill(
 			'RESTful API Design & ORMs',
-			'HLLC 2026 serving 4,400+ simultaneous students',
+			'HLLC 2026 (Fiber), MFU Badminton Bot (Drizzle ORM)',
 			m.skillFocusRest,
 			true
 		)
@@ -158,17 +174,17 @@ export const capabilityCategories: CapabilityCategory[] = [
 		),
 		createSkill(
 			'Cloudflare & Edge CDN',
-			'Cloudflare Pages & DNS production deployments',
+			'Cloudflare Workers & Pages (polyTone, Study-Schedule, GroupPlan)',
 			m.skillFocusCloudflare
 		),
 		createSkill(
 			'Kubernetes (K8s)',
-			'Container workload orchestration and pod management',
+			'HLLC 2026 Kustomize multi-env manifests & service orchestration',
 			m.skillFocusKubernetes
 		),
 		createSkill(
 			'Git & GitHub Workflows',
-			'Version control across 12+ public and private repositories',
+			'Version control across 15+ public and private repositories',
 			m.skillFocusGit,
 			true
 		)
